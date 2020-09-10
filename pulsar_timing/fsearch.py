@@ -13,6 +13,29 @@ def cal_toa(fbest, profile, data):
     #TODO:ToA error
     return toa
 
+def _parameters_legal(kwargs):
+    """
+    check whether the input parameters are legal 
+
+    return bool
+    """
+    init_bool = True
+
+    legal_par_list = ['check_par', 'pepoch', 'f0', 'f0step', 'f0range', 'f1', 'f1step', 'f1range', 
+            'f2', 'f3', 'f4', 'pepochformat', 'telescope', 'bin']
+
+
+    if 'check_par' in kwargs:
+        if kwargs['check_par']:
+            for key in kwargs:
+                if key in legal_par_list:
+                    continue
+                else:
+                    raise IOError("parameter '{}' not surpportted".format(key))
+
+
+
+
 def _get_parameters(kwargs):
     """
     get the parameters for searching
@@ -20,6 +43,10 @@ def _get_parameters(kwargs):
     The format of input could be a name of parfile, a dictionary, or standard python function arguments.
 
     """
+
+    #check whether input parameters are surpportted
+    _parameters_legal(kwargs)
+
     #read parfile and parameters
     if "parfile" in kwargs:
         pass
@@ -182,8 +209,9 @@ def fsearch(data, **kwargs):
     phi = phi - np.floor(phi)
     profile, phase  = numba_histogram(phi, bin_profile)
 
-    return {"T0": met2mjd(t0), "ChiSquare" : chi_square, "Profile" : profile, "F0": fbest, "F1":f1best, "F0_init":F0, "F1_init":F1, 
-            "F2_init" : F2, "F3_init":F3, "F4_init":F4}
+    return {"T0": met2mjd(t0), "ChiSquare" : chi_square, "Profile" : profile, 
+            "Pars" : {"F0": fbest, "F1":f1best, "F0_init":F0, "F1_init":F1, 
+            "F2_init" : F2, "F3_init":F3, "F4_init":F4}}
 
 
 
@@ -197,8 +225,12 @@ if __name__ == "__main__":
     filename = "/Users/tuoyouli/Work/Fermi/script/fermi_pipeline/data/weekly_w009_p305_v001_gtbary.fits"
     hdulist =fits.open(filename)
     time = hdulist[1].data.field("TIME")
-    mjd, chi2, pro, pars = fsearch(time, f0=f0, f0step=1e-8, f0range=1e-4, pepoch=48442.5, pepochformat='mjd', 
+    fsearch_results = fsearch(time, f0=f0, f0step=1e-8, f0range=1e-4, pepoch=48442.5, pepochformat='mjd', check_par=True,
             f1=f1, f1step=1e-14, f1range=3e-14, f2=f2, f3=f3, bin=20)
+    mjd = fsearch_results['T0']
+    chi2 = fsearch_results['ChiSquare']
+    pro  = fsearch_results['Profile']
+    pars = fsearch_results['Pars']
     plt.imshow(chi2, aspect='auto', origin='lower', extent=[-1e-6, 1e-6, -1e-14, 1e-14])
     print(pars)
     plt.show()
