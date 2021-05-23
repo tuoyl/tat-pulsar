@@ -3,7 +3,8 @@ import numba
 import matplotlib.pyplot as plt
 from pulsar_timing.utils import *
 
-__all__ = ['resampling_profile']
+__all__ = ['resampling_profile',
+        "norm_profile"]
 
 def resampling_profile(profile, sample_num=1, kind='poisson'):
     '''
@@ -23,18 +24,24 @@ def resampling_profile(profile, sample_num=1, kind='poisson'):
 
     Returns
     -----------
+    resampled_profile : array or ndarray
+        if sample_num == 1, return a one dimensional array
+        if sample_num >1 , return a multi-dimensional array
     '''
-    resampled_profile = np.array([])
+    raw_profile = np.array(profile.tolist()*sample_num)
     if sample_num <= 0:
         raiseError("The number of sampling must a positive integer")
-    for i in range(sample_num):
-        if kind == "poisson":
-            resampled_profile = np.append(resampled_profile,
-                    np.random.poisson(profile))
-        elif kind == "gaussian":
-            pass #TODO
+
+    if kind == "poisson":
+        resampled_profile = np.random.poisson(raw_profile)
+    elif kind == "gaussian":
+        pass #TODO
+
     resampled_profile = resampled_profile.reshape(int(len(resampled_profile)/len(profile)),
             int(len(profile)))
     return resampled_profile
 
+
+def norm_profile(profile, yerr=None):
+    return (profile-np.min(profile))/(np.max(profile)-np.min(profile))
 

@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 import numpy as np
 import numba 
+import matplotlib.pyplot as plt
+
+import sys
 
 __all__ = ["numba_histogram",
         "met2mjd",
@@ -8,7 +11,10 @@ __all__ = ["numba_histogram",
         "cal_chisquare",
         "cal_2dchisquare",
         "get_parameters",
-        "ccf"]
+        "ccf",
+        "Gauss", "Lorentz",
+        "rms",
+        "print_loop_percentage"]
 
 #@numba.njit
 def met2mjd(data, telescope="fermi"):
@@ -278,17 +284,42 @@ def get_parameters(kwargs):
                 raise IOError(f"pepoch format {kwargs['pepochformat']} not supported")
     return pepoch, F0, F1, F2, F3, F4, f1search_flag
 
-
+@numba.njit(parallel=True, nogil=True)
 def ccf(f1,f2):
-    '''f1 is the original signal
-       f2 is probe signal(shift and test)'''
+    '''
+    f1 is the original signal
+    f2 is probe signal(shift and test)
+    '''
 
+    #f1 = (f1 - np.min(f1))/(np.max(f1)-np.min(f1))
+    #f2 = (f2 - np.min(f2))/(np.max(f2)-np.min(f2))
+    y = np.zeros(len(f2))
     mean_f1 = np.mean(f1)
     mean_f2 = np.mean(f2)
     delta_f1 = f1 - mean_f1
     delta_f2 = f2 - mean_f2
-    sigma_f1 = np.sqrt(np.sum([x**2 for x in f1]))
-    sigma_f2 = np.sqrt(np.sum([x**2 for x in f2]))
-    y = [ np.sum(delta_f1 * np.roll(delta_f2,x))/(sigma_f1 * sigma_f2) for x in range(len(f2)) ]
-    delay = np.where(y==max(y))[0]
+    sigma_f1 = np.sqrt(np.sum(f1*f1))
+    sigma_f2 = np.sqrt(np.sum(f2*f2))
+    #y = np.correlate(f1, f2, "full")
+    for i in numba.prange(len(f2)):
+        y[i] = np.sum(delta_f1 * np.roll(delta_f2, i))/(sigma_f1 * sigma_f2)
+    #y = [ np.sum(delta_f1 * np.roll(delta_f2,x))/(sigma_f1 * sigma_f2) for x in range(len(f2)) ]
+    #delay = np.where(y==max(y))[0]
+    delay = np.argmax(y)
     return y,delay
+
+@numba.njit
+def print_loop_percentage(iterator_i, total, printstr=''):
+    percent = iterator_i*100/total
+    sys.stdout.write("{} complete: {:.2f}".format(printstr, percent))
+    sys.stdout.write("%\r")
+    sys.stdout.flush()
+
+def Gauss(x,a,x0,sigma):
+    return a*np.exp(-(x-x0)**2/(2*sigma**2))
+
+def Lorentz(x, amp, cen, wid):
+    return (amp*wid**2/((x-cen)**2+wid**2))
+
+def rms(x):
+    return np.sqrt(x.dot(x)/x.size)
