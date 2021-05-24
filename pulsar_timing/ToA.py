@@ -115,6 +115,9 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
         if fitting_range[1] >= 1:  # if phase range larger than 1
             profile_to_fit = np.append(profile, profile) # duplicate the profile by two period
             x_to_fit       = np.append(x, x+1)
+        elif fitting_range[0] < 0: # if phase range less than 0
+            profile_to_fit = np.append(profile, profile) # duplicate the profile by two period
+            x_to_fit       = np.append(x-1, x)
         else:
             profile_to_fit = profile
             x_to_fit       = x
@@ -238,6 +241,8 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
 
         ## Calculate the 1sigma distribution of resampled ToA as 1 sigma error
         #toa_err = 1e6*_get_error_quantiles(resampled_delta_phi, delta_phi) ## Unit microsecond
+
+        ## Calculate the rms of resampled ToA as ToA error
         toa_err = 1e6*_get_error_rms(resampled_toa, toa) ## Unit microsecond
 
     elif error_method == "default":
