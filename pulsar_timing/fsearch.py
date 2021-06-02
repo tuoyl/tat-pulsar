@@ -134,8 +134,8 @@ def _get_parameters(kwargs):
             
         if "pepochformat" in kwargs:
             if kwargs['pepochformat'].lower() == "met":
-                pass
-            if kwargs['pepochformat'].lower() == "mjd":
+                pepoch = pepoch
+            elif kwargs['pepochformat'].lower() == "mjd":
                 pepoch = mjd2met(pepoch)
             else:
                 raise IOError(f"pepoch format {kwargs['pepochformat']} not supported")

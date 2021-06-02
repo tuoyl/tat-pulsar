@@ -77,16 +77,16 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
     if method == "ccf":
         ## ccf shift
         print("Method to find ToA ... Cross-Correlation function")
-        delta_phi = _calculate_delta_phi_by_ccf(profile, std_pro)
+        delta_phi = _calculate_delta_phi_by_ccf(profile, std_pro) + 0.5/len(profile) ## plus half binsize as mid bin
 
     ## plot normalized Observed Profile and normalized Standard Profile
 
         if fig_flag:
+            plt.figure()
             plt.errorbar(np.linspace(0,1,len(profile)), norm_profile(profile))
             plt.errorbar(np.linspace(0,1,len(std_pro)), norm_profile(std_pro), color='green')
             plt.axvline(x=delta_phi, lw=1.2, color='red', label="CCF ToA Phi")
             plt.legend()
-            plt.show()
 
 
     ## -----------------
@@ -94,11 +94,11 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
 
     elif method == "max":
         print("Method to find ToA ... maximum")
-        delta_phi = np.argmax(profile)/len(profile)
+        delta_phi = np.argmax(profile)/len(profile) + 0.5*len(profile)
         if fig_flag:
+            plt.figure()
             plt.errorbar(np.linspace(0,1,len(profile)), norm_profile(profile), 
                     drawstyle='steps-mid')
-            plt.show()
 
 
     ## -----------------
@@ -136,11 +136,11 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
         gauss_popt[2] = abs(gauss_popt[2]) # For some reason, the value of sigma is negative and forcibly fixed to a positive value
 
         if fig_flag:
+            plt.figure()
             plt.errorbar(x, profile, yerr=np.sqrt(profile), color='black', label='Raw Data')
             plt.errorbar(x_to_fit, profile_to_fit, color='orange', label='data to fit')
             plt.errorbar(x_to_fit, Gauss(x_to_fit, *gauss_popt), color='red', lw=1.5, label="gaussian")
             plt.legend()
-            plt.show()
 
     ## -----------------
     ## Method is to fit observed profile with Lorentz Function
@@ -178,19 +178,19 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
         delta_phi = popt[1]
 
         if fig_flag:
+            plt.figure()
             plt.plot(x, profile)
             plt.plot(x_to_fit, profile_to_fit, color='black')
             plt.plot(x_to_fit, Gauss(x_to_fit, *popt), color='red')
-            plt.show()
 
     else:
         raise IOError("the method {} does not supported".format(method))
 
     if 'fig_flag' in kwargs:
         if kwargs["fig_flag"]:
+            plt.figure()
             plt.plot((profile-np.min(profile))/(np.max(profile)-np.min(profile)))
 #            plt.plot((p_num_std-np.min(p_num_std))/(np.max(p_num_std)-np.min(p_num_std)), color='red')
-            plt.show()
 
     ## Calculate the ToA by 
     ## ToA = t0 + P*\delta\Phi
@@ -253,10 +253,56 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
             toa_err = (np.max(data)-np.min(data))/len(profile)/10
 
         elif method == "ccf":
-            toa_err = (np.max(data)-np.min(data))/len(profile)/10
+            #toa_err = (np.max(data)-np.min(data))/len(profile)/10
+            
+            if "pulse_range" in kwargs:
+                fitting_range = [delta_phi-kwargs['pulse_range'], delta_phi+kwargs['pulse_range']]
+            else:
+                raise IOError("""parameter 'pulse_range' of the pulse to calculate ToA must be assigned, the range of pulse
+                will be Phase_{ccf max} +- pulse_range
+                """)
 
+            x = np.linspace(0, 1, len(profile))
+            if fitting_range[1] >= 1:  # if phase range larger than 1
+                profile_to_fit = np.append(profile, profile) # duplicate the profile by two period
+                x_to_fit       = np.append(x, x+1)
+            elif fitting_range[0] < 0: # if phase range less than 0
+                profile_to_fit = np.append(profile, profile) # duplicate the profile by two period
+                x_to_fit       = np.append(x-1, x)
+            else:
+                profile_to_fit = profile
+                x_to_fit       = x
+
+            profile_to_fit = profile_to_fit[(x_to_fit>=fitting_range[0])&(x_to_fit<=fitting_range[1])] #profile at fitting range
+            x_to_fit       = x_to_fit      [(x_to_fit>=fitting_range[0])&(x_to_fit<=fitting_range[1])] #phase   at fitting range
+
+            # fit the profile using gaussian function
+            gauss_popt,gauss_pcov = curve_fit(Gauss, x_to_fit, profile_to_fit, 
+                    p0=[np.max(profile_to_fit),
+                        (np.max(x_to_fit)+np.min(x_to_fit))/2,
+                        np.max(x_to_fit)-np.min(x_to_fit)],
+                    maxfev=9999999, sigma=np.sqrt(profile_to_fit), absolute_sigma=False)
+            gauss_popt[2] = abs(gauss_popt[2]) # For some reason, the value of sigma is negative and forcibly fixed to a positive value
+
+            if fig_flag:
+                plt.figure()
+                plt.errorbar(x, profile, yerr=np.sqrt(profile), color='black', label='Raw Data')
+                plt.errorbar(x_to_fit, profile_to_fit, color='orange', label='data to fit')
+                plt.errorbar(x_to_fit, Gauss(x_to_fit, *gauss_popt), color='red', lw=1.5, label="gaussian")
+                plt.legend()
+
+            print("Calculate ToA error ... based on pulse SNR (Lorimer & Kramer 2012)")
+            period = 1/fbest
+            peak_sigma = gauss_popt[2]
+            
+            N_background  =  np.min(profile) * len(profile_to_fit)
+            N_source = np.sum( profile_to_fit ) - N_background
+            toa_err = _get_error_by_profile_shape(period, peak_sigma, N_source, N_background)
+            toa_err = 1e6* toa_err # in Unit of microsecond
+
+        # --------
         elif method == 'gauss_fit':
-            print("Calculate ToA error ... based on Profile shape (Lorimer & Kramer 2012)")
+            print("Calculate ToA error ... based on pulse SNR (Lorimer & Kramer 2012)")
             period = 1/fbest
             peak_sigma = gauss_popt[2]
             

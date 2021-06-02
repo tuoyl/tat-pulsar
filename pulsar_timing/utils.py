@@ -2,8 +2,8 @@
 import numpy as np
 import numba 
 import matplotlib.pyplot as plt
-
 import sys
+
 
 __all__ = ["numba_histogram",
         "met2mjd",
