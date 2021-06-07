@@ -182,7 +182,7 @@ def get_parameters(kwargs):
             par = par[0:(len(par)-1)]
             stdpar.append(par)
         pardata.close()
-        F0 = 0; F1 = 0; F2 = 0; F3 = 0; F4 = 0; F5 = 0; F6 = 0; F7 = 0; F8 = 0; F9 = 0;
+        F0 = 0; F1 = 0; F2 = 0; F3 = 0; F4 = 0; F5 = 0; F6 = 0; F7 = 0; F8 = 0; F9 = 0; F10 = F11 = F12 = 0;
         for i in range(len(stdpar)):
             if stdpar[i][:6]=='PEPOCH':
                 PEPOCH_lst = stdpar[i].split(' ');PEPOCH = [x for x in PEPOCH_lst if x != ''][1]
@@ -217,6 +217,15 @@ def get_parameters(kwargs):
             if stdpar[i][:2]=='F9':
                 F9_lst = stdpar[i].split(' ');F9 = [x for x in F9_lst if x != ''][1]
                 F9 = np.float64(F9)
+            if stdpar[i][:2]=='F10':
+                F10_lst = stdpar[i].split(' ');F10 = [x for x in F10_lst if x != ''][1]
+                F10 = np.float64(F10)
+            if stdpar[i][:2]=='F11':
+                F11_lst = stdpar[i].split(' ');F11 = [x for x in F11_lst if x != ''][1]
+                F11 = np.float64(F11)
+            if stdpar[i][:2]=='F12':
+                F12_lst = stdpar[i].split(' ');F12 = [x for x in F12_lst if x != ''][1]
+                F12 = np.float64(F12)
             if stdpar[i][:5]=='START':
                 START_lst = stdpar[i].split(' ');START = [x for x in START_lst if x != ''][1]
                 TSTART = np.float64(START) 
@@ -224,7 +233,7 @@ def get_parameters(kwargs):
                 FINISH_lst = stdpar[i].split(' ');FINISH = [x for x in FINISH_lst if x != ''][1]
                 TFINISH = np.float64(FINISH) 
         f1search_flag = False
-        return pepoch, F0, F1, F2, F3, F4, f1search_flag
+        return pepoch, np.array([F0, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12]), f1search_flag
 
     else:
         pepoch = kwargs['pepoch']
@@ -274,6 +283,38 @@ def get_parameters(kwargs):
             F4 = kwargs['f4']
         else:
             F4 = 0
+        if 'f5' in kwargs:
+            F5 = kwargs['f5']
+        else:
+            F5 = 0
+        if 'f6' in kwargs:
+            F6 = kwargs['f6']
+        else:
+            F6 = 0
+        if 'f7' in kwargs:
+            F7 = kwargs['f7']
+        else:
+            F7 = 0
+        if 'f8' in kwargs:
+            F8 = kwargs['f8']
+        else:
+            F8 = 0
+        if 'f9' in kwargs:
+            F9 = kwargs['f9']
+        else:
+            F9 = 0
+        if 'f10' in kwargs:
+            F10 = kwargs['f10']
+        else:
+            F10 = 0
+        if 'f11' in kwargs:
+            F11 = kwargs['f11']
+        else:
+            F11 = 0
+        if 'f12' in kwargs:
+            F12 = kwargs['f12']
+        else:
+            F12 = 0
             
         if "pepochformat" in kwargs:
             if kwargs['pepochformat'].lower() == "met":
@@ -282,7 +323,7 @@ def get_parameters(kwargs):
                 pepoch = mjd2met(pepoch)
             else:
                 raise IOError(f"pepoch format {kwargs['pepochformat']} not supported")
-    return pepoch, F0, F1, F2, F3, F4, f1search_flag
+    return pepoch, np.array([F0, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12]), f1search_flag
 
 @numba.njit(parallel=True, nogil=True)
 def ccf(f1,f2):

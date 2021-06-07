@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import numpy as np
 import numba 
+import math
 import matplotlib.pyplot as plt
 from pulsar_timing.utils import *
 
@@ -82,14 +83,9 @@ def ffold(data, **kwargs):
         telescope='hxmt'
 
     #read parfile and parameters
-    pepoch, F0, F1, F2, F3, F4, F1_searchflag = get_parameters(kwargs)
+    pepoch, F_set_array, F1_searchflag = get_parameters(kwargs)
     
     t0 = pepoch
-    f0 = F0
-    f1 = F1
-    f2 = F2
-    f3 = F3
-    f4 = F4
     
     if len(data)==0:
         raise IOError("Error: Data is empty")
@@ -104,13 +100,15 @@ def ffold(data, **kwargs):
     else:
         phi0 = 0
 
-    phi = (data-t0)*f0 + (1.0/2.0)*((data-t0)**2)*f1+ (1.0/6.0)*((data-t0)**3)*f2 +\
-            (1.0/24.0)*((data-t0)**4)*f3 + (1.0/120.0)*((data-t0)**5)*f4 
+    ## Taylor Series
+    phi = np.sum( 
+            np.array([ (1/math.factorial(i+1))*((data-t0)**(i+1))*F_set_array[i] for i in range(len(F_set_array))]),
+            axis=0)
     phi = phi - np.floor(phi)
     profile, phase  = numba_histogram(phi, bin_profile)
 
     return {"T0": met2mjd(t0, telescope=telescope), "Profile" : profile, 
-            "Pars" : {"F0":f0, "F1":f1, "F2":F2, "F3":F3, "F4":F4}}
+            "Pars" : {"F{}".format(i) : F_set_array[i] for i in range(len(F_set_array))}}
 
 
 
