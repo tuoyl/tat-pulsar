@@ -1,9 +1,57 @@
 #!/usr/bin/env python
 import numpy as np
-import numba 
 import matplotlib.pyplot as plt
 import sys
+import warnings
 
+
+# If numba is installed, import jit. Otherwise, define an empty decorator with
+# the same name. (This method was Copied from Stingray.utils)
+HAS_NUMBA = False
+try:
+    from numba import jit
+
+    HAS_NUMBA = True
+    from numba import njit, prange, vectorize, float32, float64, int32, int64
+except ImportError:
+    warnings.warn("Numba not installed. Faking it")
+
+    class jit(object):
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def __call__(self, func):
+            def wrapped_f(*args, **kwargs):
+                return func(*args, **kwargs)
+
+            return wrapped_f
+
+    class njit(object):
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def __call__(self, func):
+            def wrapped_f(*args, **kwargs):
+                return func(*args, **kwargs)
+
+            return wrapped_f
+
+    class vectorize(object):
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def __call__(self, func):
+            wrapped_f = np.vectorize(func)
+
+            return wrapped_f
+
+    def generic(x, y=None):
+        return None
+
+    float32 = float64 = int32 = int64 = generic
+
+    def prange(x):
+        return range(x)
 
 __all__ = ["numba_histogram",
         "met2mjd",
@@ -16,7 +64,7 @@ __all__ = ["numba_histogram",
         "rms",
         "print_loop_percentage"]
 
-#@numba.njit
+@njit
 def met2mjd(data, telescope="fermi"):
     if telescope.lower() == "fermi":
         MJDREFF = 0.00074287037037037
@@ -29,7 +77,7 @@ def met2mjd(data, telescope="fermi"):
         MJDREFI = 56658
     return data/86400 + MJDREFI + MJDREFF
 
-#@numba.njit
+@njit
 def mjd2met(data, telescope="fermi"):
     if telescope.lower() == "fermi":
         MJDREFF = 0.00074287037037037
@@ -44,7 +92,7 @@ def mjd2met(data, telescope="fermi"):
 
 
 
-@numba.njit(nopython=True)
+@njit(nopython=True)
 def get_bin_edges(a, bins):
     bin_edges = np.zeros((bins+1,), dtype=np.float64)
     a_min = a.min()
@@ -57,7 +105,7 @@ def get_bin_edges(a, bins):
     return bin_edges
 
 
-@numba.njit(nopython=True)
+@njit(nopython=True)
 def compute_bin(x, bin_edges):
     # assuming uniform bins for now
     n = bin_edges.shape[0] - 1
@@ -76,7 +124,7 @@ def compute_bin(x, bin_edges):
         return bin
 
 
-@numba.njit(nopython=True)
+@njit(nopython=True)
 def numba_histogram(a, bins):
     hist = np.zeros((bins,), dtype=np.intp)
     bin_edges = get_bin_edges(a, bins)
@@ -89,7 +137,7 @@ def numba_histogram(a, bins):
     return hist, bin_edges
 
 
-@numba.njit(parallel=True, nogil=True)
+@njit(parallel=True, nogil=True)
 def cal_chisquare(data, f, pepoch, bin_profile, F1, F2, F3, F4, parallel=False):
     """
     calculate the chisquare distribution for frequency search on the pepoch time.
@@ -99,7 +147,7 @@ def cal_chisquare(data, f, pepoch, bin_profile, F1, F2, F3, F4, parallel=False):
     t0 = pepoch
 
     if parallel:
-        for i in numba.prange(len(f)):
+        for i in prange(len(f)):
             phi = (data-t0)*f[i] + (1.0/2.0)*((data-t0)**2)*F1 + (1.0/6.0)*((data-t0)**3)*F2 +\
                     (1.0/24.0)*((data-t0)**4)*F3 + (1.0/120.0)*((data-t0)**5)*F4
             phi = phi - np.floor(phi)
@@ -119,7 +167,7 @@ def cal_chisquare(data, f, pepoch, bin_profile, F1, F2, F3, F4, parallel=False):
 
     return chi_square
 
-@numba.njit
+@njit
 def cal_2dchisquare(data, f, pepoch, bin_profile, F1, F2, F3, F4):
     """
     calculate the chisquare distribution for 2-D frequency search on the pepoch time.
@@ -149,7 +197,7 @@ def _parameters_legal(kwargs):
     """
     init_bool = True
 
-    legal_par_list = ['check_par', 'pepoch', 'f0', 'f0step', 'f0range', 'f1', 'f1step', 'f1range', 
+    legal_par_list = ['check_par', 'pepoch', 'f0', 'f0step', 'f0range', 'f1', 'f1step', 'f1range',
             'f2', 'f3', 'f4', 'pepochformat', 'telescope', 'bin']
 
 
@@ -165,7 +213,7 @@ def _parameters_legal(kwargs):
 def get_parameters(kwargs):
     """
     get the parameters for searching
-    
+
     The format of input could be a name of parfile, a dictionary, or standard python function arguments.
 
     """
@@ -262,7 +310,7 @@ def get_parameters(kwargs):
                 else:
                     F1 = np.arange(F1-F1range, F1+F1range, F1step)
                     f1search_flag = True
-                    print(f"number of parameters to search is {len(F1)*len(F0)}")
+                    print("number of parameters to search is {}".format(F1.size*F0.size))
             else:
                 f1search_flag = False
         else:
@@ -315,17 +363,17 @@ def get_parameters(kwargs):
             F12 = kwargs['f12']
         else:
             F12 = 0
-            
+
         if "pepochformat" in kwargs:
             if kwargs['pepochformat'].lower() == "met":
                 pepoch = pepoch
             elif kwargs['pepochformat'].lower() == "mjd":
                 pepoch = mjd2met(pepoch)
             else:
-                raise IOError(f"pepoch format {kwargs['pepochformat']} not supported")
+                raise IOError("pepoch format {} not supported".format(kwargs['pepochformat']))
     return pepoch, np.array([F0, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12]), f1search_flag
 
-@numba.njit(parallel=True, nogil=True)
+@njit(parallel=True, nogil=True)
 def ccf(f1,f2):
     '''
     f1 is the original signal
@@ -342,14 +390,14 @@ def ccf(f1,f2):
     sigma_f1 = np.sqrt(np.sum(f1*f1))
     sigma_f2 = np.sqrt(np.sum(f2*f2))
     #y = np.correlate(f1, f2, "full")
-    for i in numba.prange(len(f2)):
+    for i in prange(len(f2)):
         y[i] = np.sum(delta_f1 * np.roll(delta_f2, i))/(sigma_f1 * sigma_f2)
     #y = [ np.sum(delta_f1 * np.roll(delta_f2,x))/(sigma_f1 * sigma_f2) for x in range(len(f2)) ]
     #delay = np.where(y==max(y))[0]
     delay = np.argmax(y)
     return y,delay
 
-@numba.njit
+@njit
 def print_loop_percentage(iterator_i, total, printstr=''):
     percent = iterator_i*100/total
     sys.stdout.write("{} complete: {:.2f}".format(printstr, percent))

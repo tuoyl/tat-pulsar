@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 import numpy as np
-import numba 
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from pulsar_timing.utils import *
+from pulsar_timing.utils import njit, HAS_NUMBA
 from pulsar_timing.Profile import resampling_profile, norm_profile
 
 import sys
 
 __all__ = ['cal_toa']
 
-def cal_toa(fbest, profile, data, method="max", error_method="default", 
+def cal_toa(fbest, profile, data, method="max", error_method="default",
         fig_flag=False, std_pro='', **kwargs):
     """
     Calculate the Time of Arrival (ToA) of profile
@@ -18,7 +18,7 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
     Parameters
     ------------
     fbest : float
-        The best frequency at the moment t0, where t0 is 
+        The best frequency at the moment t0, where t0 is
         the reference time for calculating the profile.
 
     profile : array
@@ -27,13 +27,13 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
     data : array
         The time array of the data that generated the profile
         #TODO:Is this really necessary??
-        
+
     method : str, optional
         The method to get to ToA value, default is "max".
-        a list of method 
+        a list of method
         {"max", "ccf", "gauss_fit", "lorentz_fit"} stands for
         1. get the maximum of profile as ToA phase
-        2. cross-correlation to calculate the ToA phase. A standard profile 
+        2. cross-correlation to calculate the ToA phase. A standard profile
             with high statistic should be assigned at the same time. see parameter
             "std_pro" for detail
         3. fit the profile with gaussian function to find the maximum
@@ -44,12 +44,12 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
             be assigned. see parameter "fitting_range" for detail.
 
     error_method : str, optional
-        The method to estimate the ToA error, default is to calculate the error 
-        based on different ToA method. 
+        The method to estimate the ToA error, default is to calculate the error
+        based on different ToA method.
         a list of available method
         {"default", "simulate"}
         1. default
-        2. simulate the error by resample the profile. Parameter "sample_num" must be 
+        2. simulate the error by resample the profile. Parameter "sample_num" must be
             assigned as well.
 
     std_pro : array, optional
@@ -62,15 +62,15 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
         The Time of Arrival of observed Profile
 
     toa_err : float
-        The error of the obtained ToA, 
+        The error of the obtained ToA,
 
     """
-    
+
     ###############################################
     ## ----------- Calculate ToA
     ###############################################
 
-    ## Method is to carry out Cross-correlation Function with 
+    ## Method is to carry out Cross-correlation Function with
     ## high statistical Standar Profile to find the maximum phase
     ## as ToA.
 
@@ -97,7 +97,7 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
         delta_phi = np.argmax(profile)/len(profile) + 0.5*len(profile)
         if fig_flag:
             plt.figure()
-            plt.errorbar(np.linspace(0,1,len(profile)), norm_profile(profile), 
+            plt.errorbar(np.linspace(0,1,len(profile)), norm_profile(profile),
                     drawstyle='steps-mid')
 
 
@@ -126,7 +126,7 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
         x_to_fit       = x_to_fit      [(x_to_fit>=fitting_range[0])&(x_to_fit<=fitting_range[1])] #phase   at fitting range
 
         # fit the profile using gaussian function
-        gauss_popt,gauss_pcov = curve_fit(Gauss, x_to_fit, profile_to_fit, 
+        gauss_popt,gauss_pcov = curve_fit(Gauss, x_to_fit, profile_to_fit,
                 p0=[np.max(profile_to_fit),
                     (np.max(x_to_fit)+np.min(x_to_fit))/2,
                     np.max(x_to_fit)-np.min(x_to_fit)],
@@ -168,11 +168,11 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
         x_to_fit       = x_to_fit      [(x_to_fit>=fitting_range[0])&(x_to_fit<=fitting_range[1])] #phase   at fitting range
 
         # fit the profile using gaussian function
-        popt,pcov = curve_fit(Lorentz, x_to_fit, profile_to_fit, 
+        popt,pcov = curve_fit(Lorentz, x_to_fit, profile_to_fit,
                 p0=[np.max(profile_to_fit),
                     (np.max(x_to_fit)+np.min(x_to_fit))/2,
                     0.1],
-                sigma=error_to_fit, absolute_sigma=True, 
+                sigma=error_to_fit, absolute_sigma=True,
                 maxfev=99999)
         lorentz_fitting_errs = np.sqrt(np.diag(pcov))
         delta_phi = popt[1]
@@ -190,11 +190,10 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
         if kwargs["fig_flag"]:
             plt.figure()
             plt.plot((profile-np.min(profile))/(np.max(profile)-np.min(profile)))
-#            plt.plot((p_num_std-np.min(p_num_std))/(np.max(p_num_std)-np.min(p_num_std)), color='red')
 
-    ## Calculate the ToA by 
+    ## Calculate the ToA by
     ## ToA = t0 + P*\delta\Phi
-    ## IMPORTANT: the profile should be folded by fbest, which is the 
+    ## IMPORTANT: the profile should be folded by fbest, which is the
     ## frequency at the PEPOCH (np.min(data)
 
     toa = (1/fbest)*delta_phi + np.min(data)
@@ -206,7 +205,7 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
     ###############################################
 
     ## -----------
-    ## 
+    ##
     ## -----------
     if error_method == "simulate":
         print("Bootstrap to calculate ToA error ... yes")
@@ -216,7 +215,7 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
             print("Sampling number ... {}".format(kwargs['sample_num']))
             ## if sample_num == 1, only one profile generated
             resampled_profile  = resampling_profile(profile, kwargs['sample_num'])
-            ## calculate ToAs for new profile 
+            ## calculate ToAs for new profile
             if method == "ccf":
                 resampled_delta_phi = _calculate_delta_phi_by_ccf(resampling_profile,
                         std_pro)
@@ -254,7 +253,7 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
 
         elif method == "ccf":
             #toa_err = (np.max(data)-np.min(data))/len(profile)/10
-            
+
             if "pulse_range" in kwargs:
                 fitting_range = [delta_phi-kwargs['pulse_range'], delta_phi+kwargs['pulse_range']]
             else:
@@ -277,7 +276,7 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
             x_to_fit       = x_to_fit      [(x_to_fit>=fitting_range[0])&(x_to_fit<=fitting_range[1])] #phase   at fitting range
 
             # fit the profile using gaussian function
-            gauss_popt,gauss_pcov = curve_fit(Gauss, x_to_fit, profile_to_fit, 
+            gauss_popt,gauss_pcov = curve_fit(Gauss, x_to_fit, profile_to_fit,
                     p0=[np.max(profile_to_fit),
                         (np.max(x_to_fit)+np.min(x_to_fit))/2,
                         np.max(x_to_fit)-np.min(x_to_fit)],
@@ -294,7 +293,7 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
             print("Calculate ToA error ... based on pulse SNR (Lorimer & Kramer 2012)")
             period = 1/fbest
             peak_sigma = gauss_popt[2]
-            
+
             N_background  =  np.min(profile) * len(profile_to_fit)
             N_source = np.sum( profile_to_fit ) - N_background
             toa_err = _get_error_by_profile_shape(period, peak_sigma, N_source, N_background)
@@ -305,7 +304,7 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
             print("Calculate ToA error ... based on pulse SNR (Lorimer & Kramer 2012)")
             period = 1/fbest
             peak_sigma = gauss_popt[2]
-            
+
             N_background  =  np.min(profile) * len(profile_to_fit)
             N_source = np.sum( profile_to_fit ) - N_background
             toa_err = _get_error_by_profile_shape(period, peak_sigma, N_source, N_background)
@@ -322,14 +321,14 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
     toa = met2mjd(toa, telescope=kwargs['telescope'])
     return toa, toa_err
 
-@numba.njit
+@njit
 def _get_error_quantiles(data, toa, low=0.16, mid=0.5, hig=0.84):
     """
-    The error of 1sigma is obtained from 
+    The error of 1sigma is obtained from
     the posterior sampling distribution of ToA
     """
 
-    ##TODO:pass parameter 
+    ##TODO:pass parameter
     data_low = sorted(data)[int(low*len(data))]
     data_mid = sorted(data)[int(mid*len(data))]
     data_hig = sorted(data)[int(hig*len(data))]
@@ -340,7 +339,7 @@ def _get_error_quantiles(data, toa, low=0.16, mid=0.5, hig=0.84):
 
 def _get_error_rms(toas, toa):
     """
-    The error of 1sigma is obtained from 
+    The error of 1sigma is obtained from
     the deviation between RMS of ToA and measured ToA
     """
     rms = np.sqrt(np.mean(toas**2))
@@ -354,12 +353,12 @@ def _get_error_by_profile_shape(period, peak_sigma, source_counts, background_co
     (Lorimer & Kramer 2012)
     """
     a = period*peak_sigma
-    b = source_counts/np.sqrt(source_counts+background_counts) 
+    b = source_counts/np.sqrt(source_counts+background_counts)
     sigma_ToA = a/b
     return sigma_ToA
 
 
-@numba.njit
+@njit
 def _calculate_delta_phi_by_ccf(profile, profile_std):
     #profile = np.append(profile, profile)
     #profile_std = np.append(profile_std, profile_std)

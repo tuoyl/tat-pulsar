@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 import numpy as np
-import numba 
 import math
 import matplotlib.pyplot as plt
 from pulsar_timing.utils import *
+from pulsar_timing.utils import njit, float64
 
 __all__ = ['ffold']
 
@@ -22,15 +22,15 @@ def ffold(data, **kwargs):
         read the parameters from parfile
 
     pepoch : float (optional)
-        time for input frequecy values. 
-        NOTE: the output frequecy is the frequency at which 
+        time for input frequecy values.
+        NOTE: the output frequecy is the frequency at which
         the time of middle of the time interval
 
     f0 : float
         the init f0 value to search
 
-    f0step : float 
-        
+    f0step : float
+
 
     f1 : float(optional)
         fdot.
@@ -59,19 +59,19 @@ def ffold(data, **kwargs):
         default is "fermi".
 
     pepochformat : string (optional)
-        the format of pepoch, "mjd" or "met". 
+        the format of pepoch, "mjd" or "met".
         The default if "mjd"
 
     Returns :
     ---------------
 
     chi_square : array-like
-        The Chi Square distribution of Epoch folding 
+        The Chi Square distribution of Epoch folding
     """
-    
-    data = numba.float64(data) # transfer the data to Numba float 64 bites
-    
-    # read the input parameters 
+
+    data = float64(data) # transfer the data to Numba float 64 bites
+
+    # read the input parameters
     if "telescope" in kwargs:
         if kwargs['telescope'].lower() == "fermi":
             telescope = 'fermi'
@@ -84,9 +84,9 @@ def ffold(data, **kwargs):
 
     #read parfile and parameters
     pepoch, F_set_array, F1_searchflag = get_parameters(kwargs)
-    
+
     t0 = pepoch
-    
+
     if len(data)==0:
         raise IOError("Error: Data is empty")
     if 'bin' in kwargs:
@@ -101,13 +101,13 @@ def ffold(data, **kwargs):
         phi0 = 0
 
     ## Taylor Series
-    phi = np.sum( 
+    phi = np.sum(
             np.array([ (1/math.factorial(i+1))*((data-t0)**(i+1))*F_set_array[i] for i in range(len(F_set_array))]),
             axis=0)
     phi = phi - np.floor(phi)
     profile, phase  = numba_histogram(phi, bin_profile)
 
-    return {"T0": met2mjd(t0, telescope=telescope), "Profile" : profile, 
+    return {"T0": met2mjd(t0, telescope=telescope), "Profile" : profile,
             "Pars" : {"F{}".format(i) : F_set_array[i] for i in range(len(F_set_array))}}
 
 

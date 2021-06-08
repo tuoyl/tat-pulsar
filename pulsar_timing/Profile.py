@@ -1,5 +1,4 @@
 import numpy as np
-import numba 
 import matplotlib.pyplot as plt
 from pulsar_timing.utils import *
 
@@ -8,7 +7,7 @@ __all__ = ['resampling_profile',
 
 def resampling_profile(profile, sample_num=1, kind='poisson'):
     '''
-    resampling the profile 
+    resampling the profile
 
     Parameters
     -----------
@@ -16,7 +15,7 @@ def resampling_profile(profile, sample_num=1, kind='poisson'):
         The un-normalized profile
 
     sample_num : int, optional
-        number of the resamplings for the profile, the default number is 1 
+        number of the resamplings for the profile, the default number is 1
 
     kind : str, optional
         The distribution of the profile, default is poisson.
