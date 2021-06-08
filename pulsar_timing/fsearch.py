@@ -1,21 +1,21 @@
 #!/usr/bin/env python
 import numpy as np
-import numba 
 import matplotlib.pyplot as plt
 from pulsar_timing.utils import *
+from pulsar_timing.utils import float64
 
 __all__ = ['fsearch']
 
 
 def _parameters_legal(kwargs):
     """
-    check whether the input parameters are legal 
+    check whether the input parameters are legal
 
     return bool
     """
     init_bool = True
 
-    legal_par_list = ['check_par', 'pepoch', 'f0', 'f0step', 'f0range', 'f1', 'f1step', 'f1range', 
+    legal_par_list = ['check_par', 'pepoch', 'f0', 'f0step', 'f0range', 'f1', 'f1step', 'f1range',
             'f2', 'f3', 'f4', 'pepochformat', 'telescope', 'bin']
 
 
@@ -33,7 +33,7 @@ def _parameters_legal(kwargs):
 def _get_parameters(kwargs):
     """
     get the parameters for searching
-    
+
     The format of input could be a name of parfile, a dictionary, or standard python function arguments.
 
     """
@@ -54,9 +54,9 @@ def _get_parameters(kwargs):
             if stdpar[i][:6]=='PEPOCH':
                 PEPOCH_lst = stdpar[i].split(' ');PEPOCH = [x for x in PEPOCH_lst if x is not ''][1]
                 pepoch = mjd2met(np.longdouble(PEPOCH))
-            if stdpar[i][:2]=='F0': 
+            if stdpar[i][:2]=='F0':
                 F0_lst = stdpar[i].split(' ');F0 = [x for x in F0_lst if x is not ''][1]
-                F0 = np.longdouble(F0) 
+                F0 = np.longdouble(F0)
             if stdpar[i][:2]=='F1':
                 F1_lst = stdpar[i].split(' ');F1 = [x for x in F1_lst if x is not ''][1]
                 F1 = np.longdouble(F1)
@@ -86,10 +86,10 @@ def _get_parameters(kwargs):
                 F9 = np.longdouble(F9)
             if stdpar[i][:5]=='START':
                 START_lst = stdpar[i].split(' ');START = [x for x in START_lst if x is not ''][1]
-                TSTART = np.longdouble(START) 
+                TSTART = np.longdouble(START)
             if stdpar[i][:6]=='FINISH':
                 FINISH_lst = stdpar[i].split(' ');FINISH = [x for x in FINISH_lst if x is not ''][1]
-                TFINISH = np.longdouble(FINISH) 
+                TFINISH = np.longdouble(FINISH)
         f1search_flag = False
         return pepoch, F0, F1, F2, F3, F4, f1search_flag
 
@@ -131,7 +131,7 @@ def _get_parameters(kwargs):
             F4 = kwargs['f4']
         else:
             F4 = 0
-            
+
         if "pepochformat" in kwargs:
             if kwargs['pepochformat'].lower() == "met":
                 pepoch = pepoch
@@ -155,15 +155,15 @@ def fsearch(data, **kwargs):
         read the parameters from parfile
 
     pepoch : float (optional)
-        time for input frequecy values. 
-        NOTE: the output frequecy is the frequency at which 
+        time for input frequecy values.
+        NOTE: the output frequecy is the frequency at which
         the time of middle of the time interval
 
     f0 : float
         the init f0 value to search
 
-    f0step : float 
-        
+    f0step : float
+
 
     f1 : float(optional)
         fdot.
@@ -192,19 +192,19 @@ def fsearch(data, **kwargs):
         default is "fermi".
 
     pepochformat : string (optional)
-        the format of pepoch, "mjd" or "met". 
+        the format of pepoch, "mjd" or "met".
         The default if "mjd"
 
     Returns :
     ---------------
 
     chi_square : array-like
-        The Chi Square distribution of Epoch folding 
+        The Chi Square distribution of Epoch folding
     """
-    
-    data = numba.float64(data) # transfer the data to Numba float 64 bites
-    
-    # read the input parameters 
+
+    data = float64(data) # transfer the data to Numba float 64 bites
+
+    # read the input parameters
     if "telescope" in kwargs:
         if kwargs['telescope'].lower() == "fermi":
             telescope = 'fermi'
@@ -218,7 +218,7 @@ def fsearch(data, **kwargs):
     #read parfile and parameters
     pepoch, F0, F1, F2, F3, F4, F1_searchflag = _get_parameters(kwargs)
     F1_sample = (np.max(F1) + np.min(F1))/2
-    
+
     # deduce the timing parameters at the middle of the time series
     #t0 = (np.min(data) + np.max(data))/2
     t0 = np.min(data)
@@ -227,7 +227,7 @@ def fsearch(data, **kwargs):
     F1 = F1 + F2*dt + (1/2)*F3*(dt**2) + (1/6)*F4*(dt**3)
     F2 = F2 + F3*dt + (1/2)*F4*(dt**2)
     F3 = F3 + F4*dt
-    
+
     if len(data)==0:
         raise IOError("Error: Data is empty")
     if 'bin' in kwargs:
@@ -253,30 +253,6 @@ def fsearch(data, **kwargs):
     phi = phi - np.floor(phi)
     profile, phase  = numba_histogram(phi, bin_profile)
 
-    return {"T0": met2mjd(t0, telescope=telescope), "ChiSquare" : chi_square, "Profile" : profile, 
-            "Pars" : {"F0": fbest, "F1":f1best, "F0_init":F0, "F1_init":F1, 
+    return {"T0": met2mjd(t0, telescope=telescope), "ChiSquare" : chi_square, "Profile" : profile,
+            "Pars" : {"F0": fbest, "F1":f1best, "F0_init":F0, "F1_init":F1,
             "F2_init" : F2, "F3_init":F3, "F4_init":F4}}
-
-
-
-if __name__ == "__main__":
-    from astropy.io import fits
-    #TESTING
-    f0 = 29.946923
-    f1 = -3.77535E-10
-    f2 = 1.1147E-20
-    f3 = -2.73E-30
-    filename = "/Users/tuoyouli/Work/Fermi/script/fermi_pipeline/data/weekly_w009_p305_v001_gtbary.fits"
-    filename = "/Users/tuoyouli/Work/Fermi/script/fermi_pipeline/data/weekly_w638_p305_v001_gtbary.fits"
-    hdulist =fits.open(filename)
-    time = hdulist[1].data.field("TIME")
-    fsearch_results = fsearch(time, f0=f0, f0step=1e-8, f0range=1e-4, pepoch=48442.5, pepochformat='mjd', check_par=True,
-            f1=f1, f1step=1e-14, f1range=3e-14, f2=f2, f3=f3, bin=20)
-    mjd = fsearch_results['T0']
-    chi2 = fsearch_results['ChiSquare']
-    pro  = fsearch_results['Profile']
-    pars = fsearch_results['Pars']
-    plt.imshow(chi2, aspect='auto', origin='lower', extent=[-1e-6, 1e-6, -1e-14, 1e-14])
-    print(pars)
-    plt.show()
-
