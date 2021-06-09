@@ -23,7 +23,7 @@ class Profile():
         self.counts = counts
         if type(cycles) != int:
             raise TypeError("The cycles of profile should be int")
-        self.phase  = np.linspace(0, cycles, self.size)
+        self.phase  = np.linspace(0, cycles, self.size+1)[:-1]
 
     @property
     def size(self):
@@ -58,8 +58,8 @@ class Profile():
         elif kind == "gaussian":
             pass #TODO
 
-        resampled_profile = resampled_profile.reshape(int(len(resampled_profile)/Profile.size),
-                int(Profile.size))
+        resampled_profile = resampled_profile.reshape(int(resampled_profile.size/self.size),
+                int(self.size))
         return resampled_profile
 
     def norm(self, yerr=None, method=0):
