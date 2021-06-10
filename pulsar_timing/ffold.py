@@ -4,6 +4,7 @@ import math
 import matplotlib.pyplot as plt
 from pulsar_timing.utils import *
 from pulsar_timing.utils import njit, float64
+from pulsar_timing.Profile import phihist
 
 __all__ = ['ffold']
 
@@ -105,7 +106,10 @@ def ffold(data, **kwargs):
             np.array([ (1/math.factorial(i+1))*((data-t0)**(i+1))*F_set_array[i] for i in range(len(F_set_array))]),
             axis=0)
     phi = phi - np.floor(phi)
-    profile, phase  = numba_histogram(phi, bin_profile)
+
+
+    ## Use phihist to do histogram
+    profile = phihist(phi, bin_profile).counts
 
     return {"T0": met2mjd(t0, telescope=telescope), "Profile" : profile,
             "Pars" : {"F{}".format(i) : F_set_array[i] for i in range(len(F_set_array))}}

@@ -75,6 +75,32 @@ class Profile():
         elif method == 1:
             return (self.counts-np.min(self.counts))/(np.mean(self.counts))
 
+def phihist(phi, bin_profile, **kwargs):
+    '''
+    Ensure that the input and output of the histogram are appropriate.
+    The input variables are the pulse phi of events, and the bin_profile.
+    The counts of each bin are calculated by dividing [0, 1] into number of bin_profile.
+
+    Parameters
+    -----------
+    phi : array
+        a set of phase value of events.
+
+    bin_profile : int
+        the number of bins of profile
+
+    Return
+    ----------
+    Profile : object
+        return the object of Profile
+    '''
+
+    x = np.linspace(0, 1, bin_profile + 1)
+    counts, phase = np.histogram(phi, x)
+    profile_object = Profile(counts, **kwargs)
+
+    return profile_object
+
 
 def resampling_profile(profile, sample_num=1, kind='poisson'):
     '''

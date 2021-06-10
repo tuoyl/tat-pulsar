@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pulsar_timing.utils import *
 from pulsar_timing.utils import float64
+from pulsar_timing.Profile import phihist
 
 __all__ = ['fsearch']
 
@@ -251,7 +252,7 @@ def fsearch(data, **kwargs):
     phi = (data-t0)*fbest + (1.0/2.0)*((data-t0)**2)*f1best + (1.0/6.0)*((data-t0)**3)*F2 +\
             (1.0/24.0)*((data-t0)**4)*F3 + (1.0/120.0)*((data-t0)**5)*F4
     phi = phi - np.floor(phi)
-    profile, phase  = numba_histogram(phi, bin_profile)
+    profile = phihist(phi, bin_profile).counts
 
     return {"T0": met2mjd(t0, telescope=telescope), "ChiSquare" : chi_square, "Profile" : profile,
             "Pars" : {"F0": fbest, "F1":f1best, "F0_init":F0, "F1_init":F1,
