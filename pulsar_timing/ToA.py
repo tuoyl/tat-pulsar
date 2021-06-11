@@ -158,7 +158,7 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
         x = np.linspace(0, 1, len(profile))
         if fitting_range[1] >= 1:  # if phase range larger than 1
             profile_to_fit = np.append(profile, profile) # duplicate the profile by two period
-            x_to_fit       = np.append(x, x+1)
+            x_to_fit       = np.append(x, x+1+1/profile.sieze)
             error_to_fit   = np.sqrt(profile_to_fit)
         else:
             profile_to_fit = profile
