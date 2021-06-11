@@ -114,10 +114,10 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
         x = np.linspace(0, 1, len(profile))
         if fitting_range[1] >= 1:  # if phase range larger than 1
             profile_to_fit = np.append(profile, profile) # duplicate the profile by two period
-            x_to_fit       = np.append(x, x+1)
+            x_to_fit       = np.append(x, x+1+1/profile.size)
         elif fitting_range[0] < 0: # if phase range less than 0
             profile_to_fit = np.append(profile, profile) # duplicate the profile by two period
-            x_to_fit       = np.append(x-1, x)
+            x_to_fit       = np.append(x-1-1/profile.size, x)
         else:
             profile_to_fit = profile
             x_to_fit       = x
@@ -139,7 +139,9 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
             plt.figure()
             plt.errorbar(x, profile, yerr=np.sqrt(profile), color='black', label='Raw Data')
             plt.errorbar(x_to_fit, profile_to_fit, color='orange', label='data to fit')
-            plt.errorbar(x_to_fit, Gauss(x_to_fit, *gauss_popt), color='red', lw=1.5, label="gaussian")
+            x_tmp = np.linspace(np.min(x_to_fit), np.max(x_to_fit),100)
+            plt.errorbar(x_tmp, Gauss(x_tmp, *gauss_popt), color='red', lw=1.5, label="gaussian")
+            plt.axvline(x=delta_phi)
             plt.legend()
 
     ## -----------------
