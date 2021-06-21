@@ -18,11 +18,16 @@ class Profile():
 
             cycles : int
                 the period cycles of input Profile (default is 1).
-                If cycles=2, the phase of profile would be np.linspace(0, 2, size_of_Profile)
+                If cycles=2, the phase of profile would be np.linspace(0, 2, size_of_Profile+1)[:-1]
         '''
-        self.counts = counts
         if type(cycles) != int:
             raise TypeError("The cycles of profile should be int")
+        if cycles > 2:
+            raise IOError("Why do you have to setup so many cycles? 2 cycles is enough.")
+        if cycles == 2:
+            self.counts = np.append(counts, counts)
+        else:
+            self.counts = counts
         self.phase  = np.linspace(0, cycles, self.size+1)[:-1]
 
     @property

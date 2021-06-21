@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from pulsar_timing.utils import *
 from pulsar_timing.utils import njit, HAS_NUMBA
-from pulsar_timing.Profile import resampling_profile, norm_profile
+from pulsar_timing.Profile import resampling_profile, norm_profile, Profile
 
 import sys
 
@@ -83,8 +83,10 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
 
         if fig_flag:
             plt.figure()
-            plt.errorbar(np.linspace(0,1,len(profile)), norm_profile(profile))
-            plt.errorbar(np.linspace(0,1,len(std_pro)), norm_profile(std_pro), color='green')
+            profile_obj = Profile(profile)
+            profile_std_obj = Profile(std_pro)
+            plt.errorbar(profile_obj.phase, profile_obj.norm())
+            plt.errorbar(profile_std_obj.phase, profile_std_obj.norm(), color='green')
             plt.axvline(x=delta_phi, lw=1.2, color='red', label="CCF ToA Phi")
             plt.legend()
 
