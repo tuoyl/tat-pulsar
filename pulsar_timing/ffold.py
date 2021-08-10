@@ -104,7 +104,7 @@ def ffold(data, **kwargs):
     ## Taylor Series
     phi = np.sum(
             np.array([ (1/math.factorial(i+1))*((data-t0)**(i+1))*F_set_array[i] for i in range(len(F_set_array))]),
-            axis=0)
+            axis=0) - phi0
     phi = phi - np.floor(phi)
 
 

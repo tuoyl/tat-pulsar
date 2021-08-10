@@ -2,8 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from pulsar_timing.utils import *
 
-__all__ = ['resampling_profile',
-        "norm_profile"]
+# Transfer to OOP
+#__all__ = ['resampling_profile',
+#        "norm_profile",
+#        "phihist"]
+__all__ = ['Profile',
+        "phihist"]
 
 class Profile():
     """
