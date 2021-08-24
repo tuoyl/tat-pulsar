@@ -137,7 +137,7 @@ def numba_histogram(a, bins):
     return hist, bin_edges
 
 
-@njit(parallel=True, nogil=True)
+#@njit(parallel=True, nogil=True)
 def cal_chisquare(data, f, pepoch, bin_profile, F1, F2, F3, F4, parallel=False):
     """
     calculate the chisquare distribution for frequency search on the pepoch time.
@@ -151,18 +151,24 @@ def cal_chisquare(data, f, pepoch, bin_profile, F1, F2, F3, F4, parallel=False):
             phi = (data-t0)*f[i] + (1.0/2.0)*((data-t0)**2)*F1 + (1.0/6.0)*((data-t0)**3)*F2 +\
                     (1.0/24.0)*((data-t0)**4)*F3 + (1.0/120.0)*((data-t0)**5)*F4
             phi = phi - np.floor(phi)
-            counts  = numba_histogram(phi, bin_profile)[0]
+            #counts  = numba_histogram(phi, bin_profile)[0]
+            #NOTE: The histogram bin should give the edge of bin, instead of the bin number.
+            #NOTE: For those pulse with narrow peak, it will be incorrect while calculate the chisquare
+            counts  = np.histogram(phi,
+                    np.linspace(0, 1, bin_profile+1)[:-1])[0]
             expectation = np.mean(counts)
-            #expectation = counts/bin_profile
             chi_square[i] = np.sum( (counts - expectation)**2 / expectation )
     else:
         for i in range(len(f)):
             phi = (data-t0)*f[i] + (1.0/2.0)*((data-t0)**2)*F1 + (1.0/6.0)*((data-t0)**3)*F2 +\
                     (1.0/24.0)*((data-t0)**4)*F3 + (1.0/120.0)*((data-t0)**5)*F4
             phi = phi - np.floor(phi)
-            counts  = numba_histogram(phi, bin_profile)[0]
+            #counts  = numba_histogram(phi, bin_profile)[0]
+            #NOTE: The histogram bin should give the edge of bin, instead of the bin number.
+            #NOTE: For those pulse with narrow peak, it will be incorrect while calculate the chisquare
+            counts  = np.histogram(phi,
+                    np.linspace(0, 1, bin_profile+1)[:-1])[0]
             expectation = np.mean(counts)
-            #expectation = counts/bin_profile
             chi_square[i] = np.sum( (counts - expectation)**2 / expectation )
 
     return chi_square
