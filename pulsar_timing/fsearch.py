@@ -222,8 +222,11 @@ def fsearch(data, **kwargs):
 
     # deduce the timing parameters at the middle of the time series
     #t0 = (np.min(data) + np.max(data))/2
-    t0 = np.min(data)
-    dt = t0 - pepoch
+    #t0 = np.min(data)
+    #dt = t0 - pepoch
+    #NOTE: t0 should be pepoch!!!
+    t0 = pepoch
+    dt = 0
     F0 = F0 + F1_sample*dt + (1/2)*F2*(dt**2) + (1/6)*F3*(dt**3) + (1/24)*F4*(dt**4)
     F1 = F1 + F2*dt + (1/2)*F3*(dt**2) + (1/6)*F4*(dt**3)
     F2 = F2 + F3*dt + (1/2)*F4*(dt**2)
