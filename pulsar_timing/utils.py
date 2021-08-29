@@ -75,6 +75,12 @@ def met2mjd(data, telescope="fermi"):
     elif telescope.lower() == 'nicer':
         MJDREFF = 0.000777592592592593
         MJDREFI = 56658
+    elif telescope.lower() == 'gecam':
+        MJDREFF = 0.00080074074
+        MJDREFI = 58484
+    elif telescope.lower() == 'nustar':
+        MJDREFI = 55197
+        MJDREFF = 7.660185200000000E-04
     return data/86400 + MJDREFI + MJDREFF
 
 @njit
@@ -88,6 +94,12 @@ def mjd2met(data, telescope="fermi"):
     elif telescope.lower() == 'nicer':
         MJDREFF = 0.000777592592592593
         MJDREFI = 56658
+    elif telescope.lower() == 'gecam':
+        MJDREFF = 0.00080074074
+        MJDREFI = 58484
+    elif telescope.lower() == 'nustar':
+        MJDREFI = 55197
+        MJDREFF = 7.660185200000000E-04
     return (data - MJDREFI - MJDREFF)*86400
 
 
@@ -137,7 +149,7 @@ def numba_histogram(a, bins):
     return hist, bin_edges
 
 
-#@njit(parallel=True, nogil=True)
+@njit(parallel=True, nogil=True)
 def cal_chisquare(data, f, pepoch, bin_profile, F1, F2, F3, F4, parallel=False):
     """
     calculate the chisquare distribution for frequency search on the pepoch time.

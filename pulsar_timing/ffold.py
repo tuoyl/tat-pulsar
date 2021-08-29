@@ -88,7 +88,7 @@ def ffold(data, **kwargs):
 
     t0 = pepoch
 
-    if len(data)==0:
+    if data.size==0:
         raise IOError("Error: Data is empty")
     if 'bin' in kwargs:
         bin_profile = kwargs['bin']
