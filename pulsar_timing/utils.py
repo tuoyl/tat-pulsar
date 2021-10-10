@@ -64,7 +64,7 @@ __all__ = ["numba_histogram",
         "rms",
         "print_loop_percentage"]
 
-@njit
+#@njit
 def met2mjd(data, telescope="fermi"):
     if telescope.lower() == "fermi":
         MJDREFF = 0.00074287037037037
@@ -83,7 +83,7 @@ def met2mjd(data, telescope="fermi"):
         MJDREFF = 7.660185200000000E-04
     return data/86400 + MJDREFI + MJDREFF
 
-@njit
+#@njit
 def mjd2met(data, telescope="fermi"):
     if telescope.lower() == "fermi":
         MJDREFF = 0.00074287037037037
