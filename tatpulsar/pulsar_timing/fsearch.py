@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 import numpy as np
 import matplotlib.pyplot as plt
-from pulsar_timing.utils import *
-from pulsar_timing.utils import float64
-from pulsar_timing.Profile import phihist
+from tatpulsar.pulsar_timing.utils import *
+from tatpulsar.pulsar_timing.utils import float64
+from tatpulsar.pulsar_timing.Profile import phihist
 
 __all__ = ['fsearch']
 
@@ -142,7 +142,6 @@ def _get_parameters(kwargs):
                 raise IOError(f"pepoch format {kwargs['pepochformat']} not supported")
     return pepoch, F0, F1, F2, F3, F4, f1search_flag
 
-
 def fsearch(data, **kwargs):
     """
     search the best frequency
@@ -246,7 +245,7 @@ def fsearch(data, **kwargs):
         fbest = F0[f_f1_index[1]]
         f1best = F1[f_f1_index[0]]
     else:
-        print(f"2D search is {F1_searchflag}")
+        #print(f"2D search is {F1_searchflag}")
         ## F0 1-D search
         chi_square = cal_chisquare(data, F0, t0, bin_profile, F1, F2, F3, F4)
         fbest = F0[np.argmax(chi_square)]

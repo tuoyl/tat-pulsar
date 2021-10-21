@@ -2,9 +2,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
-from pulsar_timing.utils import *
-from pulsar_timing.utils import njit, HAS_NUMBA
-from pulsar_timing.Profile import resampling_profile, norm_profile, Profile
+from tatpulsar.pulsar_timing.utils import *
+from tatpulsar.pulsar_timing.utils import njit, HAS_NUMBA
+from tatpulsar.pulsar_timing.Profile import resampling_profile, norm_profile, Profile
 
 import sys
 
