@@ -2,9 +2,9 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-from pulsar_timing.utils import *
-from pulsar_timing.utils import njit, float64
-from pulsar_timing.Profile import phihist
+from tatpulsar.pulsar_timing.utils import *
+from tatpulsar.pulsar_timing.utils import njit, float64
+from tatpulsar.pulsar_timing.Profile import phihist
 
 __all__ = ['ffold']
 

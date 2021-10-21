@@ -112,6 +112,7 @@ setup(
 
     entry_points={
         'console_scripts': [
+            "TATResiduals = tatpulsar.launcher.TATResiduals:main",
             ],
     },
     install_requires=REQUIRED,
