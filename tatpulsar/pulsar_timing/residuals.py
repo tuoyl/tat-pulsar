@@ -71,6 +71,10 @@ def read_par(parname):
 
 
 def read_toa(timname):
+    '''
+    read the standard TEMPO2 format *.tim
+    ToA file and return the ToA and ToA errors
+    '''
     f = open(timname)
     toa = np.array([])
     err = np.array([])
@@ -219,5 +223,61 @@ def cal_residual(toas, toa_errs, f_set_all, PEPOCH_all, start_time, stop_time, i
         residuals_rms = rms(residuals, residual_err)
 
     return residuals_toas, residuals, residual_err, residuals_rms
+
+def cal_residual_from_parameters(toas, toa_errs, F_set_array, PEPOCH, inperiod=False):
+    """
+    calculate the residuals for toas in one set of Ephemeris parameters
+    return the residuals
+
+    toas : array-float
+        ToAs in MJD unit
+
+    toa_errs : array-float
+        ToAs error in microsecond unit
+
+    F_set_array : array-float
+        An array of f0, f1, f2, ... etc.
+
+    PEPOCH : float
+        reference time in MJD unit
+
+    inperiod : bool
+        flag to calculate residuals in period unit
+    """
+    residuals = np.array([])
+    residual_err = np.array([])
+
+    dt = (toas - PEPOCH)*86400
+
+    phi = np.sum(
+            np.array([ (1/math.factorial(j+1))*(dt**(j+1))*F_set_array[j] for j in range(len(F_set_array))]),
+            axis=0)
+    phi -= np.floor(phi)
+    f0_at_toa = np.sum(
+            np.array([(1/math.factorial(j))*(dt**j)*F_set_array[j] for j in range(len(F_set_array))]),
+            axis=0)
+    phi0 = _weighted_phi_mean(phi, toa_errs/1e6*f0_at_toa)
+
+    if inperiod:
+        # residuals calculate in pulse periods
+        residuals = np.append(
+                residuals, phi-phi0)
+        residual_err = np.append(
+                residual_err, (toa_errs/1e6*f0_at_toa))
+    else:
+        # residuals calculate in time (sec)
+        residuals = np.append(
+                residuals, (phi-phi0)/f0_at_toa)
+        residual_err = np.append(
+                residual_err, toa_errs/1e6)
+
+    ## Calculate RMS of total residuals
+    if inperiod:
+        residuals_rms = rms(residuals, residual_err)/F_set_array[0]
+        #NOTE: when the residuals are calculated in period, the rms (in sec) is not accurate.
+    else:
+        residuals_rms = rms(residuals, residual_err)
+
+    return residuals, residual_err, residuals_rms
 
 
