@@ -80,6 +80,10 @@ def ffold(data, **kwargs):
             telescope = 'hxmt'
         elif kwargs['telescope'].lower() == "nicer":
             telescope = 'nicer'
+        elif kwargs['telescope'].lower() == 'gecam':
+            telescope = 'gecam'
+        else:
+            telescope='hxmt'
     else:
         telescope='hxmt'
 
