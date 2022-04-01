@@ -81,6 +81,9 @@ def met2mjd(data, telescope="fermi"):
     elif telescope.lower() == 'nustar':
         MJDREFI = 55197
         MJDREFF = 7.660185200000000E-04
+    elif telescope.lower() == "ixpe":
+        MJDREFF = 0.00080074074074 
+        MJDREFI = 57754
     return data/86400 + MJDREFI + MJDREFF
 
 #@njit
@@ -100,6 +103,9 @@ def mjd2met(data, telescope="fermi"):
     elif telescope.lower() == 'nustar':
         MJDREFI = 55197
         MJDREFF = 7.660185200000000E-04
+    elif telescope.lower() == "ixpe":
+        MJDREFF = 0.00080074074074 
+        MJDREFI = 57754
     return (data - MJDREFI - MJDREFF)*86400
 
 
