@@ -11,7 +11,7 @@ import sys
 __all__ = ['cal_toa']
 
 def cal_toa(fbest, profile, data, method="max", error_method="default",
-        fig_flag=False, std_pro='', **kwargs):
+        fig_flag=False, std_pro='', t0=np.min(data), **kwargs):
     """
     Calculate the Time of Arrival (ToA) of profile
 
@@ -27,6 +27,12 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
     data : array
         The time array of the data that generated the profile
         #TODO:Is this really necessary??
+
+    fig_flag : bool
+        flag to plot the ToA fitting processes for debugging
+
+    t0: float
+        The reference time to calculate the ToA, default is the minimize of data set.
 
     method : str, optional
         The method to get to ToA value, default is "max".
@@ -65,6 +71,9 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
         The error of the obtained ToA,
 
     """
+
+    
+
 
     ###############################################
     ## ----------- Calculate ToA
@@ -200,7 +209,7 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
     ## IMPORTANT: the profile should be folded by fbest, which is the
     ## frequency at the PEPOCH (np.min(data)
 
-    toa = (1/fbest)*delta_phi + np.min(data)
+    toa = (1/fbest)*delta_phi + t0
 
 
 
@@ -240,7 +249,7 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
                     resampled_delta_phi = np.append(resampled_delta_phi,
                             np.argmax(resampled_profile)/len(resampled_profile))
 
-            resampled_toa = (1/fbest)*resampled_delta_phi + np.min(data)
+            resampled_toa = (1/fbest)*resampled_delta_phi + t0
 
         ## Calculate the 1sigma distribution of resampled ToA as 1 sigma error
         #toa_err = 1e6*_get_error_quantiles(resampled_delta_phi, delta_phi) ## Unit microsecond
