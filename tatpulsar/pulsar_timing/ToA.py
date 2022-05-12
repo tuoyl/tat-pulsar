@@ -11,7 +11,7 @@ import sys
 __all__ = ['cal_toa']
 
 def cal_toa(fbest, profile, data, method="max", error_method="default",
-        fig_flag=False, std_pro='', t0=np.min(data), **kwargs):
+        fig_flag=False, std_pro='', t0=None, **kwargs):
     """
     Calculate the Time of Arrival (ToA) of profile
 
@@ -72,7 +72,9 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
 
     """
 
-    
+    # default t0 is minimize time of data set
+    if t0 is None:
+        t0 = np.min(data)
 
 
     ###############################################
