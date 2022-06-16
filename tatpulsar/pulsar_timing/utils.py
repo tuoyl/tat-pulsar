@@ -155,7 +155,7 @@ def numba_histogram(a, bins):
     return hist, bin_edges
 
 
-@njit(parallel=True, nogil=True)
+#@njit(parallel=True, nogil=True)
 def cal_chisquare(data, f, pepoch, bin_profile, F1, F2, F3, F4, parallel=False):
     """
     calculate the chisquare distribution for frequency search on the pepoch time.

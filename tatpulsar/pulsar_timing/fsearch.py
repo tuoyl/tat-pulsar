@@ -212,6 +212,8 @@ def fsearch(data, **kwargs):
             telescope = 'hxmt'
         elif kwargs['telescope'].lower() == "nicer":
             telescope = 'nicer'
+        elif kwargs['telescope'].lower() == 'ixpe':
+            telescope = 'ixpe'
     else:
         telescope='hxmt'
 
