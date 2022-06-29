@@ -45,3 +45,9 @@ if you want to uninstall the package for generating the product.
 ```
 python3 -m pip uninstall tat-pulsar
 ```
+
+---
+## Todo list
+- [ ] Documentation
+- [ ] barycentric correction module
+- [ ] binary analysis (search, binary correction)
