@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Utilities &mdash; TAT-pulsar 0.1.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script src="../_static/custom.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Xspec Anaysis" href="xspecanalysis.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html">
+            <img src="../_static/ixpetoollogo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/XspecSpectralAnalysis.html"> Xspec Analysis</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../autodocs.html"> IXPE-tools API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="xspecanalysis.html"> Xspec Analysis</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-ixpetools.utils.logger">Logger tool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-ixpetools.utils.plot_chain">Plot MCMC Chain</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">TAT-pulsar</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../autodocs.html">IXPE-tools API</a> &raquo;</li>
+      <li>Utilities</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="utilities">
+<h1>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline"></a></h1>
+<p>Several useful utilities used throughout various modules</p>
+<div class="section" id="module-ixpetools.utils.logger">
+<span id="logger-tool"></span><h2>Logger tool<a class="headerlink" href="#module-ixpetools.utils.logger" title="Permalink to this headline"></a></h2>
+<p>Global logger setup
+Must be used by the whole application</p>
+<p>The default format can be restored at any time with LoggerSetup.set_default_format()
+The log level can be set at any time with LoggerSetup.set_debug/info/warning/error_level
+The level is set at INFO by default</p>
+<p>imported from pipeline-bricks
+Created on 4 December 2019</p>
+<p>&#64;author: michel</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ixpetools.utils.logger.LoggerSetup">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ixpetools.utils.logger.</span></span><span class="sig-name descname"><span class="pre">LoggerSetup</span></span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/utils/logger.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.utils.logger.LoggerSetup" title="Permalink to this definition"></a></dt>
+<dd><p>manage the logger setup</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.utils.logger.LoggerSetup.get_logger">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">get_logger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/utils/logger.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.utils.logger.LoggerSetup.get_logger" title="Permalink to this definition"></a></dt>
+<dd><p>Format and return the system logger
+:return : system logger
+:rtype: logger</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.utils.logger.LoggerSetup.restore_default_level">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">restore_default_level</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/utils/logger.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.utils.logger.LoggerSetup.restore_default_level" title="Permalink to this definition"></a></dt>
+<dd><p>restore the message level with the last value set by a setter
+INFO by default</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.utils.logger.LoggerSetup.set_debug_level">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_debug_level</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/utils/logger.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.utils.logger.LoggerSetup.set_debug_level" title="Permalink to this definition"></a></dt>
+<dd><p>Switch to debug level</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.utils.logger.LoggerSetup.set_default_format">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_default_format</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/utils/logger.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.utils.logger.LoggerSetup.set_default_format" title="Permalink to this definition"></a></dt>
+<dd><p>set the default message format</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.utils.logger.LoggerSetup.set_error_level">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_error_level</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/utils/logger.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.utils.logger.LoggerSetup.set_error_level" title="Permalink to this definition"></a></dt>
+<dd><p>Switch to error level</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.utils.logger.LoggerSetup.set_info_level">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_info_level</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/utils/logger.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.utils.logger.LoggerSetup.set_info_level" title="Permalink to this definition"></a></dt>
+<dd><p>Switch to info level</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.utils.logger.LoggerSetup.set_warning_level">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_warning_level</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/utils/logger.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.utils.logger.LoggerSetup.set_warning_level" title="Permalink to this definition"></a></dt>
+<dd><p>Switch to warning level</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ixpetools.utils.plot_chain">
+<span id="plot-mcmc-chain"></span><h2>Plot MCMC Chain<a class="headerlink" href="#module-ixpetools.utils.plot_chain" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="ixpetools.utils.plot_chain.plot_corner">
+<span class="sig-prename descclassname"><span class="pre">ixpetools.utils.plot_chain.</span></span><span class="sig-name descname"><span class="pre">plot_corner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/utils/plot_chain.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.utils.plot_chain.plot_corner" title="Permalink to this definition"></a></dt>
+<dd><p>use corner to plot parameters</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> : str</p>
+<blockquote>
+<div><p>The Xspec chain file generated by Xspec MCMC program</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="xspecanalysis.html" class="btn btn-neutral float-left" title="Xspec Anaysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Youli.
+      <span class="lastupdated">Last updated on 2022 Jun 29 at 09:53:08 UTC.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

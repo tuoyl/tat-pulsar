@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xspec Anaysis &mdash; TAT-pulsar 0.1.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "tags": "ams", "useLabelIds": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script src="../_static/custom.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Utilities" href="utilities.html" />
+    <link rel="prev" title="IXPE-tools API" href="../autodocs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html">
+            <img src="../_static/ixpetoollogo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebooks/XspecSpectralAnalysis.html"> Xspec Analysis</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../autodocs.html"> IXPE-tools API</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Xspec Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html"> Utilities</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">TAT-pulsar</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../autodocs.html">IXPE-tools API</a> &raquo;</li>
+      <li>Xspec Anaysis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="module-ixpetools.xspeclib.io">
+<span id="xspec-anaysis"></span><h1>Xspec Anaysis<a class="headerlink" href="#module-ixpetools.xspeclib.io" title="Permalink to this headline"></a></h1>
+<p>A module that wraps the Xspec tool, you need to pre-install HEASOFT Xspec
+and initialize the HEADAS environment.</p>
+<p>&#64;author: Youli</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ixpetools.xspeclib.io.XspecSpec">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">ixpetools.xspeclib.io.</span></span><span class="sig-name descname"><span class="pre">XspecSpec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spec_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">background_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response_files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/xspeclib/io.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.xspeclib.io.XspecSpec" title="Permalink to this definition"></a></dt>
+<dd><p>A spectrum class prepared for Xspec analysis</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.xspeclib.io.XspecSpec.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'chi2'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/xspeclib/io.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.xspeclib.io.XspecSpec.fit" title="Permalink to this definition"></a></dt>
+<dd><p>perform the fitting procedure, the parameter
+stat set the statistics to fit, default is ‘pgstat’
+optional: {pgstat | chi2 | cstat}
+return the covariance of the fitting results</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>stat</strong> : str</p>
+<blockquote>
+<div><p>The statistic method to execute the fitting, optional
+methods are {‘pgstat’, ‘chi2’, ‘cstat’}</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.xspeclib.io.XspecSpec.flux">
+<span class="sig-name descname"><span class="pre">flux</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ngroups</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_low</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_high</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cal_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/xspeclib/io.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.xspeclib.io.XspecSpec.flux" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the (total) Model flux of specific group
+of data
+return the flux of specific compoent of model</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ngroups</strong> : int</p>
+<blockquote>
+<div><p>the number of the data group</p>
+</div></blockquote>
+<p><strong>energy_low</strong> : float</p>
+<blockquote>
+<div><p>the lower energy limits to calculate the flux</p>
+</div></blockquote>
+<p><strong>energy_high</strong> : float</p>
+<blockquote>
+<div><p>the upper limits of the energy range to calculate the flux</p>
+</div></blockquote>
+<p><strong>cal_error</strong> : bool (True for default)</p>
+<blockquote>
+<div><p>whether to calculate the error of the flux (errsims option in Xspec)</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>flux</strong> : tuple</p>
+<blockquote>
+<div><p>The standard Xspec tuple of the results of flux.
+the tutple contains 6 value (val errLow errHigh(in ergs/cm2) val errLow errHigh(in photons)).
+Error values are .0 if flux was not run with errsims option.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.xspeclib.io.XspecSpec.fromxcm">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">fromxcm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xcmname</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/xspeclib/io.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.xspeclib.io.XspecSpec.fromxcm" title="Permalink to this definition"></a></dt>
+<dd><p>Load the Xspec data and models from xcm file.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>xcmname</strong> : str</p>
+<blockquote>
+<div><p>The filename of the xcm file</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.xspeclib.io.XspecSpec.mcmc">
+<span class="sig-name descname"><span class="pre">mcmc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chainfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">burn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nwalker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/xspeclib/io.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.xspeclib.io.XspecSpec.mcmc" title="Permalink to this definition"></a></dt>
+<dd><p>Perform MCMC to fit the spectrum and return the chain data.
+Call the function defined in <a class="reference internal" href="utilities.html#ixpetools.utils.plot_chain.plot_corner" title="ixpetools.utils.plot_chain.plot_corner"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ixpetools.utils.plot_chain.plot_corner()</span></code></a></p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>chainfile</strong> : str</p>
+<blockquote>
+<div><p>The FITS file to save the Chain data</p>
+</div></blockquote>
+<p><strong>length</strong> : int</p>
+<blockquote>
+<div><p>the total length of chain to run</p>
+</div></blockquote>
+<p><strong>burn</strong> : int</p>
+<blockquote>
+<div><p>The length to burn the chain</p>
+</div></blockquote>
+<p><strong>nwalker</strong> : int</p>
+<blockquote>
+<div><p>The number of walkers</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.xspeclib.io.XspecSpec.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retrieve_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/xspeclib/io.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.xspeclib.io.XspecSpec.plot" title="Permalink to this definition"></a></dt>
+<dd><p>plot the results in a simple and explicit
+manner. The plot is conducted by Xspec.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>show</strong> : boolean</p>
+<blockquote>
+<div><p>whether to show the plot in XWindow (default is False)</p>
+</div></blockquote>
+<p><strong>savefig: None or str</strong></p>
+<blockquote>
+<div><p>Whether to save figure as output, give the name of output figure
+to savefig</p>
+</div></blockquote>
+<p><strong>retrieve_data: boolean</strong></p>
+<blockquote>
+<div><p>whether to export the data of the point, the output will be
+a dictionary object
+e.g.:
+{‘group1’: {‘x’: […], ‘y’: […], ‘xerr’: […], ‘yerr’: […]},
+‘group2’:  {‘x’: […], ‘y’: […], ‘xerr’: […], ‘yerr’: […]},
+…
+‘model1’: array-like,
+‘model2’: array-like,
+…
+}</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.xspeclib.io.XspecSpec.plot_contour">
+<span class="sig-name descname"><span class="pre">plot_contour</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">steppar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_parID</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi_parID</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_chi2map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_latex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/xspeclib/io.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.xspeclib.io.XspecSpec.plot_contour" title="Permalink to this definition"></a></dt>
+<dd><p>Perform the <cite>Fit.steppar</cite> in Xspec and plot the contour levels</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>steppar</strong> : boolean</p>
+<blockquote>
+<div><p>whether to perform the steppar for parameters, otherwise only plot the contour
+based on the <cite>Fit.steppar</cite> of Xspec that executed before.</p>
+</div></blockquote>
+<p><strong>A_parID</strong> : int</p>
+<blockquote>
+<div><p>The parameter ID of parameter A in Xspec (start by 1).</p>
+</div></blockquote>
+<p><strong>psi_parID</strong> : int</p>
+<blockquote>
+<div><p>The parameter ID of parameter psi in Xspec (start by 1).</p>
+</div></blockquote>
+<p><strong>A_steps</strong> : int</p>
+<blockquote>
+<div><p>The steps for polarization degree. only works when steppar=True.</p>
+</div></blockquote>
+<p><strong>psi_steps</strong> : int</p>
+<blockquote>
+<div><p>The steps for polarization angle. Only works when steppar=True.</p>
+</div></blockquote>
+<p><strong>A_range</strong> : float</p>
+<blockquote>
+<div><p>The range to execute steppar. range is <span class="math notranslate nohighlight">\([A-A\_\mathrm{range}, A+A\_\mathrm{range}]\)</span>, default is
+determined by the 1sigma error of parameter A, that <span class="math notranslate nohighlight">\(A\_\mathrm{range} = 5*\mathrm{\sigma_A}\)</span></p>
+</div></blockquote>
+<p><strong>psi_range</strong> : float</p>
+<blockquote>
+<div><p>The range to execute steppar. range is <span class="math notranslate nohighlight">\([\psi-\psi\_\mathrm{range}, \psi+\psi\_\mathrm{range}]\)</span>, default is
+determined by the 1sigma error of parameter psi, that <span class="math notranslate nohighlight">\(\psi\_\mathrm{range} = 5*\sigma_{\psi}\)</span></p>
+</div></blockquote>
+<p><strong>projection</strong> : str</p>
+<blockquote>
+<div><p>Projection to show the plots, {None, ‘polar’}</p>
+</div></blockquote>
+<p><strong>show_chi2map</strong> : boolean</p>
+<blockquote>
+<div><p>whether to plot chisquare hot map. (default is True)</p>
+</div></blockquote>
+<p><strong>use_latex</strong> : boolean</p>
+<blockquote>
+<div><p>Whether the plt style use LaTeX to compline. This requires the LaTeX package
+pre-installed. see <a class="reference external" href="https://pypi.org/project/SciencePlots/">https://pypi.org/project/SciencePlots/</a> for details.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.xspeclib.io.XspecSpec.plot_stokes_spectra">
+<span class="sig-name descname"><span class="pre">plot_stokes_spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">PlotData_ojb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_latex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dpi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">250</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(8,</span> <span class="pre">4)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/xspeclib/io.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.xspeclib.io.XspecSpec.plot_stokes_spectra" title="Permalink to this definition"></a></dt>
+<dd><p>Plot the I, Q, U fitting results and the corresponding residuals in six panels.
+The data are retrived from function <a class="reference internal" href="#ixpetools.xspeclib.io.XspecSpec.plot" title="ixpetools.xspeclib.io.XspecSpec.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot()</span></code></a> (set retrieve_data=True).
+It’s a structed data object containing data and models, see the docstring for details.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>PlotData_ojb</strong> : object</p>
+<blockquote>
+<div><p>retrived from function <a class="reference internal" href="#ixpetools.xspeclib.io.XspecSpec.plot" title="ixpetools.xspeclib.io.XspecSpec.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plot()</span></code></a> (set retrieve_data=True)</p>
+</div></blockquote>
+<p><strong>use_latex</strong> : boolean</p>
+<blockquote>
+<div><p>Whether the plt style use LaTeX to compline. This requires the LaTeX package
+pre-installed. see <a class="reference external" href="https://pypi.org/project/SciencePlots/">https://pypi.org/project/SciencePlots/</a> for details.</p>
+</div></blockquote>
+<p><strong>**kwarg :</strong></p>
+<blockquote>
+<div><p>The arguments for matplotlib.pyplot</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.xspeclib.io.XspecSpec.set_energy">
+<span class="sig-name descname"><span class="pre">set_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">energy_low</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_high</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ngroups</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/xspeclib/io.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.xspeclib.io.XspecSpec.set_energy" title="Permalink to this definition"></a></dt>
+<dd><p>setup the energy range (ignore command in Xspec)
+for specific Group data</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>energy_low</strong> : float</p>
+<blockquote>
+<div><p>the lower energy limits of energy range</p>
+</div></blockquote>
+<p><strong>energy_high</strong> : float</p>
+<blockquote>
+<div><p>the upper limits of the energy range</p>
+</div></blockquote>
+<p><strong>ngroups</strong> : string or int</p>
+<blockquote>
+<div><p>group number should start with 1, not zero!
+if it is a int: specify the number of the data group to
+setup energy range
+if it’s string and it’s “all”, setup all spectra in the
+same energy range</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ixpetools.xspeclib.io.XspecSpec.set_model">
+<span class="sig-name descname"><span class="pre">set_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/xspeclib/io.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.xspeclib.io.XspecSpec.set_model" title="Permalink to this definition"></a></dt>
+<dd><p>setup model name for Xspec fitting</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model_name</strong> : str</p>
+<blockquote>
+<div><p>The Xspec supported model names in string format. e.g. “TBabs*powerlaw”.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ixpetools.xspeclib.io.get_spectrum_extension">
+<span class="sig-prename descclassname"><span class="pre">ixpetools.xspeclib.io.</span></span><span class="sig-name descname"><span class="pre">get_spectrum_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hdulist</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/xspeclib/io.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.xspeclib.io.get_spectrum_extension" title="Permalink to this definition"></a></dt>
+<dd><p>find the extension number of Spectrum in PHA FITS file</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ixpetools.xspeclib.io.get_spectrum_type">
+<span class="sig-prename descclassname"><span class="pre">ixpetools.xspeclib.io.</span></span><span class="sig-name descname"><span class="pre">get_spectrum_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hdulist</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/xspeclib/io.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.xspeclib.io.get_spectrum_type" title="Permalink to this definition"></a></dt>
+<dd><p>get the type of spectrum return {‘TYPE:I’, ‘TYPE:II’}</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ixpetools.xspeclib.io.loadpha">
+<span class="sig-prename descclassname"><span class="pre">ixpetools.xspeclib.io.</span></span><span class="sig-name descname"><span class="pre">loadpha</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loadfile</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/IXPE-tools/blob/main/ixpetools/xspeclib/io.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ixpetools.xspeclib.io.loadpha" title="Permalink to this definition"></a></dt>
+<dd><p>load the spec file return the Spectrum class
+the input format could be
+1. PHA file name
+2. Python list of PHA files
+3. xcm file</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../autodocs.html" class="btn btn-neutral float-left" title="IXPE-tools API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Youli.
+      <span class="lastupdated">Last updated on 2022 Jun 29 at 09:53:08 UTC.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
