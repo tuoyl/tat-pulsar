@@ -48,6 +48,9 @@ python3 -m pip uninstall tat-pulsar
 
 ---
 ## Todo list
+- [ ] optimize the structure of the package (!important!)
+  - root directory contains `data`, `utils`, `pulse`(for searching, folding and related timing analysis)
+  - construct object for `Profile`, `TOA`, defined in data directory
 - [ ] Documentation
 - [ ] barycentric correction module
 - [ ] binary analysis (search, binary correction)
