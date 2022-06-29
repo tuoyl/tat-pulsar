@@ -1,6 +1,7 @@
+"""
+The Class of Profile
+"""
 import numpy as np
-import matplotlib.pyplot as plt
-from pulsar_timing.utils import *
 
 # Transfer to OOP
 #__all__ = ['resampling_profile',
@@ -43,17 +44,15 @@ class Profile():
         resampling the profile
 
         Parameters
-        -----------
-
+        ----------
         sample_num : int, optional
             number of the resamplings for the profile, the default number is 1
-
         kind : str, optional
             The distribution of the profile, default is poisson.
             ('poisson', 'gaussian') are refering to the poisson and gauss distribution
 
         Returns
-        -----------
+        -------
         resampled_profile : array or ndarray
             if sample_num == 1, return a one dimensional array
             if sample_num >1 , return a multi-dimensional array
@@ -84,27 +83,27 @@ class Profile():
         elif method == 1:
             return (self.counts-np.min(self.counts))/(np.mean(self.counts))
 
-def phihist(phi, bin_profile, **kwargs):
+def phihist(phi, nbins, **kwargs):
     '''
     Ensure that the input and output of the histogram are appropriate.
-    The input variables are the pulse phi of events, and the bin_profile.
-    The counts of each bin are calculated by dividing [0, 1] into number of bin_profile.
+    The input variables are the pulse phi of events, and the nbins.
+    The counts of each bin are calculated by dividing [0, 1] into number of nbins.
 
     Parameters
-    -----------
+    ----------
     phi : array
         a set of phase value of events.
 
-    bin_profile : int
+    nbins : int
         the number of bins of profile
 
-    Return
-    ----------
+    Returns
+    -------
     Profile : object
         return the object of Profile
     '''
 
-    x = np.linspace(0, 1, bin_profile + 1)
+    x = np.linspace(0, 1, nbins + 1)
     counts, phase = np.histogram(phi, x)
     profile_object = Profile(counts, **kwargs)
 
@@ -116,7 +115,7 @@ def resampling_profile(profile, sample_num=1, kind='poisson'):
     resampling the profile
 
     Parameters
-    -----------
+    ----------
     profile : array
         The un-normalized profile
 
@@ -128,7 +127,7 @@ def resampling_profile(profile, sample_num=1, kind='poisson'):
         ('poisson', 'gaussian') are refering to the poisson and gauss distribution
 
     Returns
-    -----------
+    -------
     resampled_profile : array or ndarray
         if sample_num == 1, return a one dimensional array
         if sample_num >1 , return a multi-dimensional array
