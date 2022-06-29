@@ -1,10 +1,8 @@
 #!/usr/bin/env python
-
-from tatpulsar.pulsar_timing.residuals import *
-
 import numpy as np
 import argparse
 import matplotlib.pyplot as plt
+from tatpulsar.pulse.residuals import cal_residual,argparse_wildcat, parse_pfiles, read_toa
 
 def parse_args():
     #required

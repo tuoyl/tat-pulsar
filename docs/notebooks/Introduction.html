@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction &mdash; IXPE-tools 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "tags": "ams", "useLabelIds": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script src="../_static/custom.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html">
+            <img src="../_static/ixpetoollogo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="XspecSpectralAnalysis.html"> Xspec Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autodocs.html"> IXPE-tools API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">IXPE-tools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Introduction</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Introduction">
+<h1>Introduction<a class="headerlink" href="#Introduction" title="Permalink to this headline"></a></h1>
+<div class="section" id="Scientific-Products">
+<h2>Scientific Products<a class="headerlink" href="#Scientific-Products" title="Permalink to this headline"></a></h2>
+<div class="section" id="L1-Event-data">
+<h3>L1 Event data<a class="headerlink" href="#L1-Event-data" title="Permalink to this headline"></a></h3>
+<p>The scientific products (SP) for GRM X-band analysis, are generated from the L1 data, which include the event data, orbital file of satellite, and the response file.</p>
+<p>The most important and wildly used file is Event file. As multiple analysis tools create class for event data, we do so as well.</p>
+<p>USAGE DESIGN:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; from grmtools.data.io import load_evt
+&gt;&gt;&gt; evt = load_evt(filename)
+</pre></div>
+</div>
+<p>The Event class could be load from a function specially integrated for GRM, or could manually setup the attributes. The attributes including:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Attributes
+----------
+    time : array
+
+    PI : array
+
+    gain : array
+        The gain type for each photon
+
+    dead_time : float
+        The dead time of GRD instrument, note that for GRD the dead time
+        is the same value for each photon. This is not the case for other
+        type of detectors (e.g., HXMT).
+
+    instrument : string
+        Instrument name. for SVOM-GRM instrument is &quot;GRM&quot;
+</pre></div>
+</div>
+<div class="section" id="filtering-data">
+<h4>filtering data<a class="headerlink" href="#filtering-data" title="Permalink to this headline"></a></h4>
+<p>When loading the entire GRM events data, all photons containing three GRDs are loaded (because it’s not RAM expensive analysis since only three GRDs are stored in the event file).</p>
+<p>So the method of filtering the data is essential. The class method <span class="math">\texttt{Event.filter}</span> is implemented for this purpose. Whether you can:</p>
+<ul class="simple">
+<li><p>select the photons by a mask array (e.g., <code class="docutils literal notranslate"><span class="pre">Event.filter((time&gt;=tstart)&amp;(time&lt;=tstop))</span></code> filters all attributes data by the input Bool array. Error raises if the length of mask array does not match the data.)</p></li>
+<li><p>detector object (the detector object contains the information that required for the analysis, e.g., gain type)</p></li>
+<li><p>a list of detector object to filter the data.</p></li>
+</ul>
+</div>
+<div class="section" id="events-related-lightcurve-and-spectrum">
+<h4>events related lightcurve and spectrum<a class="headerlink" href="#events-related-lightcurve-and-spectrum" title="Permalink to this headline"></a></h4>
+<p>We define the class for lightcurve and spectrum. The <code class="docutils literal notranslate"><span class="pre">LightCurve</span></code> and <code class="docutils literal notranslate"><span class="pre">Spectrum</span></code> in universal class for lightcurve and spectrum analysis, but here we set the attributes that returns a <code class="docutils literal notranslate"><span class="pre">LightCureve</span></code>, and <code class="docutils literal notranslate"><span class="pre">Spectrum</span></code> class respectively.</p>
+<p>Those classes are related based on the photons stored in this class, more importantly, those two classes should be able to interact with each other.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Attributes
+----------
+    ...
+
+    lightcurve : object (class:`LightCurve`)
+        The LightCurve object for photons selected in event class
+
+    spectrum : object (class:`Spectrum`)
+        The Spectrum object for photons selected in event class
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, IHEP.
+      <span class="lastupdated">Last updated on 2022 Jun 26 at 00:50:03 UTC.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
