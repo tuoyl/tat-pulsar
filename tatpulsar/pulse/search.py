@@ -251,7 +251,7 @@ def search(data, **kwargs):
 
     if F1_searchflag:
         ## F0 and F1 2-D search
-        chi_square = cal_2dchisquare(data, F0, t0, nbins, F1, F2, F3, F4)
+        chi_square = cal_2dchisquare(data, F0, F1, t0, nbins, F2=F2, F3=F3, F4=F4)
         f_f1_index = np.unravel_index(np.argmax(chi_square, axis=None), chi_square.shape)
         fbest = F0[f_f1_index[1]]
         f1best = F1[f_f1_index[0]]
