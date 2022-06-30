@@ -7,7 +7,21 @@ import numpy as np
 def retrieve_ephemeris(write_to_file=True, ephfile='Crab.gro'):
     """
     retrieve the Jordrell Bank Ephemeris of Crab pulsar
-    return the Pandas DataFrame
+    return the Pandas DataFrame.
+
+    Parameters
+    ----------
+    write_to_file : boolean
+        Whether write the retrived ephemeris table into a TXT file
+
+    ephfile : str
+        If write the Table to a TXT file, then assign the TXT file name to
+        write
+
+    Returns
+    -------
+    df : Pandas DataFrame
+        Return the Pandas DataFrame
     """
     url = "http://www.jb.man.ac.uk/pulsar/crab/all.gro"
 
@@ -48,7 +62,7 @@ def get_par(mjd, eph_df):
         the time (MJD) to get the corresponding ephemeris parameters
 
     eph_df : DataFrame
-        the pandas DataFrame (return from `retrieve_ephemeris`)
+        the pandas DataFrame (return from function :meth:`retrieve_ephemeris`)
 
     Returns
     -------

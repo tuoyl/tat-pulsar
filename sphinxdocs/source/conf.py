@@ -148,4 +148,4 @@ def linkcode_resolve(domain, info):
     # if you can't find it in the file then just link to the correct file
     except Exception:
         filename = info['module'].replace('.', '/') + '.py'
-    return "https://github.com/tuoyl/IXPE-tools/blob/main/{}".format(filename)
+    return "https://github.com/tuoyl/tat-pulsar/blob/main/{}".format(filename)
