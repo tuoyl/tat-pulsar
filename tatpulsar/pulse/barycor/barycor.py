@@ -18,10 +18,12 @@ https://pages.physics.wisc.edu/~craigm/idl/ephem.html for the codebase
 which at least inspired the code below.
 
 """
+import os
 from astropy.io import fits
 import numpy as np
 from jplephem.spk import SPK
-from gbmpulsar.barycor.tdb2tdt import tdb2tdt
+from tatpulsar.pulse.barycor.tdb2tdt import tdb2tdt
+import tatpulsar.pulse.barycor as barydir
 from scipy.interpolate import interp1d
 
 
@@ -86,6 +88,8 @@ def barycor(date, ra, dec,
         date = np.linspace(date_raw.min(), date_raw.max(), N_segment)
 
     jd =  np.array(date,dtype=np.float64) + 2400000.5
+    if jplephem is None:
+        jplephem = _get_jplfile()
     if not os.path.exists(jplephem):
         raise FileNotFoundError("File {} not found".format(jplephem))
     kernel = SPK.open(jplephem)
@@ -185,3 +189,11 @@ def barycor(date, ra, dec,
         return corr
     else:
         return date + corr/86400.
+
+def _get_jplfile(jpleph='de421'):
+    """
+    return the absolute path of JPL solar-ephemeris file in the barycor package
+    ``jpleph`` set the vesion of ephemeris file, default is de421, and the "de421.bsp"
+    file will return.
+    """
+    return os.path.join(barydir.__path__[0], jpleph)
