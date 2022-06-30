@@ -1,13 +1,13 @@
-IXPE-tools API
-==============
+TAT-pulsar package API
+======================
 
 
-Here follows the API documentation for the IXPE Tools.
+Here follows the API documentation for the TAT-pulsar package.
 
 .. toctree::
     :maxdepth: 2
 
-     Xspec Analysis <APIdocs/xspecanalysis.rst>
+     Pulsation analysis <APIdocs/pulse.rst>
      Utilities <APIdocs/utilities.rst>
 
 

@@ -85,7 +85,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 #html_theme = 'sphinxdoc'
 html_theme = 'sphinx_rtd_theme'
 
-html_theme_options = {"display_version": True, "logo_only" : True}
+html_theme_options = {"display_version": True, "logo_only" : False}
 html_last_updated_fmt = "%Y %b %d at %H:%M:%S UTC"
 html_show_sourcelink = False
 
@@ -97,7 +97,7 @@ html_css_files = ["custom.css"]
 html_js_files = ['custom.js']
 
 # Setup the Logo path or URL
-html_logo = './images/ixpetoollogo.png'
+html_logo = './images/pulsar-logo.jpeg'
 
 
 ## nbsphinx

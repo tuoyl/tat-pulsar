@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IXPE-tools documentation &mdash; TAT-pulsar 0.1.2 documentation</title>
+  <title>TAT-pulsar documentation &mdash; TAT-pulsar 0.1.2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
@@ -27,7 +27,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="IXPE-tools API" href="autodocs.html" /> 
+    <link rel="next" title="TAT-pulsar package API" href="autodocs.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -35,7 +35,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="#">
+            <a href="#" class="icon icon-home"> TAT-pulsar
             <img src="_static/pulsar-logo.jpeg" class="logo" alt="Logo"/>
           </a>
 <div role="search">
@@ -47,7 +47,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="autodocs.html"> TAT-pulsar package API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autodocs.html"> TAT-pulsar API</a></li>
 </ul>
 
         </div>
@@ -64,7 +64,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home"></a> &raquo;</li>
-      <li>IXPE-tools documentation</li>
+      <li>TAT-pulsar documentation</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -97,33 +97,31 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="ixpe-tools-documentation">
-<h1>IXPE-tools documentation<a class="headerlink" href="#ixpe-tools-documentation" title="Permalink to this headline"></a></h1>
-<p>A very useful toolbox for your IXPE data analysis.
-This package is designed to handle IXPE polarization data and spectroscopy.
-We provide tools to easily utilize Xspec and provide a package to display the results.</p>
+<div class="section" id="tat-pulsar-documentation">
+<h1>TAT-pulsar documentation<a class="headerlink" href="#tat-pulsar-documentation" title="Permalink to this headline"></a></h1>
+<p>A very useful toolbox for your high energy pulsar timing analysis.</p>
 <div class="sphinx-tabs docutils container">
 <div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">Installation</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Navigation</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><p>Download the whole repository to your local directory using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> or <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span></code>.</p>
 <p>For example, In you local path execute:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/tuoyl/IXPE-tools.git</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/tuoyl/TAT-pulsar.git</span>
 </pre></div>
 </div>
-<p>And you will get the folder <code class="docutils literal notranslate"><span class="pre">IXPE-tools</span></code>, in the folder you will see a file named <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>. We will install the whole package based on this script.</p>
+<p>And you will get the folder <code class="docutils literal notranslate"><span class="pre">tat-pulsar</span></code>, in the folder you will see a file named <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>. We will install the whole package based on this script.</p>
 <p>The most elegant thing to do before installing is to create a new conda environment to avoid conflicts with your existing python environment.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda create -n ixpe-env python=3</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda create -n tatpulsar-env python=3</span>
 </pre></div>
 </div>
 <p>after downloading the dependancies, execute</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda activate ixpe-env</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda activate tatpulsar-env</span>
 </pre></div>
 </div>
-<p>to enter the ixpe-env environment of conda, you will see (<code class="docutils literal notranslate"><span class="pre">ixpe-env</span></code>) before the shell prompt.</p>
+<p>to enter the tatpulsar-env environment of conda, you will see (<code class="docutils literal notranslate"><span class="pre">tatpulsar-env</span></code>) before the shell prompt.</p>
 <p>Now you are all set to install the repository. In the directory where the setup.py located, execute:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install -e .</span>
 </pre></div>
 </div>
 <p>if you want to uninstall the package for generating the product.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip uninstall ixpetools</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip uninstall tatpulsar</span>
 </pre></div>
 </div>
 </div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"></div></div>
@@ -131,9 +129,9 @@ We provide tools to easily utilize Xspec and provide a package to display the re
 <h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline"></a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="autodocs.html"> TAT-pulsar package API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="APIdocs/pulse.html">Pulse Signal Analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="APIdocs/utilities.html">Utilities</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autodocs.html"> TAT-pulsar API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="APIdocs/pulse.html"> Pulsation analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="APIdocs/utilities.html"> Utilities</a></li>
 </ul>
 </li>
 </ul>
@@ -145,14 +143,14 @@ We provide tools to easily utilize Xspec and provide a package to display the re
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="autodocs.html" class="btn btn-neutral float-right" title="IXPE-tools API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="autodocs.html" class="btn btn-neutral float-right" title="TAT-pulsar package API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2022 Jun 30 at 11:37:49 UTC.
+      <span class="lastupdated">Last updated on 2022 Jun 30 at 19:11:38 UTC.
       </span></p>
   </div>
 
