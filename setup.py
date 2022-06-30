@@ -26,6 +26,7 @@ REQUIRED = [
     'numba',
     'matplotlib',
     'astropy',
+    'jplephem'
 ]
 
 # What packages are optional?
