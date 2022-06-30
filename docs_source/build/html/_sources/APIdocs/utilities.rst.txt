@@ -1,8 +1,0 @@
-Utilities
-=========
-Several useful utilities used throughout various modules
-
-Function tool
--------------
-.. automodule:: tatpulsar.utils.functions
-   :members:
