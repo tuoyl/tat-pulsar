@@ -1,0 +1,28 @@
+\indexentry{module@\spxentry{module}!ixpetools.xspeclib.io@\spxentry{ixpetools.xspeclib.io}|hyperpage}{31}
+\indexentry{ixpetools.xspeclib.io@\spxentry{ixpetools.xspeclib.io}!module@\spxentry{module}|hyperpage}{31}
+\indexentry{XspecSpec (class in ixpetools.xspeclib.io)@\spxentry{XspecSpec}\spxextra{class in ixpetools.xspeclib.io}|hyperpage}{31}
+\indexentry{fit() (ixpetools.xspeclib.io.XspecSpec method)@\spxentry{fit()}\spxextra{ixpetools.xspeclib.io.XspecSpec method}|hyperpage}{31}
+\indexentry{flux() (ixpetools.xspeclib.io.XspecSpec method)@\spxentry{flux()}\spxextra{ixpetools.xspeclib.io.XspecSpec method}|hyperpage}{31}
+\indexentry{fromxcm() (ixpetools.xspeclib.io.XspecSpec static method)@\spxentry{fromxcm()}\spxextra{ixpetools.xspeclib.io.XspecSpec static method}|hyperpage}{31}
+\indexentry{mcmc() (ixpetools.xspeclib.io.XspecSpec method)@\spxentry{mcmc()}\spxextra{ixpetools.xspeclib.io.XspecSpec method}|hyperpage}{31}
+\indexentry{plot() (ixpetools.xspeclib.io.XspecSpec method)@\spxentry{plot()}\spxextra{ixpetools.xspeclib.io.XspecSpec method}|hyperpage}{32}
+\indexentry{plot\_contour() (ixpetools.xspeclib.io.XspecSpec method)@\spxentry{plot\_contour()}\spxextra{ixpetools.xspeclib.io.XspecSpec method}|hyperpage}{32}
+\indexentry{plot\_stokes\_spectra() (ixpetools.xspeclib.io.XspecSpec method)@\spxentry{plot\_stokes\_spectra()}\spxextra{ixpetools.xspeclib.io.XspecSpec method}|hyperpage}{33}
+\indexentry{set\_energy() (ixpetools.xspeclib.io.XspecSpec method)@\spxentry{set\_energy()}\spxextra{ixpetools.xspeclib.io.XspecSpec method}|hyperpage}{33}
+\indexentry{set\_model() (ixpetools.xspeclib.io.XspecSpec method)@\spxentry{set\_model()}\spxextra{ixpetools.xspeclib.io.XspecSpec method}|hyperpage}{33}
+\indexentry{get\_spectrum\_extension() (in module ixpetools.xspeclib.io)@\spxentry{get\_spectrum\_extension()}\spxextra{in module ixpetools.xspeclib.io}|hyperpage}{33}
+\indexentry{get\_spectrum\_type() (in module ixpetools.xspeclib.io)@\spxentry{get\_spectrum\_type()}\spxextra{in module ixpetools.xspeclib.io}|hyperpage}{33}
+\indexentry{loadpha() (in module ixpetools.xspeclib.io)@\spxentry{loadpha()}\spxextra{in module ixpetools.xspeclib.io}|hyperpage}{33}
+\indexentry{module@\spxentry{module}!ixpetools.utils.logger@\spxentry{ixpetools.utils.logger}|hyperpage}{34}
+\indexentry{ixpetools.utils.logger@\spxentry{ixpetools.utils.logger}!module@\spxentry{module}|hyperpage}{34}
+\indexentry{LoggerSetup (class in ixpetools.utils.logger)@\spxentry{LoggerSetup}\spxextra{class in ixpetools.utils.logger}|hyperpage}{34}
+\indexentry{get\_logger() (ixpetools.utils.logger.LoggerSetup static method)@\spxentry{get\_logger()}\spxextra{ixpetools.utils.logger.LoggerSetup static method}|hyperpage}{34}
+\indexentry{restore\_default\_level() (ixpetools.utils.logger.LoggerSetup static method)@\spxentry{restore\_default\_level()}\spxextra{ixpetools.utils.logger.LoggerSetup static method}|hyperpage}{34}
+\indexentry{set\_debug\_level() (ixpetools.utils.logger.LoggerSetup static method)@\spxentry{set\_debug\_level()}\spxextra{ixpetools.utils.logger.LoggerSetup static method}|hyperpage}{34}
+\indexentry{set\_default\_format() (ixpetools.utils.logger.LoggerSetup static method)@\spxentry{set\_default\_format()}\spxextra{ixpetools.utils.logger.LoggerSetup static method}|hyperpage}{34}
+\indexentry{set\_error\_level() (ixpetools.utils.logger.LoggerSetup static method)@\spxentry{set\_error\_level()}\spxextra{ixpetools.utils.logger.LoggerSetup static method}|hyperpage}{34}
+\indexentry{set\_info\_level() (ixpetools.utils.logger.LoggerSetup static method)@\spxentry{set\_info\_level()}\spxextra{ixpetools.utils.logger.LoggerSetup static method}|hyperpage}{34}
+\indexentry{set\_warning\_level() (ixpetools.utils.logger.LoggerSetup static method)@\spxentry{set\_warning\_level()}\spxextra{ixpetools.utils.logger.LoggerSetup static method}|hyperpage}{34}
+\indexentry{module@\spxentry{module}!ixpetools.utils.plot\_chain@\spxentry{ixpetools.utils.plot\_chain}|hyperpage}{34}
+\indexentry{ixpetools.utils.plot\_chain@\spxentry{ixpetools.utils.plot\_chain}!module@\spxentry{module}|hyperpage}{34}
+\indexentry{plot\_corner() (in module ixpetools.utils.plot\_chain)@\spxentry{plot\_corner()}\spxextra{in module ixpetools.utils.plot\_chain}|hyperpage}{34}

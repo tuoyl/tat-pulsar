@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spectral Analysis using Xspec &mdash; TAT-pulsar 0.1.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "tags": "ams", "useLabelIds": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script src="../_static/custom.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IXPE-tools API" href="../autodocs.html" />
+    <link rel="prev" title="IXPE-tools documentation" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html">
+            <img src="../_static/ixpetoollogo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"> Xspec Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Load-Spectra">Load Spectra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Set-models">Set models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Fit-and-Plot-spectra">Fit and Plot spectra</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#MCMC-analysis">MCMC analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Show-Contour">Show Contour</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../autodocs.html"> IXPE-tools API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">TAT-pulsar</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Spectral Analysis using Xspec</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 0;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Spectral-Analysis-using-Xspec">
+<h1>Spectral Analysis using Xspec<a class="headerlink" href="#Spectral-Analysis-using-Xspec" title="Permalink to this headline"></a></h1>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">xspec</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">ixpetools.xspeclib.io</span> <span class="kn">import</span> <span class="n">loadpha</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2022-06-24 10:43:40 -    INFO - [__init__.py: 16 -   &lt;module&gt;()] - sucessfully import pyXspec
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+***Warning: You do not have an up-to-date version of Xspec.init
+      in your ~/.xspec directory.  It is recommended that you move
+      your old Xspec.init aside and start up XSPEC again.  This will
+      place a new version Xspec.init in your directory, which you may
+      then modify using your old settings.
+</pre></div></div>
+</div>
+<div class="section" id="Load-Spectra">
+<h2>Load Spectra<a class="headerlink" href="#Load-Spectra" title="Permalink to this headline"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;../ixpetools/test/event_l2_xspec&quot;</span><span class="p">)</span>
+<span class="n">specs</span> <span class="o">=</span> <span class="n">loadpha</span><span class="p">([</span><span class="s1">&#39;ixpe01001299_det1_evt2_v01_picorr_wcscorr_barycorr_pwn_pha1.fits&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;ixpe01001299_det1_evt2_v01_picorr_wcscorr_barycorr_pwn_pha1q.fits&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;ixpe01001299_det1_evt2_v01_picorr_wcscorr_barycorr_pwn_pha1u.fits&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;ixpe01001299_det1_evt2_v01_picorr_wcscorr_barycorr_pwn_pha1.fits&#39;, &#39;ixpe01001299_det1_evt2_v01_picorr_wcscorr_barycorr_pwn_pha1q.fits&#39;, &#39;ixpe01001299_det1_evt2_v01_picorr_wcscorr_barycorr_pwn_pha1u.fits&#39;]
+1 spectrum  in use
+
+Spectral Data File: ixpe01001299_det1_evt2_v01_picorr_wcscorr_barycorr_pwn_pha1.fits  Spectrum 1
+Net count rate (cts/s) for Spectrum:1  1.532e-01 +/- 4.222e-04
+ Assigned to Data Group 1 and Plot Group 1
+  Noticed Channels:  1-375
+  Telescope: IXPE Instrument: GPD  Channel Type: PI
+  Exposure Time: 8.592e+05 sec
+  Filtering Keys:
+    Stokes: 0
+ Using fit statistic: chi
+ Using Response (RMF) File            ixpe_d1_20170101_01.rmf for Source 1
+ Using Auxiliary Response (ARF) File  ixpe_d1_20170101_01.arf
+
+
+
+2 spectra  in use
+
+Spectral Data File: ixpe01001299_det1_evt2_v01_picorr_wcscorr_barycorr_pwn_pha1q.fits  Spectrum 2
+Net count rate (cts/s) for Spectrum:2  -1.782e-03 +/- 5.958e-04
+ Assigned to Data Group 2 and Plot Group 2
+  Noticed Channels:  1-375
+  Telescope: IXPE Instrument: GPD  Channel Type: PI
+  Exposure Time: 8.592e+05 sec
+  Filtering Keys:
+    Stokes: 1
+ Using fit statistic: chi
+ Using Response (RMF) File            ixpe_d1_20170101_01.rmf for Source 1
+ Using Auxiliary Response (ARF) File  ixpe_d1_20170101_01.mrf
+
+
+3 spectra  in use
+
+Spectral Data File: ixpe01001299_det1_evt2_v01_picorr_wcscorr_barycorr_pwn_pha1u.fits  Spectrum 3
+Net count rate (cts/s) for Spectrum:3  -1.116e-02 +/- 5.975e-04
+ Assigned to Data Group 3 and Plot Group 3
+  Noticed Channels:  1-375
+  Telescope: IXPE Instrument: GPD  Channel Type: PI
+  Exposure Time: 8.592e+05 sec
+  Filtering Keys:
+    Stokes: 2
+ Using fit statistic: chi
+ Using Response (RMF) File            ixpe_d1_20170101_01.rmf for Source 1
+ Using Auxiliary Response (ARF) File  ixpe_d1_20170101_01.mrf
+
+</pre></div></div>
+</div>
+<p>Three PHA file are loaded, An <code class="docutils literal notranslate"><span class="pre">XspecSpec</span></code> object are created. Note that the background and response file are stored in the header of PHAs.</p>
+</div>
+<div class="section" id="Set-models">
+<h2>Set models<a class="headerlink" href="#Set-models" title="Permalink to this headline"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">specs</span><span class="o">.</span><span class="n">set_model</span><span class="p">(</span><span class="s2">&quot;TBabs*powerlaw*polconst&quot;</span><span class="p">)</span>
+<span class="n">AllModels</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">polconst</span><span class="o">.</span><span class="n">psi</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span>
+
+<span class="c1"># Use 2--8 keV data</span>
+<span class="n">specs</span><span class="o">.</span><span class="n">set_energy</span><span class="p">(</span><span class="n">energy_low</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">energy_high</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">ngroups</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2022-06-24 10:43:42 -    INFO - [io.py:148 - set_energy()] - Xspec cmd: ignore **-2.0 8.0-**
+
+========================================================================
+Model TBabs&lt;1&gt;*powerlaw&lt;2&gt;*polconst&lt;3&gt; Source No.: 1   Active/On
+Model Model Component  Parameter  Unit     Value
+ par  comp
+                           Data group: 1
+   1    1   TBabs      nH         10^22    1.00000      +/-  0.0
+   2    2   powerlaw   PhoIndex            1.00000      +/-  0.0
+   3    2   powerlaw   norm                1.00000      +/-  0.0
+   4    3   polconst   A                   1.00000      +/-  0.0
+   5    3   polconst   psi        deg      45.0000      +/-  0.0
+                           Data group: 2
+   6    1   TBabs      nH         10^22    1.00000      = p1
+   7    2   powerlaw   PhoIndex            1.00000      = p2
+   8    2   powerlaw   norm                1.00000      = p3
+   9    3   polconst   A                   1.00000      = p4
+  10    3   polconst   psi        deg      45.0000      = p5
+                           Data group: 3
+  11    1   TBabs      nH         10^22    1.00000      = p1
+  12    2   powerlaw   PhoIndex            1.00000      = p2
+  13    2   powerlaw   norm                1.00000      = p3
+  14    3   polconst   A                   1.00000      = p4
+  15    3   polconst   psi        deg      45.0000      = p5
+________________________________________________________________________
+
+
+Fit statistic  : Chi-Squared              2.537813e+09     using 375 bins.
+
+***Warning: Chi-square may not be valid due to bins with zero variance
+            in spectrum number: 1
+                 Chi-Squared                  356.30     using 375 bins.
+
+***Warning: Chi-square may not be valid due to bins with zero variance
+            in spectrum number: 2
+                 Chi-Squared              1.389245e+08     using 375 bins.
+
+***Warning: Chi-square may not be valid due to bins with zero variance
+            in spectrum number: 3
+Total fit statistic                       2.676738e+09     with 1120 d.o.f.
+
+Test statistic : Chi-Squared              2.676738e+09     using 1125 bins.
+
+***Warning: Chi-square may not be valid due to bins with zero variance
+            in spectrum number(s): 1 2 3
+
+ Null hypothesis probability of 0.000000e+00 with 1120 degrees of freedom
+ Current data and model not fit yet.
+
+Fit statistic  : Chi-Squared              2.537813e+09     using 375 bins.
+
+***Warning: Chi-square may not be valid due to bins with zero variance
+            in spectrum number: 1
+                 Chi-Squared              1.021435e+07     using 375 bins.
+
+***Warning: Chi-square may not be valid due to bins with zero variance
+            in spectrum number: 2
+                 Chi-Squared              1.337030e+08     using 375 bins.
+
+***Warning: Chi-square may not be valid due to bins with zero variance
+            in spectrum number: 3
+Total fit statistic                       2.681731e+09     with 1120 d.o.f.
+
+Test statistic : Chi-Squared              2.681731e+09     using 1125 bins.
+
+***Warning: Chi-square may not be valid due to bins with zero variance
+            in spectrum number(s): 1 2 3
+
+ Null hypothesis probability of 0.000000e+00 with 1120 degrees of freedom
+ Current data and model not fit yet.
+    50 channels (1-50) ignored in spectrum #     1
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+tbvabs Version 2.3
+Cosmic absorption with grains and H2, modified from
+Wilms, Allen, &amp; McCray, 2000, ApJ 542, 914-924
+Questions: Joern Wilms
+joern.wilms@sternwarte.uni-erlangen.de
+joern.wilms@fau.de
+
+http://pulsar.sternwarte.uni-erlangen.de/wilms/research/tbabs/
+
+PLEASE NOTICE:
+To get the model described by the above paper
+you will also have to set the abundances:
+   abund wilm
+
+Note that this routine ignores the current cross section setting
+as it always HAS to use the Verner cross sections as a baseline.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+   176 channels (200-375) ignored in spectrum #     1
+
+Fit statistic  : Chi-Squared              2.238297e+09     using 149 bins.
+                 Chi-Squared              1.021435e+07     using 375 bins.
+
+***Warning: Chi-square may not be valid due to bins with zero variance
+            in spectrum number: 2
+                 Chi-Squared              1.337030e+08     using 375 bins.
+
+***Warning: Chi-square may not be valid due to bins with zero variance
+            in spectrum number: 3
+Total fit statistic                       2.382215e+09     with 894 d.o.f.
+
+Test statistic : Chi-Squared              2.382215e+09     using 899 bins.
+
+***Warning: Chi-square may not be valid due to bins with zero variance
+            in spectrum number(s): 2 3
+
+ Null hypothesis probability of 0.000000e+00 with 894 degrees of freedom
+ Current data and model not fit yet.
+
+    50 channels (1-50) ignored in spectrum #     2
+   176 channels (200-375) ignored in spectrum #     2
+
+Fit statistic  : Chi-Squared              2.238297e+09     using 149 bins.
+                 Chi-Squared              3.963908e+06     using 149 bins.
+                 Chi-Squared              1.337030e+08     using 375 bins.
+
+***Warning: Chi-square may not be valid due to bins with zero variance
+            in spectrum number: 3
+Total fit statistic                       2.375964e+09     with 668 d.o.f.
+
+Test statistic : Chi-Squared              2.375964e+09     using 673 bins.
+
+***Warning: Chi-square may not be valid due to bins with zero variance
+            in spectrum number(s): 3
+
+ Null hypothesis probability of 0.000000e+00 with 668 degrees of freedom
+ Current data and model not fit yet.
+
+    50 channels (1-50) ignored in spectrum #     3
+   176 channels (200-375) ignored in spectrum #     3
+
+Fit statistic  : Chi-Squared              2.238297e+09     using 149 bins.
+                 Chi-Squared              3.963908e+06     using 149 bins.
+                 Chi-Squared              1.284872e+08     using 149 bins.
+Total fit statistic                       2.370748e+09     with 442 d.o.f.
+
+Test statistic : Chi-Squared              2.370748e+09     using 447 bins.
+ Null hypothesis probability of 0.000000e+00 with 442 degrees of freedom
+ Current data and model not fit yet.
+
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Fit-and-Plot-spectra">
+<h2>Fit and Plot spectra<a class="headerlink" href="#Fit-and-Plot-spectra" title="Permalink to this headline"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">specs</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s1">&#39;chi2&#39;</span><span class="p">)</span> <span class="c1"># set statistical method to chisquare</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">specs</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">show</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">retrieve_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Default fit statistic is set to: Chi-Squared
+   This will apply to all current and newly loaded spectra.
+
+Fit statistic  : Chi-Squared              2.238297e+09     using 149 bins.
+                 Chi-Squared              3.963908e+06     using 149 bins.
+                 Chi-Squared              1.284872e+08     using 149 bins.
+Total fit statistic                       2.370748e+09     with 442 d.o.f.
+
+Test statistic : Chi-Squared              2.370748e+09     using 447 bins.
+ Null hypothesis probability of 0.000000e+00 with 442 degrees of freedom
+ Current data and model not fit yet.
+                                   Parameters
+Chi-Squared  |beta|/N    Lvl          1:nH    2:PhoIndex        3:norm           4:A         5:psi
+7177.06      1482.15      -3      0.406015       1.19081    0.00498799      0.492256      -49.8945
+3160.88      553264       -4      0.124239       1.52711    0.00753722      0.406779      -49.8288
+613.62       307486       -5     0.0607673       1.60416    0.00943680      0.421312      -49.9515
+487.285      70317.6      -6     0.0274957       1.59759    0.00953779      0.418682      -49.9531
+467.995      32908        -7    0.00366012       1.59806    0.00954395      0.418760      -49.9547
+466.176      24627.7      -8    0.00146543       1.59820    0.00954678      0.418734      -49.9571
+465.471      23653.1      -9   0.000403999       1.59821    0.00954696      0.418732      -49.9573
+465.294      23274.9     -10   0.000142958       1.59822    0.00954705      0.418731      -49.9574
+465.209      23178.5     -11   1.29677e-05       1.59822    0.00954707      0.418730      -49.9575
+465.203      23132.3     -12   4.85983e-06       1.59822    0.00954708      0.418730      -49.9575
+============================================================
+ Variances and Principal Axes
+                 1        2        3        4        5
+ 1.2032E-09| -0.0021  -0.0101   0.9999   0.0002  -0.0000
+ 1.4487E-04|  0.3817  -0.9216  -0.0085   0.0694   0.0000
+ 3.2822E-04|  0.0264  -0.0642  -0.0004  -0.9976   0.0000
+ 8.5436E-03|  0.9239   0.3825   0.0058  -0.0001  -0.0000
+ 1.5113E+00|  0.0000   0.0000   0.0000   0.0000   1.0000
+------------------------------------------------------------
+
+============================================================
+  Covariance Matrix
+        1           2           3           4           5
+   7.314e-03   2.968e-03   4.532e-05  -5.976e-06   4.353e-05
+   2.968e-03   1.375e-03   2.011e-05   1.127e-05   2.217e-05
+   4.532e-05   2.011e-05   2.994e-07   4.800e-08   3.152e-07
+  -5.976e-06   1.127e-05   4.800e-08   3.273e-04   1.339e-05
+   4.353e-05   2.217e-05   3.152e-07   1.339e-05   1.511e+00
+------------------------------------------------------------
+
+========================================================================
+Model TBabs&lt;1&gt;*powerlaw&lt;2&gt;*polconst&lt;3&gt; Source No.: 1   Active/On
+Model Model Component  Parameter  Unit     Value
+ par  comp
+                           Data group: 1
+   1    1   TBabs      nH         10^22    4.85983E-06  +/-  8.55240E-02
+   2    2   powerlaw   PhoIndex            1.59822      +/-  3.70768E-02
+   3    2   powerlaw   norm                9.54708E-03  +/-  5.47163E-04
+   4    3   polconst   A                   0.418730     +/-  1.80925E-02
+   5    3   polconst   psi        deg      -49.9575     +/-  1.22935
+                           Data group: 2
+   6    1   TBabs      nH         10^22    4.85983E-06  = p1
+   7    2   powerlaw   PhoIndex            1.59822      = p2
+   8    2   powerlaw   norm                9.54708E-03  = p3
+   9    3   polconst   A                   0.418730     = p4
+  10    3   polconst   psi        deg      -49.9575     = p5
+                           Data group: 3
+  11    1   TBabs      nH         10^22    4.85983E-06  = p1
+  12    2   powerlaw   PhoIndex            1.59822      = p2
+  13    2   powerlaw   norm                9.54708E-03  = p3
+  14    3   polconst   A                   0.418730     = p4
+  15    3   polconst   psi        deg      -49.9575     = p5
+________________________________________________________________________
+
+
+Fit statistic  : Chi-Squared                  189.88     using 149 bins.
+                 Chi-Squared                  150.77     using 149 bins.
+                 Chi-Squared                  124.55     using 149 bins.
+Total fit statistic                           465.20     with 442 d.o.f.
+
+Test statistic : Chi-Squared                  465.20     using 447 bins.
+ Null hypothesis probability of 2.15e-01 with 442 degrees of freedom
+</pre></div></div>
+</div>
+<p>The parameter <code class="docutils literal notranslate"><span class="pre">show=True</span></code> in method <code class="docutils literal notranslate"><span class="pre">XspecSpec.plot()</span></code> present the Xspec plots in XWindow. You can also retrieve the data and make our own plots in Python. The retrieved <code class="docutils literal notranslate"><span class="pre">data</span></code> are structured data object optimized for <code class="docutils literal notranslate"><span class="pre">plot_stokes_spectra</span></code> method.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">specs</span><span class="o">.</span><span class="n">plot_stokes_spectra</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2022-06-24 10:43:42 - WARNING - [io.py:246 - plot_stokes_spectra()] - The style of plot requires the LaTeX package pre-installed. see https://pypi.org/project/SciencePlots/ for details.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_XspecSpectralAnalysis_10_1.png" src="../_images/notebooks_XspecSpectralAnalysis_10_1.png" />
+</div>
+</div>
+<div class="section" id="MCMC-analysis">
+<h3>MCMC analysis<a class="headerlink" href="#MCMC-analysis" title="Permalink to this headline"></a></h3>
+<p>We implemented MCMC tool in Xspec for spectral fitting and error estimation.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ixpetools.utils.plot_chain</span> <span class="kn">import</span> <span class="n">plot_corner</span>
+<span class="n">specs</span><span class="o">.</span><span class="n">mcmc</span><span class="p">(</span><span class="s1">&#39;chain.fits&#39;</span><span class="p">,</span>
+          <span class="n">length</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">burn</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">nwalker</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plot_corner</span><span class="p">(</span><span class="s1">&#39;chain.fits&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+   All chains are now removed.
+  New chain chain.fits is now loaded.
+
+Chain chain.fits now has length 10000
+   All loaded chains have the same length.
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_XspecSpectralAnalysis_13_1.png" src="../_images/notebooks_XspecSpectralAnalysis_13_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Show-Contour">
+<h3>Show Contour<a class="headerlink" href="#Show-Contour" title="Permalink to this headline"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># If plot contour using steppar, the Fit.steppar in PyXspec must have executed.</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">350</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">specs</span><span class="o">.</span><span class="n">plot_contour</span><span class="p">(</span><span class="n">steppar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">A_parID</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">psi_parID</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                   <span class="n">A_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">psi_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                   <span class="n">show_chi2map</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2022-06-24 10:44:47 - WARNING - [io.py:355 - plot_contour()] - The style of plot requires the LaTeX package pre-installed. see https://pypi.org/project/SciencePlots/ for details.
+Errors calculated from chains
+ Parameter   Credible Interval (68.27%)
+     4     0.400373     0.435487    (-0.0182412,0.0168727)
+     5      -51.071     -48.5279    (-1.10751,1.43563)
+
+     Chi-Squared    Delta                A           psi
+                 Chi-Squared             4             5
+
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          490.35       45.53    0     0.33083    0     -56.321
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          482.81      37.987    1     0.34839    0     -56.321
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+           477.2      32.379    2     0.36594    0     -56.321
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          473.52      28.703    3      0.3835    0     -56.321
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          471.78      26.954    4     0.40106    0     -56.321
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          471.95      27.129    5     0.41861    0     -56.321
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          474.04      29.222    6     0.43617    0     -56.321
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          478.05      33.229    7     0.45373    0     -56.321
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          483.96      39.143    8     0.47129    0     -56.321
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          491.78      46.958    9     0.48884    0     -56.321
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          501.49      56.668   10      0.5064    0     -56.321
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          489.73      44.904   10      0.5064    1      -55.05
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          480.42      35.597    9     0.48884    1      -55.05
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          473.01      28.186    8     0.47129    1      -55.05
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+           467.5      22.678    7     0.45373    1      -55.05
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+           463.9      19.077    6     0.43617    1      -55.05
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          462.21       17.39    5     0.41861    1      -55.05
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          462.44      17.622    4     0.40106    1      -55.05
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+           464.6      19.778    3      0.3835    1      -55.05
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          468.68      23.861    2     0.36594    1      -55.05
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+           474.7      29.878    1     0.34839    1      -55.05
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          482.65       37.83    0     0.33083    1      -55.05
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          476.65      31.824    0     0.33083    2     -53.778
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          468.38      23.554    1     0.34839    2     -53.778
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          462.04      17.219    2     0.36594    2     -53.778
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          457.64      12.817    3      0.3835    2     -53.778
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          455.17      10.343    4     0.40106    2     -53.778
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          454.62      9.7939    5     0.41861    2     -53.778
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          455.99      11.164    6     0.43617    2     -53.778
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          459.27      14.448    7     0.45373    2     -53.778
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          464.46       19.64    8     0.47129    2     -53.778
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          471.56      26.735    9     0.48884    2     -53.778
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          480.55      35.726   10      0.5064    2     -53.778
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          473.98      29.155   10      0.5064    3     -52.507
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          465.21       20.39    9     0.48884    3     -52.507
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          458.34      13.522    8     0.47129    3     -52.507
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          453.38      8.5561    7     0.45373    3     -52.507
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          450.32      5.4992    6     0.43617    3     -52.507
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          449.18      4.3567    5     0.41861    3     -52.507
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          449.96      5.1338    4     0.40106    3     -52.507
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          452.66      7.8352    3      0.3835    3     -52.507
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          457.29      12.465    2     0.36594    3     -52.507
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          463.85      19.028    1     0.34839    3     -52.507
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          472.35      27.527    0     0.33083    3     -52.507
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          469.77      24.947    0     0.33083    4     -51.235
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          461.13      16.311    1     0.34839    4     -51.235
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          454.43      9.6103    2     0.36594    4     -51.235
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          449.66      4.8427    3      0.3835    4     -51.235
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          446.83       2.004    4     0.40106    4     -51.235
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          445.91      1.0898    5     0.41861    4     -51.235
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          446.92      2.0952    6     0.43617    4     -51.235
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          449.84      5.0152    7     0.45373    4     -51.235
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          454.67      9.8441    8     0.47129    4     -51.235
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+           461.4      16.576    9     0.48884    4     -51.235
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          470.03      25.205   10      0.5064    4     -51.235
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+           468.7      23.883   10      0.5064    5     -49.963
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          460.12      15.301    9     0.48884    5     -49.963
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          453.44      8.6151    8     0.47129    5     -49.963
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          448.65      3.8326    7     0.45373    5     -49.963
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          445.78     0.95902    6     0.43617    5     -49.963
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          444.82  1.3736e-09    5     0.41861    5     -49.963
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          445.78     0.96067    4     0.40106    5     -49.963
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          448.67      3.8458    3      0.3835    5     -49.963
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          453.48      8.6597    2     0.36594    5     -49.963
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          460.23      15.406    1     0.34839    5     -49.963
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          468.91      24.089    0     0.33083    5     -49.963
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          469.78      24.956    0     0.33083    6     -48.692
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          461.14      16.318    1     0.34839    6     -48.692
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          454.44      9.6159    2     0.36594    6     -48.692
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          449.67      4.8467    3      0.3835    6     -48.692
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          446.83      2.0061    4     0.40106    6     -48.692
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          445.91      1.0899    5     0.41861    6     -48.692
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          446.92      2.0932    6     0.43617    6     -48.692
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          449.83      5.0109    7     0.45373    6     -48.692
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          454.66      9.8374    8     0.47129    6     -48.692
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          461.39      16.567    9     0.48884    6     -48.692
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          470.01      25.193   10      0.5064    6     -48.692
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          473.95      29.132   10      0.5064    7      -47.42
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          465.19      20.372    9     0.48884    7      -47.42
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          458.33      13.509    8     0.47129    7      -47.42
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          453.37       8.548    7     0.45373    7      -47.42
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          450.32      5.4956    6     0.43617    7      -47.42
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          449.18      4.3573    5     0.41861    7      -47.42
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          449.96      5.1384    4     0.40106    7      -47.42
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          452.67      7.8435    3      0.3835    7      -47.42
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+           457.3      12.477    2     0.36594    7      -47.42
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          463.86      19.043    1     0.34839    7      -47.42
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          472.37      27.545    0     0.33083    7      -47.42
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          476.67      31.852    0     0.33083    8     -46.149
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+           468.4      23.577    1     0.34839    8     -46.149
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          462.06      17.237    2     0.36594    8     -46.149
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          457.65       12.83    3      0.3835    8     -46.149
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          455.17      10.351    4     0.40106    8     -46.149
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          454.62       9.796    5     0.41861    8     -46.149
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          455.98       11.16    6     0.43617    8     -46.149
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          459.26      14.437    7     0.45373    8     -46.149
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          464.44      19.622    8     0.47129    8     -46.149
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          471.53       26.71    9     0.48884    8     -46.149
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          480.52      35.693   10      0.5064    8     -46.149
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          489.68      44.863   10      0.5064    9     -44.877
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          480.39      35.566    9     0.48884    9     -44.877
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          472.99      28.165    8     0.47129    9     -44.877
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          467.49      22.666    7     0.45373    9     -44.877
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+           463.9      19.074    6     0.43617    9     -44.877
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          462.22      17.395    5     0.41861    9     -44.877
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          462.46      17.634    4     0.40106    9     -44.877
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          464.62      19.797    3      0.3835    9     -44.877
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          468.71      23.887    2     0.36594    9     -44.877
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          474.73       29.91    1     0.34839    9     -44.877
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          482.69      37.867    0     0.33083    9     -44.877
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+           490.4      45.579    0     0.33083   10     -43.606
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          482.85      38.029    1     0.34839   10     -43.606
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          477.24      32.414    2     0.36594   10     -43.606
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          473.55       28.73    3      0.3835   10     -43.606
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          471.79      26.973    4     0.40106   10     -43.606
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          471.96      27.138    5     0.41861   10     -43.606
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          474.04      29.222    6     0.43617   10     -43.606
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          478.04      33.218    7     0.45373   10     -43.606
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          483.94      39.121    8     0.47129   10     -43.606
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          491.75      46.924    9     0.48884   10     -43.606
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+***Warning: Zero alpha-matrix diagonal element for parameter 1
+ Parameter 1 is pegged at 1.822e-17 due to zero or negative pivot element, likely
+ caused by the fit being insensitive to the parameter.
+          501.44      56.622   10      0.5064   10     -43.606
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_XspecSpectralAnalysis_15_1.png" src="../_images/notebooks_XspecSpectralAnalysis_15_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Show plot in &#39;polar&#39; projection</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">350</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">specs</span><span class="o">.</span><span class="n">plot_contour</span><span class="p">(</span><span class="n">steppar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">A_parID</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">psi_parID</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                   <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;polar&#39;</span><span class="p">,</span>
+                   <span class="n">show_chi2map</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2022-06-24 10:44:27 - WARNING - [io.py:355 - plot_contour()] - The style of plot requires the LaTeX package pre-installed. see https://pypi.org/project/SciencePlots/ for details.
+Errors calculated from chains
+ Parameter   Credible Interval (68.27%)
+     4     0.400373     0.435487    (-0.0182412,0.0168727)
+     5      -51.071     -48.5279    (-1.10751,1.43563)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_XspecSpectralAnalysis_16_1.png" src="../_images/notebooks_XspecSpectralAnalysis_16_1.png" />
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="IXPE-tools documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../autodocs.html" class="btn btn-neutral float-right" title="IXPE-tools API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Youli.
+      <span class="lastupdated">Last updated on 2022 Jun 29 at 12:06:58 UTC.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
