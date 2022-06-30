@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 import numpy as np
+from numba import float64
 import matplotlib.pyplot as plt
-from tatpulsar.pulsar_timing.utils import *
-from tatpulsar.pulsar_timing.utils import float64
-from tatpulsar.pulsar_timing.Profile import phihist
+from tatpulsar.utils.functions import *
+from tatpulsar.data.Profile import phihist
 
 __all__ = ['search']
 
