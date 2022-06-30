@@ -104,7 +104,7 @@ html_logo = './images/pulsar-logo.jpeg'
 #nbsphinx_prolog = """
 #{% set docname = env.doc2path(env.docname, base=None) %}
 #.. note:: This tutorial was generated from a Jupyter notebook that can be
-#          downloaded `here <https://github.com/tuoyl/IXPE-tools/tree/main/notebooks/{{ docname }}>`_.
+#          downloaded `here <https://github.com/tuoyl/tat-pulsar/tree/master/notebooks/{{ docname }}>`_.
 #"""
 nbsphinx_prompt_width = "0"
 
@@ -148,4 +148,4 @@ def linkcode_resolve(domain, info):
     # if you can't find it in the file then just link to the correct file
     except Exception:
         filename = info['module'].replace('.', '/') + '.py'
-    return "https://github.com/tuoyl/tat-pulsar/blob/main/{}".format(filename)
+    return "https://github.com/tuoyl/tat-pulsar/blob/master/{}".format(filename)
