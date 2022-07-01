@@ -68,4 +68,5 @@ Contents
 .. toctree::
    :maxdepth: 2
 
+    Tutorials <tutorials.rst>
     TAT-pulsar API <autodocs.rst>

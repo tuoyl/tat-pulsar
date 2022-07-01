@@ -27,7 +27,9 @@
         <script src="../_static/custom.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TAT-pulsar package API" href="../autodocs.html" />
+    <link rel="prev" title="TAT-pulsar Tutorial" href="../tutorials.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,7 +48,15 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html"> Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Crab Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Search-the-best-frequency">Search the best frequency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Bayrcentric-correction">Bayrcentric correction</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../autodocs.html"> TAT-pulsar API</a></li>
 </ul>
 
@@ -64,6 +74,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../tutorials.html">TAT-pulsar Tutorial</a> &raquo;</li>
       <li>Pulsar Timing Analysis</li>
       <li class="wy-breadcrumbs-aside">
       </li>
@@ -75,6 +86,252 @@
              
   
 <style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 0;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
@@ -101,19 +358,218 @@
 <h1>Pulsar Timing Analysis<a class="headerlink" href="#Pulsar-Timing-Analysis" title="Permalink to this headline"></a></h1>
 <div class="section" id="Search-the-best-frequency">
 <h2>Search the best frequency<a class="headerlink" href="#Search-the-best-frequency" title="Permalink to this headline"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">wget</span><span class="o">,</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">([</span><span class="s1">&#39;science&#39;</span><span class="p">,</span> <span class="s1">&#39;nature&#39;</span><span class="p">,</span> <span class="s1">&#39;no-latex&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_data_url</span> <span class="o">=</span> <span class="s2">&quot;https://zenodo.org/record/6785435/files/NICER_Crab_data.gz?download=1&quot;</span>
+<span class="n">test_orbit_url</span> <span class="o">=</span> <span class="s2">&quot;https://zenodo.org/record/6785435/files/NICER_Crab_orb.gz?download=1&quot;</span>
+<span class="c1"># The real data are Crab data observed by NICER.</span>
+<span class="c1"># The size of event file is 170MB.</span>
+
+<span class="n">test_file</span> <span class="o">=</span> <span class="s2">&quot;NICER_Crab_data.gz&quot;</span>
+<span class="n">orbit_file</span> <span class="o">=</span> <span class="s2">&quot;NICER_Crab_orb.gz&quot;</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">test_file</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Downloading the test datab&quot;</span><span class="p">)</span>
+    <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">test_data_url</span><span class="p">)</span>
+    <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">test_orbit_url</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The test data &#39;</span><span class="si">{</span><span class="n">test_file</span><span class="si">}</span><span class="s2">&#39; is already downloaded!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The test data &#39;NICER_Crab_data.gz&#39; is already downloaded!
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Bayrcentric-correction">
+<h2>Bayrcentric correction<a class="headerlink" href="#Bayrcentric-correction" title="Permalink to this headline"></a></h2>
+<p>Read the events data from FITS file</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">hdulist</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">test_file</span><span class="p">)</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">hdulist</span><span class="p">[</span><span class="s1">&#39;EVENTS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;TIME&#39;</span><span class="p">]</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">time</span> <span class="o">+</span> <span class="n">hdulist</span><span class="p">[</span><span class="s1">&#39;EVENTS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;TIMEZERO&#39;</span><span class="p">]</span> <span class="c1"># NICER Time system correction</span>
+</pre></div>
+</div>
+</div>
+<p>Retrieve the parameters from Jodrell Bank Crab monitoring website: <a class="reference external" href="http://www.jb.man.ac.uk/~pulsar/crab/all.gro">http://www.jb.man.ac.uk/~pulsar/crab/all.gro</a></p>
+<p>Then write the parameter table into a local file ‘Crab.gro’, and get the Crab timing parameters covering the observed data.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tatpulsar.pulse.Crab.retrive_eph</span> <span class="kn">import</span> <span class="n">retrieve_ephemeris</span><span class="p">,</span> <span class="n">get_par</span>
+<span class="kn">from</span> <span class="nn">tatpulsar.utils.functions</span> <span class="kn">import</span> <span class="n">met2mjd</span>
+
+<span class="n">eph</span> <span class="o">=</span> <span class="n">retrieve_ephemeris</span><span class="p">(</span><span class="n">write_to_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ephfile</span><span class="o">=</span><span class="s1">&#39;Crab.gro&#39;</span><span class="p">)</span>
+<span class="n">par</span> <span class="o">=</span> <span class="n">get_par</span><span class="p">(</span> <span class="n">met2mjd</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">telescope</span><span class="o">=</span><span class="s1">&#39;nicer&#39;</span><span class="p">),</span> <span class="n">eph</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">par</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/tuoyouli/anaconda3/lib/python3.7/site-packages/numba/core/decorators.py:255: RuntimeWarning: nopython is set for njit and is ignored
+  warnings.warn(&#39;nopython is set for njit and is ignored&#39;, RuntimeWarning)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+PSR_B         0531+21
+RA_hh               5
+RA_mm              34
+RA_ss          31.972
+DEC_hh             22
+DEC_mm              0
+DEC_ss          52.07
+MJD1            57966
+MJD2            57997
+t0geo           57981
+f0            29.6394
+f1       -3.68701e-10
+f2           9.29e-21
+RMS               0.6
+O                   J
+B               DE200
+name          0531+21
+Notes             NaN
+Name: 374, dtype: object
+</pre></div></div>
+</div>
+<hr class="docutils" />
+<p>According to the GRO parameter provided by Jodrell Bank, the reference time of timing parameters is the integer part of the <code class="docutils literal notranslate"><span class="pre">t0geo</span></code>, <code class="docutils literal notranslate"><span class="pre">t0geo</span></code> is the time of arrival of radio pulse measured at the geometric center of the Earth (in UTC time system). So We convert the <code class="docutils literal notranslate"><span class="pre">t0geo</span></code> to the barycenter of the solar system and calculate the phase of it as <code class="docutils literal notranslate"><span class="pre">phi0</span></code> (convert UTC to TT first).</p>
+<p>If we want to compare the absolute phase and the phase lag of the profile with the radio (and we usually compare the phase main peak with the Jodrell Bank main peak), we shift the profiles with <code class="docutils literal notranslate"><span class="pre">phi0</span></code>, and it appears to locate near the phase one.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tatpulsar.pulse.barycor.barycor</span> <span class="kn">import</span> <span class="n">barycor</span>
+<span class="kn">from</span> <span class="nn">tatpulsar.pulse.fold</span> <span class="kn">import</span> <span class="n">cal_phase</span>
+<span class="kn">from</span> <span class="nn">astropy.time</span> <span class="kn">import</span> <span class="n">Time</span>
+
+<span class="c1"># barycentric correction on t0geo</span>
+<span class="n">t0tt</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">t0geo</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;mjd&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s1">&#39;utc&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tt</span><span class="o">.</span><span class="n">to_value</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;mjd&#39;</span><span class="p">)</span>
+<span class="n">t0bary</span> <span class="o">=</span> <span class="n">barycor</span><span class="p">(</span><span class="n">t0tt</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="mf">83.63321666666667</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="mf">22.01446388888889</span><span class="p">)</span>
+
+<span class="n">phi0</span> <span class="o">=</span> <span class="n">cal_phase</span><span class="p">(</span><span class="n">t0bary</span><span class="p">,</span> <span class="n">pepoch</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">t0geo</span><span class="p">),</span>
+                 <span class="n">f0</span><span class="o">=</span><span class="n">par</span><span class="o">.</span><span class="n">f0</span><span class="p">,</span> <span class="n">f1</span><span class="o">=</span><span class="n">par</span><span class="o">.</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="o">=</span><span class="n">par</span><span class="o">.</span><span class="n">f2</span><span class="p">,</span>
+                <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;mjd&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;the main peak of radio pulse is </span><span class="si">{</span><span class="n">phi0</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+the main peak of radio pulse is 0.7807356869125215.
+</pre></div></div>
+</div>
+<p>Now we calculate the barycentric correction on each photon.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># barycor only support time in MJD</span>
+<span class="kn">from</span> <span class="nn">tatpulsar.utils.functions</span> <span class="kn">import</span> <span class="n">met2mjd</span><span class="p">,</span> <span class="n">mjd2met</span>
+
+<span class="n">time_mjd</span> <span class="o">=</span> <span class="n">met2mjd</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">telescope</span><span class="o">=</span><span class="s1">&#39;nicer&#39;</span><span class="p">)</span>
+<span class="n">tdb_mjd</span> <span class="o">=</span> <span class="n">barycor</span><span class="p">(</span><span class="n">time_mjd</span><span class="p">,</span> <span class="n">ra</span><span class="o">=</span><span class="mf">83.63321666666667</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="mf">22.01446388888889</span><span class="p">,</span>
+              <span class="n">orbit</span><span class="o">=</span><span class="n">orbit_file</span><span class="p">,</span> <span class="n">accelerate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># convert the TDB in MJD into MET system</span>
+<span class="n">tdb</span> <span class="o">=</span> <span class="n">mjd2met</span><span class="p">(</span><span class="n">tdb_mjd</span><span class="p">,</span> <span class="n">telescope</span><span class="o">=</span><span class="s1">&#39;nicer&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Accelerating barycor
+</pre></div></div>
+</div>
+<p>Now we calculate the phase for each photon, and fold the profile, using the function <code class="docutils literal notranslate"><span class="pre">tatpulsar.pulse.fold.fold</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tatpulsar.pulse.fold</span> <span class="kn">import</span> <span class="n">fold</span>
+<span class="kn">from</span> <span class="nn">tatpulsar.data.profile</span> <span class="kn">import</span> <span class="n">Profile</span>
+
+<span class="n">profile</span> <span class="o">=</span> <span class="n">fold</span><span class="p">(</span><span class="n">tdb</span><span class="p">,</span> <span class="n">f0</span><span class="o">=</span><span class="n">par</span><span class="o">.</span><span class="n">f0</span><span class="p">,</span> <span class="n">f1</span><span class="o">=</span><span class="n">par</span><span class="o">.</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="o">=</span><span class="n">par</span><span class="o">.</span><span class="n">f2</span><span class="p">,</span>
+                   <span class="n">pepoch</span><span class="o">=</span><span class="n">mjd2met</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">par</span><span class="o">.</span><span class="n">t0geo</span><span class="p">),</span> <span class="n">telescope</span><span class="o">=</span><span class="s1">&#39;nicer&#39;</span><span class="p">),</span>
+                   <span class="n">nbins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">phi0</span><span class="o">=</span><span class="n">phi0</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">profile</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span> <span class="n">profile</span><span class="o">.</span><span class="n">counts</span><span class="p">,</span> <span class="n">ds</span><span class="o">=</span><span class="s1">&#39;steps-mid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Phase&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Counts&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Text(0, 0.5, &#39;Counts&#39;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_PulsarTimingAnalysis_14_1.png" src="../_images/notebooks_PulsarTimingAnalysis_14_1.png" />
+</div>
+</div>
 </div>
 </div>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tutorials.html" class="btn btn-neutral float-left" title="TAT-pulsar Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../autodocs.html" class="btn btn-neutral float-right" title="TAT-pulsar package API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2022 Jun 30 at 19:28:35 UTC.
+      <span class="lastupdated">Last updated on 2022 Jul 01 at 17:53:18 UTC.
       </span></p>
   </div>
 

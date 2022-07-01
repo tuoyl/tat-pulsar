@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Python Module Index &mdash; TAT-pulsar 0.1.2 documentation</title>
+  <title>TAT-pulsar Tutorial &mdash; TAT-pulsar 0.1.2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
@@ -21,15 +21,13 @@
         <script src="_static/doctools.js"></script>
         <script src="_static/clipboard.min.js"></script>
         <script src="_static/copybutton.js"></script>
-        <script src="_static/tabs.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script src="_static/custom.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
- 
-
-
+    <link rel="next" title="Pulsar Timing Analysis" href="notebooks/PulsarTimingAnalysis.html" />
+    <link rel="prev" title="TAT-pulsar documentation" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -48,8 +46,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorials.html"> Tutorials</a></li>
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#"> Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/PulsarTimingAnalysis.html"> Crab Analysis</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="autodocs.html"> TAT-pulsar API</a></li>
 </ul>
 
@@ -67,7 +68,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Python Module Index</li>
+      <li>TAT-pulsar Tutorial</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -76,54 +77,50 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
 
-   <h1>Python Module Index</h1>
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
 
-   <div class="modindex-jumpbox">
-   <a href="#cap-t"><strong>t</strong></a>
-   </div>
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
 
-   <table class="indextable modindextable">
-     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
-     <tr class="cap" id="cap-t"><td></td><td>
-       <strong>t</strong></td><td></td></tr>
-     <tr>
-       <td><img src="_static/minus.png" class="toggler"
-              id="toggle-1" style="display: none" alt="-" /></td>
-       <td>
-       <code class="xref">tatpulsar</code></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="APIdocs/pulse.html#module-tatpulsar.pulse.barycor.barycor"><code class="xref">tatpulsar.pulse.barycor.barycor</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="APIdocs/pulse.html#module-tatpulsar.pulse.Crab.retrive_eph"><code class="xref">tatpulsar.pulse.Crab.retrive_eph</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="APIdocs/pulse.html#module-tatpulsar.pulse.fold"><code class="xref">tatpulsar.pulse.fold</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="APIdocs/pulse.html#module-tatpulsar.pulse.residuals"><code class="xref">tatpulsar.pulse.residuals</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="APIdocs/utilities.html#module-tatpulsar.utils.functions"><code class="xref">tatpulsar.utils.functions</code></a></td><td>
-       <em></em></td></tr>
-   </table>
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="tat-pulsar-tutorial">
+<h1>TAT-pulsar Tutorial<a class="headerlink" href="#tat-pulsar-tutorial" title="Permalink to this headline"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/PulsarTimingAnalysis.html"> Crab Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/PulsarTimingAnalysis.html#Search-the-best-frequency">Search the best frequency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/PulsarTimingAnalysis.html#Bayrcentric-correction">Bayrcentric correction</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="TAT-pulsar documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="notebooks/PulsarTimingAnalysis.html" class="btn btn-neutral float-right" title="Pulsar Timing Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
