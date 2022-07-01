@@ -1,4 +1,5 @@
 # TAT-pulsar (Timing Analysis Toolkit for pulsar astrophysics)
+[![DOI:<your number>](https://zenodo.org/badge/DOI/10.5281/zenodo.6784362.svg)](<https://zenodo.org/record/6784362#.Yr5jiC8RqrM>)
 
 ## Install the Package using conda
 
@@ -51,6 +52,7 @@ python3 -m pip uninstall tat-pulsar
 - [ ] optimize the structure of the package (!important!)
   - root directory contains `data`, `utils`, `pulse`(for searching, folding and related timing analysis)
   - construct object for `Profile`, `TOA`, defined in data directory
-- [ ] Documentation
+  - reconstruct and optimize the output results of `tatpulsar.pulse.fold` and `tatpulsar.pulse.search`
+- [ ] Documentation (real data example, tutorial)
 - [ ] barycentric correction module
 - [ ] binary analysis (search, binary correction)
