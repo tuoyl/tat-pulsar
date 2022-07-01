@@ -184,6 +184,10 @@ def barycor(date, ra, dec,
         ## interpolate
         corr_fun = interp1d(date, corr, kind='quadratic')
         corr = corr_fun(date_raw)
+        if return_correction:
+            return corr
+        else:
+            return date_raw + corr/86400.
 
     if return_correction:
         return corr
@@ -196,4 +200,4 @@ def _get_jplfile(jpleph='de421'):
     ``jpleph`` set the vesion of ephemeris file, default is de421, and the "de421.bsp"
     file will return.
     """
-    return os.path.join(barydir.__path__[0], jpleph)
+    return os.path.join(barydir.__path__[0], jpleph+'.bsp')
