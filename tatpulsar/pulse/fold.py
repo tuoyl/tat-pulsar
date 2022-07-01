@@ -64,8 +64,8 @@ def fold(time, parfile=None,
 
     Returns
     -------
-    profile : :meth:`tatpulsar.data.profile.Profile` object
-        return the profile object define in :meth:`tatpulsar.data.profile.Profile`
+    profile : :class:`tatpulsar.data.profile.Profile` object
+        return the profile object define in :class:`tatpulsar.data.profile.Profile`
     """
 
     time = float64(time) # transfer the data to Numba float 64 bites

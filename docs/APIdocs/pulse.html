@@ -310,12 +310,69 @@ the time of middle of the time interval</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="tatpulsar.pulse.fold.fold">
 <span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.fold.</span></span><span class="sig-name descname"><span class="pre">fold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pepoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'met'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/fold.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.fold.fold" title="Permalink to this definition"></a></dt>
-<dd><p>Epoch folding the photon array into profile</p>
+<dd><p>Epoch folding the photon array and return the folded profile.</p>
 <dl class="field-list">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><strong>profile</strong> : <code class="xref py py-meth docutils literal notranslate"><span class="pre">tatpulsar.data.profile.Profile()</span></code> object</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> : array-like</p>
 <blockquote>
-<div><p>return the profile object define in <code class="xref py py-meth docutils literal notranslate"><span class="pre">tatpulsar.data.profile.Profile()</span></code></p>
+<div><p>the time series of TDB data</p>
+</div></blockquote>
+<p><strong>parfile</strong> : str ,optional</p>
+<blockquote>
+<div><p>read the parameters from parfile</p>
+</div></blockquote>
+<p><strong>pepoch</strong> : float, optional</p>
+<blockquote>
+<div><p>time for input frequecy values.
+NOTE: the output frequecy is the frequency at which
+the time of middle of the time interval</p>
+</div></blockquote>
+<p><strong>f0</strong> : float, optional</p>
+<blockquote>
+<div><p>frequency</p>
+</div></blockquote>
+<p><strong>f1</strong> : float, optional</p>
+<blockquote>
+<div><p>fdot.</p>
+</div></blockquote>
+<p><strong>f2</strong> : float, optional</p>
+<blockquote>
+<div><p>the second derivative of frequency</p>
+</div></blockquote>
+<p><strong>f3</strong> : float, optional</p>
+<blockquote>
+<div><p>the third derivative of frequency</p>
+</div></blockquote>
+<p><strong>f4</strong> : float, optional</p>
+<blockquote>
+<div><p>the fourth derivative of frequency</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int, optional, default is 20</p>
+<blockquote>
+<div><p>the bin number of profile. default value is 20</p>
+</div></blockquote>
+<p><strong>phi0</strong> : float, optional, default is 0</p>
+<blockquote>
+<div><p>the reference phase of the profile, if given,
+the phase is calculated by:</p>
+<div class="math notranslate nohighlight">
+\[\phi = \phi - \phi_{0}\]</div>
+</div></blockquote>
+<p><strong>format</strong> : str, optional</p>
+<blockquote>
+<div><p>the format of time and pepoch, “mjd” or “met”.
+The default if “met”.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The format of event array and the reference time should be
+the same time format (MJD or MET).</p>
+</div>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>profile</strong> : <code class="xref py py-class docutils literal notranslate"><span class="pre">tatpulsar.data.profile.Profile</span></code> object</p>
+<blockquote>
+<div><p>return the profile object define in <code class="xref py py-class docutils literal notranslate"><span class="pre">tatpulsar.data.profile.Profile</span></code></p>
 </div></blockquote>
 </dd>
 </dl>
@@ -402,7 +459,7 @@ ToA file and return the ToA and ToA errors</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2022 Jul 01 at 17:53:18 UTC.
+      <span class="lastupdated">Last updated on 2022 Jul 01 at 18:04:38 UTC.
       </span></p>
   </div>
 
