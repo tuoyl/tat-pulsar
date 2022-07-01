@@ -14,10 +14,10 @@ def fold(time, parfile=None,
         phi0=0,
         format='met'):
     """
-    Epoch folding the photon array into profile
+    Epoch folding the photon array and return the folded profile.
 
-    Parameters :
-    ---------------
+    Parameters
+    ----------
     time : array-like
         the time series of TDB data
 
