@@ -9,7 +9,10 @@ from tatpulsar.data.profile import phihist
 __all__ = ['fold',
         'cal_phase']
 
-def fold(time, **kwargs):
+def fold(time, parfile=None,
+        pepoch=None, f0=None, f1=0, f2=0, f3=0, f4=0, nbins=20,
+        phi0=0,
+        format='met'):
     """
     Epoch folding the photon array into profile
 
@@ -29,7 +32,6 @@ def fold(time, **kwargs):
     f0 : float, optional
         frequency
 
-
     f1 : float, optional
         fdot.
 
@@ -45,76 +47,45 @@ def fold(time, **kwargs):
     nbins : int, optional, default is 20
         the bin number of profile. default value is 20
 
-    telescope : str, optional
-        The name of the mission, support mission are
-        {'fermi', 'hxmt', 'nicer', 'gecam', 'nustar', 'ixpe'}
-        parameter determine the MET refenrence time.
-        default is "fermi".
+    phi0 : float, optional, default is 0
+        the reference phase of the profile, if given,
+        the phase is calculated by:
 
-    pepochformat : str, optional
-        the format of pepoch, "mjd" or "met".
-        The default if "mjd"
+        .. math::
+            \phi = \phi - \phi_{0}
+
+    format : str, optional
+        the format of time and pepoch, "mjd" or "met".
+        The default if "met".
+
+        .. warning::
+            The format of event array and the reference time should be
+            the same time format (MJD or MET).
 
     Returns
     -------
-    results : dictionary
-        return a dictionary for relative results. The key contains
-        {"T0", "Profile", "Pars"}, in which results['Pars'] is a dictionary
-        as well. It contains the keys as ``F0``, ``F1``, ``F2``, ...
-        ``T0`` is the reference time of timing parameters (in MJD).
-        ``Profile`` is the counts of each bin for folded events.
-
-    chi_square : array-like
-        The Chi Square distribution of Epoch folding
+    profile : :meth:`tatpulsar.data.profile.Profile` object
+        return the profile object define in :meth:`tatpulsar.data.profile.Profile`
     """
 
     time = float64(time) # transfer the data to Numba float 64 bites
 
-    # read the input parameters
-    if "telescope" in kwargs:
-        if kwargs['telescope'].lower() == "fermi":
-            telescope = 'fermi'
-        elif kwargs['telescope'].lower() == "hxmt":
-            telescope = 'hxmt'
-        elif kwargs['telescope'].lower() == "nicer":
-            telescope = 'nicer'
-        elif kwargs['telescope'].lower() == 'gecam':
-            telescope = 'gecam'
-        else:
-            telescope='hxmt'
-    else:
-        telescope='hxmt'
-
-    #read parfile and parameters
-    pepoch, F_set_array, F1_searchflag = get_parameters(kwargs)
-
-    t0 = pepoch
+    if parfile is not None:
+        ## TODO: get pars from Tempo2 parfile
+        pass
+    elif (pepoch is None) or (f0 is None):
+        raise IOError("Parameters to fold not given, use TEMPO2 parfile or set 'pepoch' and 'f0'")
 
     if time.size==0:
         raise IOError("Error: Data is empty")
-    if 'nbins' in kwargs:
-        nbins = kwargs['nbins']
-    else:
-        print("Warning: number of bins not assigned, use default value 20")
-        nbins = 20
 
-    if 'phi0' in kwargs:
-        phi0 = kwargs['phi0']
-    else:
-        phi0 = 0
-
-    ## Taylor Series
-    phi = np.sum(
-            np.array([ (1/math.factorial(i+1))*((time-t0)**(i+1))*F_set_array[i] for i in range(len(F_set_array))]),
-            axis=0) - phi0
-    phi = phi - np.floor(phi)
-
+    phi = cal_phase(time, pepoch, f0, f1=f1, f2=f2, f3=f3, format=format, phi0=phi0)
 
     ## Use phihist to do histogram
-    profile = phihist(phi, nbins).counts
+    ## TODO:parse Profile keywords
+    profile = phihist(phi, nbins)
 
-    return {"T0": met2mjd(t0, telescope=telescope), "Profile" : profile,
-            "Pars" : {"F{}".format(i) : F_set_array[i] for i in range(len(F_set_array))}}
+    return profile
 
 
 def cal_phase(time, pepoch, f0, f1=0, f2=0, f3=0, f4=0, format='met', phi0=0):
