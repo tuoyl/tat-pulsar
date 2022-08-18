@@ -73,7 +73,7 @@ def read_par(parname):
 
 def read_toa(timname):
     '''
-    read the standard TEMPO2 format *.tim
+    read the standard TEMPO2 format \*.tim
     ToA file and return the ToA and ToA errors
     '''
     f = open(timname)

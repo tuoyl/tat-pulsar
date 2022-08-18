@@ -56,6 +56,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#crab-timing">Crab Timing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pulse-analysis">Pulse Analysis</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.barycor.barycor">Barycentric Correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.binary">Binary System Correction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.search">Search Periodic Signal</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.fold">Epoch-folding</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.residuals">Timing Analysis</a></li>
@@ -247,6 +248,157 @@ based on those 60 corrected time.</p>
 </div></blockquote>
 </dd>
 </dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tatpulsar.pulse.binary">
+<span id="binary-system-correction"></span><h3>Binary System Correction<a class="headerlink" href="#module-tatpulsar.pulse.binary" title="Permalink to this headline"></a></h3>
+<p>Module for binary related analysis and correction</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.binary.doppler_cor">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.binary.</span></span><span class="sig-name descname"><span class="pre">doppler_cor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axsini</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Porb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_halfpi</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/binary.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.binary.doppler_cor" title="Permalink to this definition"></a></dt>
+<dd><p>correct the observed freqency of neutron star,
+convert the frequency moduled by the binary orbital Doppler effect to
+the intrinsic frequency of NS</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> : array-like</p>
+<blockquote>
+<div><p>The epoch of observed time series</p>
+</div></blockquote>
+<p><strong>f0</strong> : float</p>
+<blockquote>
+<div><p>the observed frequency at reference epoch t0</p>
+</div></blockquote>
+<p><strong>f1</strong> : float</p>
+<blockquote>
+<div><p>the observed frequency derivative at reference epoch t0</p>
+</div></blockquote>
+<p><strong>f2</strong> : float</p>
+<blockquote>
+<div><p>the observed frequency second derivative at reference epoch t0</p>
+</div></blockquote>
+<p><strong>axsini</strong> : float</p>
+<blockquote>
+<div><p>Projected semi-major orbital axis (in units of light-sec)</p>
+</div></blockquote>
+<p><strong>Porb</strong> : float</p>
+<blockquote>
+<div><p>The period of binary motion (in units of second)</p>
+</div></blockquote>
+<p><strong>omega</strong> : float</p>
+<blockquote>
+<div><p>Longitude of periastron</p>
+</div></blockquote>
+<p><strong>e</strong> : float</p>
+<blockquote>
+<div><p>The orbital eccentricity</p>
+</div></blockquote>
+<p><strong>T_halfpi</strong> : float</p>
+<blockquote>
+<div><p>The mean longitude, with T_halfpi the epoch at which the mean longitude is pi/2
+(in units of second)</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>f_intri</strong> : array-like</p>
+<blockquote>
+<div><p>The corrected intrinsic frequecy of neutron star</p>
+</div></blockquote>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Reference: Galloway et. al, 2005, ApJ, 635, 1217</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.binary.orbit_cor_bt">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.binary.</span></span><span class="sig-name descname"><span class="pre">orbit_cor_bt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Porb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axsini</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Tw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/binary.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.binary.orbit_cor_bt" title="Permalink to this definition"></a></dt>
+<dd><p>use numerical method to solve Kepler equation and calculate delay
+BT model (Blandford &amp; Teukolsky, 1976)</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>t</strong> : array-like</p>
+<blockquote>
+<div><p>The time series without binary correction</p>
+</div></blockquote>
+<p><strong>Porb</strong> : float</p>
+<blockquote>
+<div><p>The period of binary motion (in units of second)</p>
+</div></blockquote>
+<p><strong>axsini</strong> : float</p>
+<blockquote>
+<div><p>Projected semi-major orbital axis (in units of light-sec)</p>
+</div></blockquote>
+<p><strong>e</strong> : float</p>
+<blockquote>
+<div><p>The orbital eccentricity</p>
+</div></blockquote>
+<p><strong>omega</strong> : float</p>
+<blockquote>
+<div><p>Longitude of periastron</p>
+</div></blockquote>
+<p><strong>Tw</strong> : float</p>
+<blockquote>
+<div><p>The epoch of periastron passage (in units of seconds, same time system with parameter t)</p>
+</div></blockquote>
+<p><strong>gamma ; float</strong></p>
+<blockquote>
+<div><p>the coefficient measures the combined effect of gravitational redshift and time dilation</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>new_t</strong> : array-like</p>
+<blockquote>
+<div><p>The time series after the binary correction</p>
+</div></blockquote>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Reference: Blandford &amp; Teukolsky, 1976, ApJ, 205:580-591</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.binary.orbit_cor_deeter">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.binary.</span></span><span class="sig-name descname"><span class="pre">orbit_cor_deeter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Porb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axsini</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Tnod</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/binary.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.binary.orbit_cor_deeter" title="Permalink to this definition"></a></dt>
+<dd><p>Correct the photon arrival times to the photon emission time
+Deeter model.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> : array-like</p>
+<blockquote>
+<div><p>The time series before binary correction</p>
+</div></blockquote>
+<p><strong>Porb</strong> : float</p>
+<blockquote>
+<div><p>The period of binary motion (in units of second)</p>
+</div></blockquote>
+<p><strong>axsini</strong> : float</p>
+<blockquote>
+<div><p>Projected semi-major orbital axis (in units of light-sec)</p>
+</div></blockquote>
+<p><strong>e</strong> : float</p>
+<blockquote>
+<div><p>The orbital eccentricity</p>
+</div></blockquote>
+<p><strong>omega</strong> : float</p>
+<blockquote>
+<div><p>Longitude of periastron</p>
+</div></blockquote>
+<p><strong>Tnod</strong> : float</p>
+<blockquote>
+<div><p>The epoch of ascending node passage (in units of seconds, same time system with parameter t)</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>t_em</strong> : array-like</p>
+<blockquote>
+<div><p>The photon emission time</p>
+</div></blockquote>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Reference: Deeter et al. 1981, ApJ, 247:1003-1012</p>
 </dd></dl>
 
 </div>
@@ -528,7 +680,7 @@ return the residuals</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="tatpulsar.pulse.residuals.read_toa">
 <span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.residuals.</span></span><span class="sig-name descname"><span class="pre">read_toa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timname</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/residuals.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.residuals.read_toa" title="Permalink to this definition"></a></dt>
-<dd><p>read the standard TEMPO2 format <a href="#id2"><span class="problematic" id="id3">*</span></a>.tim
+<dd><p>read the standard TEMPO2 format *.tim
 ToA file and return the ToA and ToA errors</p>
 </dd></dl>
 
@@ -548,7 +700,7 @@ ToA file and return the ToA and ToA errors</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2022 Aug 18 at 14:06:29 UTC.
+      <span class="lastupdated">Last updated on 2022 Aug 19 at 05:25:41 UTC.
       </span></p>
   </div>
 

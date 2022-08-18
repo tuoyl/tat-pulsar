@@ -18,6 +18,12 @@ Barycentric Correction
 .. automodule:: tatpulsar.pulse.barycor.barycor
    :members:
 
+Binary System Correction
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. automodule:: tatpulsar.pulse.binary
+   :members:
+
 Search Periodic Signal
 ~~~~~~~~~~~~~~~~~~~~~~
 
