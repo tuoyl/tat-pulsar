@@ -17,8 +17,8 @@ DESCRIPTION = 'timing library for high energy Pulsar observation'
 URL = 'https://github.com/tuoyl/tat-pulsar'
 EMAIL = 'tuoyl@ihep.ac.cn'
 AUTHOR = 'Youli Tuo'
-REQUIRES_PYTHON = '>=3.6.0'
-VERSION = '0.2.1'
+REQUIRES_PYTHON = '>=3.7.10'
+VERSION = '0.2.5'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
@@ -87,7 +87,7 @@ class UploadCommand(Command):
         os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
 
         self.status('Uploading the package to PyPI via Twine…')
-        os.system('twine upload dist/*')
+        os.system('twine upload dist/*{0}*'.format(about['__version__'])
 
         self.status('Pushing git tags…')
         os.system('git tag v{0}'.format(about['__version__']))
