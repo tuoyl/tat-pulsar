@@ -22,6 +22,8 @@
         <script src="../_static/clipboard.min.js"></script>
         <script src="../_static/copybutton.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "tags": "ams", "useLabelIds": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
         <script src="../_static/custom.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -154,10 +156,29 @@ right_edge = phase_ff[1]</p>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.norm">
-<span class="sig-name descname"><span class="pre">norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yerr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.norm" title="Permalink to this definition"></a></dt>
-<dd><p>normalize the profile</p>
-<p>method = 0 : normalization = (profile-min)/(max-min)
-method = 1 : normalization = (profile-min)/mean(profile)</p>
+<span class="sig-name descname"><span class="pre">norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bkg_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.norm" title="Permalink to this definition"></a></dt>
+<dd><p>normalize the profile, and return a normalized Profile object</p>
+<p>bkg_range is the background phase range selected to calculated the mean level
+of background, used in method=0.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>method: int, optional</strong></p>
+<blockquote>
+<div><p>The normalization method utilized, optional methods are {0, 1}
+method = 0 : <span class="math notranslate nohighlight">\(N = (P - P_{min})/(P_{max} - P_{min})\)</span></p>
+<blockquote>
+<div><p>if background range are selected (<cite>bkg_range</cite> is not None)
+<span class="math notranslate nohighlight">\(N = (P - \bar{B})/(P_{max} - \bar{B})\)</span>
+where <span class="math notranslate nohighlight">\(\bar{B}\)</span> is the mean level in <cite>bkg_range</cite></p>
+</div></blockquote>
+<p>method = 1 : <span class="math notranslate nohighlight">\(N = (P-P_{min})/\bar{P}\)</span></p>
+</div></blockquote>
+<p><strong>bkg_range: list, optional</strong></p>
+<blockquote>
+<div><p>The background phase range for background estimation</p>
+</div></blockquote>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -229,7 +250,7 @@ The counts of each bin are calculated by dividing [0, 1] into number of nbins.</
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2022 Jul 05 at 21:17:53 UTC.
+      <span class="lastupdated">Last updated on 2022 Aug 19 at 05:01:07 UTC.
       </span></p>
   </div>
 
