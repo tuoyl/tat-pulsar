@@ -3,10 +3,6 @@ The Class of Profile
 """
 import numpy as np
 
-# Transfer to OOP
-#__all__ = ['resampling_profile',
-#        "norm_profile",
-#        "phihist"]
 __all__ = ['Profile',
         "phihist"]
 
@@ -104,18 +100,52 @@ class Profile():
                 int(self.size))
         return resampled_profile
 
-    def norm(self, yerr=None, method=0):
+    def norm(self,
+            method=0,
+            bkg_range=None):
         '''
-        normalize the profile
+        normalize the profile, and return a normalized Profile object
 
-        method = 0 : normalization = (profile-min)/(max-min)
-        method = 1 : normalization = (profile-min)/mean(profile)
+        bkg_range is the background phase range selected to calculated the mean level
+        of background, used in method=0.
+
+        Parameters
+        ----------
+        method: int, optional
+            The normalization method utilized, optional methods are {0, 1}
+            method = 0 : :math:`N = (P - P_{min})/(P_{max} - P_{min})`
+                if background range are selected (`bkg_range` is not None)
+                :math:`N = (P - \\bar{B})/(P_{max} - \\bar{B})`
+                where :math:`\\bar{B}` is the mean level in `bkg_range`
+            method = 1 : :math:`N = (P-P_{min})/\\bar{P}`
+
+        bkg_range: list, optional
+            The background phase range for background estimation
         '''
-        #TODO: normalize with error
         if method == 0:
-            return (self.counts-np.min(self.counts))/(np.max(self.counts)-np.min(self.counts))
+            # without background section
+            if bkg_range is None:
+                norm_counts = (self.counts-np.min(self.counts))/\
+                        (np.max(self.counts)-np.min(self.counts))
+                norm_error = np.sqrt(
+                        self.error**2 + self.error[self.counts.argmin()]**2)/\
+                                (np.max(self.counts)-np.min(self.counts))
+            else:
+                bkg_mask = (self.phase>=bkg_range[0]) & (self.phase<=bkg_range[1])
+                bkg_counts = self.counts[bkg_mask]
+                bkg_error  = self.error[bkg_mask]
+                bkg_mean_error = np.sqrt(np.sum(bkg_error**2))/bkg_error.size
+                norm_counts = (self.counts - np.mean(bkg_counts))/\
+                        (np.max(self.counts) - np.mean(bkg_counts))
+                norm_error = np.sqrt(
+                        self.error**2 + bkg_mean_error**2)/\
+                                (np.max(self.counts) - np.mean(bkg_counts))
         elif method == 1:
-            return (self.counts-np.min(self.counts))/(np.mean(self.counts))
+            norm_counts = (self.counts - np.min(self.counts))/\
+                    np.mean(self.counts)
+            norm_error = np.sqrt(self.error**2 + self.error[self.counts.argmin()]**2)/\
+                    np.mean(self.counts)
+        return Profile(norm_counts, error=norm_error)
 
 def phihist(phi, nbins, **kwargs):
     '''
@@ -142,7 +172,6 @@ def phihist(phi, nbins, **kwargs):
     profile_object = Profile(counts, **kwargs)
 
     return profile_object
-
 
 def resampling_profile(profile, sample_num=1, kind='poisson'):
     '''
@@ -178,8 +207,3 @@ def resampling_profile(profile, sample_num=1, kind='poisson'):
     resampled_profile = resampled_profile.reshape(int(len(resampled_profile)/len(profile)),
             int(len(profile)))
     return resampled_profile
-
-
-def norm_profile(profile, yerr=None):
-    return (profile-np.min(profile))/(np.max(profile)-np.min(profile))
-
