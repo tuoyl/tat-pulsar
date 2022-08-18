@@ -13,6 +13,31 @@ __all__ = ['Profile',
 class Profile():
     """
     Profile class
+
+    Parameters
+    ----------
+    counts : array-like
+        the counts in each phase bin of Profile
+
+    cycles : int
+        the period cycles of input Profile (default is 1).
+        If cycles=2, the phase of profile would be ``np.linspace(0, 2, size_of_Profile+1)[:-1]``
+
+    error : array-like
+        the error of each phase bin, if not given the error will be the
+        poisson error of counts (sqruare root of counts)
+
+    Attributes
+    ----------
+    counts : array-like
+        The counts in each phase bin of Profile
+    phase : array-like
+        The midpoints of phase bins
+    phase_off : list
+        The list of phase off interval, the two value are the left
+        and right phase bin of off pulse phases.
+        left_edge = phase_off[0]
+        right_edge = phase_ff[1]
     """
 
     def __init__(self, counts, cycles=1, error=None):
@@ -29,18 +54,6 @@ class Profile():
         error : array-like
             the error of each phase bin, if not given the error will be the
             poisson error of counts (sqruare root of counts)
-
-        Attributes
-        ----------
-        counts : array-like
-            The counts in each phase bin of Profile
-        phase : array-like
-            The midpoints of phase bins
-        phase_off : list
-            The list of phase off interval, the two value are the left
-            and right phase bin of off pulse phases.
-            left_edge = phase_off[0]
-            right_edge = phase_ff[1]
         '''
         if type(cycles) != int:
             raise TypeError("The cycles of profile should be int")

@@ -3,7 +3,7 @@ import numpy as np
 from numba import float64
 import matplotlib.pyplot as plt
 from tatpulsar.utils.functions import *
-from tatpulsar.data.Profile import phihist
+from tatpulsar.data.profile import phihist
 
 __all__ = ['search']
 

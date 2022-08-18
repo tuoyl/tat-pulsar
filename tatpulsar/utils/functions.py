@@ -261,7 +261,7 @@ def cal_chisquare(data, f, pepoch, nbins, F1=0, F2=0, F3=0, F4=0, parallel=False
             counts  = np.histogram(phi,
                     np.linspace(0, 1, nbins+1)[:-1])[0]
             expectation = np.mean(counts)
-            chi_square[i] = np.sum( (counts - expectation)**2 / expectation )
+            chi_square[i] = np.sum( (counts - expectation)**2 / counts )
     else:
         for i in range(len(f)):
             phi = (data-t0)*f[i] + (1.0/2.0)*((data-t0)**2)*F1 + (1.0/6.0)*((data-t0)**3)*F2 +\
@@ -273,7 +273,7 @@ def cal_chisquare(data, f, pepoch, nbins, F1=0, F2=0, F3=0, F4=0, parallel=False
             counts  = np.histogram(phi,
                     np.linspace(0, 1, nbins+1)[:-1])[0]
             expectation = np.mean(counts)
-            chi_square[i] = np.sum( (counts - expectation)**2 / expectation )
+            chi_square[i] = np.sum( (counts - expectation)**2 / counts )
 
     return chi_square
 
@@ -336,7 +336,7 @@ def cal_2dchisquare(data, f, F1, pepoch, nbins, F2=0, F3=0, F4=0):
                     (1.0/24.0)*((data-t0)**4)*F3 + (1.0/120.0)*((data-t0)**5)*F4
             phi = phi - np.floor(phi)
             counts  = numba_histogram(phi, nbins)[0]
-            chi_square[i][j] = np.sum( (counts - np.mean(counts))**2 / np.mean(counts) )
+            chi_square[i][j] = np.sum( (counts - np.mean(counts))**2 / counts )
     return chi_square
 
 
