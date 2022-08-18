@@ -56,7 +56,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#crab-timing">Crab Timing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pulse-analysis">Pulse Analysis</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.barycor.barycor">Barycentric Correction</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#search-periodic-signal">Search Periodic Signal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.search">Search Periodic Signal</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.fold">Epoch-folding</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.residuals">Timing Analysis</a></li>
 </ul>
@@ -250,8 +250,96 @@ based on those 60 corrected time.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="search-periodic-signal">
-<h3>Search Periodic Signal<a class="headerlink" href="#search-periodic-signal" title="Permalink to this headline"></a></h3>
+<div class="section" id="module-tatpulsar.pulse.search">
+<span id="search-periodic-signal"></span><h3>Search Periodic Signal<a class="headerlink" href="#module-tatpulsar.pulse.search" title="Permalink to this headline"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.search.search">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.search.</span></span><span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/search.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.search.search" title="Permalink to this definition"></a></dt>
+<dd><p>search the best frequency</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> : array-like</p>
+<blockquote>
+<div><p>the time series of TDB data</p>
+</div></blockquote>
+<p><strong>parfile</strong> : str, optional</p>
+<blockquote>
+<div><p>read the parameters from parfile</p>
+</div></blockquote>
+<p><strong>f0</strong> : float</p>
+<blockquote>
+<div><p>the init f0 value to search</p>
+</div></blockquote>
+<p><strong>pepoch</strong> : float, optional</p>
+<blockquote>
+<div><p>time for input frequecy values.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>the output frequecy is the frequency at which
+the middle of each time interval</p>
+</div>
+</div></blockquote>
+<p><strong>f0step</strong> : float</p>
+<blockquote>
+<div><p>The step length for frequencies to search</p>
+</div></blockquote>
+<p><strong>f1</strong> : float, optional</p>
+<blockquote>
+<div><p>The frequency derivative used to calculate the phase of each photon</p>
+</div></blockquote>
+<p><strong>f2</strong> : float, optional</p>
+<blockquote>
+<div><p>the second derivative of frequency</p>
+</div></blockquote>
+<p><strong>f3</strong> : float, optional</p>
+<blockquote>
+<div><p>the third derivative of frequency</p>
+</div></blockquote>
+<p><strong>f4</strong> : float, optional</p>
+<blockquote>
+<div><p>the fourth derivative of frequency</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int, optional, default is 20</p>
+<blockquote>
+<div><p>the bin number of profile. default value is 20</p>
+</div></blockquote>
+<p><strong>f1step</strong> : float, optional</p>
+<blockquote>
+<div><p>The step length to search the frequency derivate as well. Only works if <code class="docutils literal notranslate"><span class="pre">f1step</span></code>
+and <code class="docutils literal notranslate"><span class="pre">f1range</span></code> are both given</p>
+</div></blockquote>
+<p><strong>f1range</strong> : float, optional</p>
+<blockquote>
+<div><p>the fdot search step range</p>
+</div></blockquote>
+<p><strong>telescope</strong> : str, optional</p>
+<blockquote>
+<div><p>The name of the mission, support mission are
+{‘fermi’, ‘hxmt’, ‘nicer’, ‘gecam’, ‘nustar’, ‘ixpe’}
+parameter determine the MET refenrence time.
+default is “fermi”.</p>
+</div></blockquote>
+<p><strong>pepochformat</strong> : str, optional</p>
+<blockquote>
+<div><p>the format of pepoch, “mjd” or “met”.
+The default if “mjd”</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>chi_square</strong> : dictionary</p>
+<blockquote>
+<div><p>The Chi Square distribution of Epoch folding. The valid keys are</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">T0</span></code>: the reference time in MJD</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ChiSquare</span></code>: the calculated <span class="math notranslate nohighlight">\(\chi^2\)</span> array (return a multi-dimensinal array if both f0 and f1 are searched)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Profile</span></code>: the counts of profile folded by best search frequency</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pars</span></code>: The dictionary of input and output frequency and frequency derivative {<code class="docutils literal notranslate"><span class="pre">F0</span></code>, <code class="docutils literal notranslate"><span class="pre">F1</span></code>, <code class="docutils literal notranslate"><span class="pre">F0_init</span></code>, <code class="docutils literal notranslate"><span class="pre">F1_init</span></code>, <code class="docutils literal notranslate"><span class="pre">F2_init</span></code>, <code class="docutils literal notranslate"><span class="pre">F3_init</span></code>, <code class="docutils literal notranslate"><span class="pre">F4_init</span></code>}</p></li>
+</ul>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="module-tatpulsar.pulse.fold">
 <span id="epoch-folding"></span><h3>Epoch-folding<a class="headerlink" href="#module-tatpulsar.pulse.fold" title="Permalink to this headline"></a></h3>
@@ -460,7 +548,7 @@ ToA file and return the ToA and ToA errors</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2022 Jul 05 at 21:17:53 UTC.
+      <span class="lastupdated">Last updated on 2022 Aug 18 at 14:06:29 UTC.
       </span></p>
   </div>
 
