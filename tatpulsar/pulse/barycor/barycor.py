@@ -129,22 +129,37 @@ def barycor(date, ra, dec,
         t = t[(t>minmet-1)&(t<maxmet+1)]/86400 + mjdref
 
         # interpolate orbit to observed time and convert to km and km/s
-        try:
-            x_s = np.interp(date, t, orbit[1].data.field('pos_x')[mask]/1000.)
-            y_s = np.interp(date, t, orbit[1].data.field('pos_y')[mask]/1000.)
-            z_s = np.interp(date, t, orbit[1].data.field('pos_z')[mask]/1000.)
+        if 'pos_x' in [x.lower() for x in orbit[1].data.names]:
+            x_name = 'pos_x'
+            y_name = 'pos_y'
+            z_name = 'pos_z'
+            vx_name = 'vel_x'
+            vy_name = 'vel_y'
+            vz_name = 'vel_z'
+        elif 'x' in [x.lower() for x in orbit[1].data.names]:
+            x_name  = 'x'
+            y_name  = 'y'
+            z_name  = 'z'
+            vx_name = 'vx'
+            vy_name = 'vy'
+            vz_name = 'vz'
+        elif 'x_j2000' in [x.lower() for x in orbit[1].data.names]:
+            x_name  = 'X_J2000'
+            y_name  = 'Y_J2000'
+            z_name  = 'Z_J2000'
+            vx_name = 'VX_J2000'
+            vy_name = 'VY_J2000'
+            vz_name = 'VZ_J2000'
+        else:
+            raise IOError("The position and the velocity columns are not found")
 
-            vx_s = np.interp(date, t, orbit[1].data.field('vel_x')[mask]/1000.)
-            vy_s = np.interp(date, t, orbit[1].data.field('vel_y')[mask]/1000.)
-            vz_s = np.interp(date, t, orbit[1].data.field('vel_z')[mask]/1000.)
-        except:
-            x_s = np.interp(date, t, orbit[1].data.field('x')[mask]/1000.)
-            y_s = np.interp(date, t, orbit[1].data.field('y')[mask]/1000.)
-            z_s = np.interp(date, t, orbit[1].data.field('z')[mask]/1000.)
+        x_s = np.interp(date, t, orbit[1].data.field(x_name)[mask]/1000.)
+        y_s = np.interp(date, t, orbit[1].data.field(y_name)[mask]/1000.)
+        z_s = np.interp(date, t, orbit[1].data.field(z_name)[mask]/1000.)
 
-            vx_s = np.interp(date, t, orbit[1].data.field('vx')[mask]/1000.)
-            vy_s = np.interp(date, t, orbit[1].data.field('vy')[mask]/1000.)
-            vz_s = np.interp(date, t, orbit[1].data.field('vz')[mask]/1000.)
+        vx_s = np.interp(date, t, orbit[1].data.field(vx_name)[mask]/1000.)
+        vy_s = np.interp(date, t, orbit[1].data.field(vy_name)[mask]/1000.)
+        vz_s = np.interp(date, t, orbit[1].data.field(vz_name)[mask]/1000.)
 
 
 
