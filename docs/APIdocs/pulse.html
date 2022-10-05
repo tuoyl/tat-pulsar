@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pulsation Analysis &mdash; TAT-pulsar 0.1.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "tags": "ams", "useLabelIds": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script src="../_static/custom.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Utilities" href="utilities.html" />
+    <link rel="prev" title="Data Classes" href="data.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> TAT-pulsar
+            <img src="../_static/pulsar-logo.jpeg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html"> Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../autodocs.html"> TAT-pulsar API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="data.html"> Data Classes</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Pulsation Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#crab-timing">Crab Timing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pulse-analysis">Pulse Analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.barycor.barycor">Barycentric Correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.binary">Binary System Correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.search">Search Periodic Signal</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.fold">Epoch-folding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.residuals">Timing Analysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html"> Utilities</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">TAT-pulsar</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../autodocs.html">TAT-pulsar package API</a> &raquo;</li>
+      <li>Pulsation Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="pulsation-analysis">
+<h1>Pulsation Analysis<a class="headerlink" href="#pulsation-analysis" title="Permalink to this headline"></a></h1>
+<p>Modules to analyze events with pulsation signal.</p>
+<div class="section" id="crab-timing">
+<h2>Crab Timing<a class="headerlink" href="#crab-timing" title="Permalink to this headline"></a></h2>
+<p>Several tools developed only for Crab’s analysis</p>
+<span class="target" id="module-tatpulsar.pulse.Crab.retrive_eph"></span><dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.Crab.retrive_eph.get_par">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.Crab.retrive_eph.</span></span><span class="sig-name descname"><span class="pre">get_par</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mjd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eph_df</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/Crab/retrive_eph.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.Crab.retrive_eph.get_par" title="Permalink to this definition"></a></dt>
+<dd><p>get the best JBL Crab ephemeris for a given time</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mjd</strong> : float</p>
+<blockquote>
+<div><p>the time (MJD) to get the corresponding ephemeris parameters</p>
+</div></blockquote>
+<p><strong>eph_df</strong> : DataFrame</p>
+<blockquote>
+<div><p>the pandas DataFrame (return from function <a class="reference internal" href="#tatpulsar.pulse.Crab.retrive_eph.retrieve_ephemeris" title="tatpulsar.pulse.Crab.retrive_eph.retrieve_ephemeris"><code class="xref py py-meth docutils literal notranslate"><span class="pre">retrieve_ephemeris()</span></code></a>)</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>par</strong> : list</p>
+<blockquote>
+<div><p>The best parameter list</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.Crab.retrive_eph.retrieve_ephemeris">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.Crab.retrive_eph.</span></span><span class="sig-name descname"><span class="pre">retrieve_ephemeris</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">write_to_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ephfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Crab.gro'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/Crab/retrive_eph.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.Crab.retrive_eph.retrieve_ephemeris" title="Permalink to this definition"></a></dt>
+<dd><p>retrieve the Jordrell Bank Ephemeris of Crab pulsar
+return the Pandas DataFrame.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>write_to_file</strong> : boolean</p>
+<blockquote>
+<div><p>Whether write the retrived ephemeris table into a TXT file</p>
+</div></blockquote>
+<p><strong>ephfile</strong> : str</p>
+<blockquote>
+<div><p>If write the Table to a TXT file, then assign the TXT file name to
+write</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df</strong> : Pandas DataFrame</p>
+<blockquote>
+<div><p>Return the Pandas DataFrame</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="pulse-analysis">
+<h2>Pulse Analysis<a class="headerlink" href="#pulse-analysis" title="Permalink to this headline"></a></h2>
+<div class="section" id="module-tatpulsar.pulse.barycor.barycor">
+<span id="barycentric-correction"></span><h3>Barycentric Correction<a class="headerlink" href="#module-tatpulsar.pulse.barycor.barycor" title="Permalink to this headline"></a></h3>
+<p>This is a Python based barycentric correction tool.
+To run the code one needs to have access to one of the ephemeride files provided by jpl:
+<a class="reference external" href="https://ssd.jpl.nasa.gov/ftp/eph/planets/bsp/">https://ssd.jpl.nasa.gov/ftp/eph/planets/bsp/</a>
+The default JPL-eph is DE421.</p>
+<p>Thanks to Victor, the initial version of this program is composed by V. Doreshenko.
+Youli made some optimizations.
+Apply barycentric correction to vector date (in MJD) assuming coordinates ra, dec given in degrees
+optionally use orbit of a satellinte in heasarc format
+This includes geometric and shapiro corrections, but einstein
+correction is not implemented for now. Accurate to about 3e-4s.
+If return_correction=True (default), correction in seconds is returned.
+approx einstein is used to define number of points to calculate interpolated einstein correction
+(0 means do for each data point).
+see also <a class="reference external" href="https://asd.gsfc.nasa.gov/Craig.Markwardt/bary/">https://asd.gsfc.nasa.gov/Craig.Markwardt/bary/</a> for detail and
+<a class="reference external" href="https://pages.physics.wisc.edu/~craigm/idl/ephem.html">https://pages.physics.wisc.edu/~craigm/idl/ephem.html</a> for the codebase
+which at least inspired the code below.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.barycor.barycor.barycor">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.barycor.barycor.</span></span><span class="sig-name descname"><span class="pre">barycor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ra</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orbit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approx_einstein</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jplephem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accelerate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/barycor/barycor.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.barycor.barycor.barycor" title="Permalink to this definition"></a></dt>
+<dd><p>The core function to compute the barycentric correction.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>date</strong> : array-like</p>
+<blockquote>
+<div><p>The time series observed by observatory or satellite, (must in MJD)</p>
+</div></blockquote>
+<p><strong>ra</strong> : float</p>
+<blockquote>
+<div><p>The right ascension of the observed source (in degree)</p>
+</div></blockquote>
+<p><strong>dec</strong> : float</p>
+<blockquote>
+<div><p>The declination of the observed source (in degree)</p>
+</div></blockquote>
+<p><strong>orbit</strong> : str, default is <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+<blockquote>
+<div><p>The corresponding orbit file for given time. The corresponding orbit file
+for the given time. In case of data observed by satellites,
+the position correction of the satellite orbit needs to be considered.
+If this parameter is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the geometric center of the Earth is considered as
+the position of the periodic signal detection.</p>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>the data from Earth observatory are not supported</p>
+</div>
+</div></blockquote>
+<p><strong>return_correction</strong> : boolean, default is <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+<blockquote>
+<div><p>Whether to returns the deviation from the pre-correction data, or the corrected time series.
+Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>, which means return the time series.</p>
+</div></blockquote>
+<p><strong>approx_einstein</strong> : int, default is 10</p>
+<blockquote>
+<div><p>The rate of einstein correction, default is 10</p>
+</div></blockquote>
+<p><strong>jplephem</strong> : File</p>
+<blockquote>
+<div><p>The JPL solar ephemeris file, default is DE421 stored in the packages.
+You can assign your required ephemeris, check <a class="reference external" href="https://ssd.jpl.nasa.gov/ftp/eph/planets/bsp/">https://ssd.jpl.nasa.gov/ftp/eph/planets/bsp/</a>
+for details.</p>
+</div></blockquote>
+<p><strong>accelerate</strong> : boolean, default is False</p>
+<blockquote>
+<div><p>An accelerate method to boost the computating consumption.
+The algorithm divided the time series into 60 intervals. And only one time in each
+interval are computed for barycentric correction. And interpolate the corrected time
+based on those 60 corrected time.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tatpulsar.pulse.binary">
+<span id="binary-system-correction"></span><h3>Binary System Correction<a class="headerlink" href="#module-tatpulsar.pulse.binary" title="Permalink to this headline"></a></h3>
+<p>Module for binary related analysis and correction</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.binary.doppler_cor">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.binary.</span></span><span class="sig-name descname"><span class="pre">doppler_cor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axsini</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Porb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_halfpi</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/binary.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.binary.doppler_cor" title="Permalink to this definition"></a></dt>
+<dd><p>correct the observed freqency of neutron star,
+convert the frequency moduled by the binary orbital Doppler effect to
+the intrinsic frequency of NS</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> : array-like</p>
+<blockquote>
+<div><p>The epoch of observed time series</p>
+</div></blockquote>
+<p><strong>f0</strong> : float</p>
+<blockquote>
+<div><p>the observed frequency at reference epoch t0</p>
+</div></blockquote>
+<p><strong>f1</strong> : float</p>
+<blockquote>
+<div><p>the observed frequency derivative at reference epoch t0</p>
+</div></blockquote>
+<p><strong>f2</strong> : float</p>
+<blockquote>
+<div><p>the observed frequency second derivative at reference epoch t0</p>
+</div></blockquote>
+<p><strong>axsini</strong> : float</p>
+<blockquote>
+<div><p>Projected semi-major orbital axis (in units of light-sec)</p>
+</div></blockquote>
+<p><strong>Porb</strong> : float</p>
+<blockquote>
+<div><p>The period of binary motion (in units of second)</p>
+</div></blockquote>
+<p><strong>omega</strong> : float</p>
+<blockquote>
+<div><p>Longitude of periastron</p>
+</div></blockquote>
+<p><strong>e</strong> : float</p>
+<blockquote>
+<div><p>The orbital eccentricity</p>
+</div></blockquote>
+<p><strong>T_halfpi</strong> : float</p>
+<blockquote>
+<div><p>The mean longitude, with T_halfpi the epoch at which the mean longitude is pi/2
+(in units of second)</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>f_intri</strong> : array-like</p>
+<blockquote>
+<div><p>The corrected intrinsic frequecy of neutron star</p>
+</div></blockquote>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Reference: Galloway et. al, 2005, ApJ, 635, 1217</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.binary.orbit_cor_bt">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.binary.</span></span><span class="sig-name descname"><span class="pre">orbit_cor_bt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Porb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axsini</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Tw</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/binary.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.binary.orbit_cor_bt" title="Permalink to this definition"></a></dt>
+<dd><p>use numerical method to solve Kepler equation and calculate delay
+BT model (Blandford &amp; Teukolsky, 1976)</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>t</strong> : array-like</p>
+<blockquote>
+<div><p>The time series without binary correction</p>
+</div></blockquote>
+<p><strong>Porb</strong> : float</p>
+<blockquote>
+<div><p>The period of binary motion (in units of second)</p>
+</div></blockquote>
+<p><strong>axsini</strong> : float</p>
+<blockquote>
+<div><p>Projected semi-major orbital axis (in units of light-sec)</p>
+</div></blockquote>
+<p><strong>e</strong> : float</p>
+<blockquote>
+<div><p>The orbital eccentricity</p>
+</div></blockquote>
+<p><strong>omega</strong> : float</p>
+<blockquote>
+<div><p>Longitude of periastron</p>
+</div></blockquote>
+<p><strong>Tw</strong> : float</p>
+<blockquote>
+<div><p>The epoch of periastron passage (in units of seconds, same time system with parameter t)</p>
+</div></blockquote>
+<p><strong>gamma ; float</strong></p>
+<blockquote>
+<div><p>the coefficient measures the combined effect of gravitational redshift and time dilation</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>new_t</strong> : array-like</p>
+<blockquote>
+<div><p>The time series after the binary correction</p>
+</div></blockquote>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Reference: Blandford &amp; Teukolsky, 1976, ApJ, 205:580-591</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.binary.orbit_cor_deeter">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.binary.</span></span><span class="sig-name descname"><span class="pre">orbit_cor_deeter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Porb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axsini</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Tnod</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/binary.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.binary.orbit_cor_deeter" title="Permalink to this definition"></a></dt>
+<dd><p>Correct the photon arrival times to the photon emission time
+Deeter model.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> : array-like</p>
+<blockquote>
+<div><p>The time series before binary correction</p>
+</div></blockquote>
+<p><strong>Porb</strong> : float</p>
+<blockquote>
+<div><p>The period of binary motion (in units of second)</p>
+</div></blockquote>
+<p><strong>axsini</strong> : float</p>
+<blockquote>
+<div><p>Projected semi-major orbital axis (in units of light-sec)</p>
+</div></blockquote>
+<p><strong>e</strong> : float</p>
+<blockquote>
+<div><p>The orbital eccentricity</p>
+</div></blockquote>
+<p><strong>omega</strong> : float</p>
+<blockquote>
+<div><p>Longitude of periastron</p>
+</div></blockquote>
+<p><strong>Tnod</strong> : float</p>
+<blockquote>
+<div><p>The epoch of ascending node passage (in units of seconds, same time system with parameter t)</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>t_em</strong> : array-like</p>
+<blockquote>
+<div><p>The photon emission time</p>
+</div></blockquote>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Reference: Deeter et al. 1981, ApJ, 247:1003-1012</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tatpulsar.pulse.search">
+<span id="search-periodic-signal"></span><h3>Search Periodic Signal<a class="headerlink" href="#module-tatpulsar.pulse.search" title="Permalink to this headline"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.search.search">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.search.</span></span><span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/search.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.search.search" title="Permalink to this definition"></a></dt>
+<dd><p>search the best frequency</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> : array-like</p>
+<blockquote>
+<div><p>the time series of TDB data</p>
+</div></blockquote>
+<p><strong>parfile</strong> : str, optional</p>
+<blockquote>
+<div><p>read the parameters from parfile</p>
+</div></blockquote>
+<p><strong>f0</strong> : float</p>
+<blockquote>
+<div><p>the init f0 value to search</p>
+</div></blockquote>
+<p><strong>pepoch</strong> : float, optional</p>
+<blockquote>
+<div><p>time for input frequecy values.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>the output frequecy is the frequency at which
+the middle of each time interval</p>
+</div>
+</div></blockquote>
+<p><strong>f0step</strong> : float</p>
+<blockquote>
+<div><p>The step length for frequencies to search</p>
+</div></blockquote>
+<p><strong>f1</strong> : float, optional</p>
+<blockquote>
+<div><p>The frequency derivative used to calculate the phase of each photon</p>
+</div></blockquote>
+<p><strong>f2</strong> : float, optional</p>
+<blockquote>
+<div><p>the second derivative of frequency</p>
+</div></blockquote>
+<p><strong>f3</strong> : float, optional</p>
+<blockquote>
+<div><p>the third derivative of frequency</p>
+</div></blockquote>
+<p><strong>f4</strong> : float, optional</p>
+<blockquote>
+<div><p>the fourth derivative of frequency</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int, optional, default is 20</p>
+<blockquote>
+<div><p>the bin number of profile. default value is 20</p>
+</div></blockquote>
+<p><strong>f1step</strong> : float, optional</p>
+<blockquote>
+<div><p>The step length to search the frequency derivate as well. Only works if <code class="docutils literal notranslate"><span class="pre">f1step</span></code>
+and <code class="docutils literal notranslate"><span class="pre">f1range</span></code> are both given</p>
+</div></blockquote>
+<p><strong>f1range</strong> : float, optional</p>
+<blockquote>
+<div><p>the fdot search step range</p>
+</div></blockquote>
+<p><strong>telescope</strong> : str, optional</p>
+<blockquote>
+<div><p>The name of the mission, support mission are
+{‘fermi’, ‘hxmt’, ‘nicer’, ‘gecam’, ‘nustar’, ‘ixpe’}
+parameter determine the MET refenrence time.
+default is “fermi”.</p>
+</div></blockquote>
+<p><strong>pepochformat</strong> : str, optional</p>
+<blockquote>
+<div><p>the format of pepoch, “mjd” or “met”.
+The default if “mjd”</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>chi_square</strong> : dictionary</p>
+<blockquote>
+<div><p>The Chi Square distribution of Epoch folding. The valid keys are</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">T0</span></code>: the reference time in MJD</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ChiSquare</span></code>: the calculated <span class="math notranslate nohighlight">\(\chi^2\)</span> array (return a multi-dimensinal array if both f0 and f1 are searched)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Profile</span></code>: the counts of profile folded by best search frequency</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Pars</span></code>: The dictionary of input and output frequency and frequency derivative {<code class="docutils literal notranslate"><span class="pre">F0</span></code>, <code class="docutils literal notranslate"><span class="pre">F1</span></code>, <code class="docutils literal notranslate"><span class="pre">F0_init</span></code>, <code class="docutils literal notranslate"><span class="pre">F1_init</span></code>, <code class="docutils literal notranslate"><span class="pre">F2_init</span></code>, <code class="docutils literal notranslate"><span class="pre">F3_init</span></code>, <code class="docutils literal notranslate"><span class="pre">F4_init</span></code>}</p></li>
+</ul>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tatpulsar.pulse.fold">
+<span id="epoch-folding"></span><h3>Epoch-folding<a class="headerlink" href="#module-tatpulsar.pulse.fold" title="Permalink to this headline"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.fold.cal_phase">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.fold.</span></span><span class="sig-name descname"><span class="pre">cal_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pepoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'met'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/fold.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.fold.cal_phase" title="Permalink to this definition"></a></dt>
+<dd><p>calculate the phase for given time or time series.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> : array-like</p>
+<blockquote>
+<div><p>the time series to calculate the phase. The default format of time is “MET”,
+if your input time is in “MJD” format, set <code class="docutils literal notranslate"><span class="pre">format</span></code> to ‘mjd’</p>
+</div></blockquote>
+<p><strong>pepoch</strong> : float</p>
+<blockquote>
+<div><p>time for input frequecy values. The default format of <code class="docutils literal notranslate"><span class="pre">pepoch</span></code> is “MET”,
+if your input pepoch is in “MJD” format, set <code class="docutils literal notranslate"><span class="pre">format</span></code> to ‘mjd’.
+NOTE: the output frequecy is the frequency at which
+the time of middle of the time interval</p>
+</div></blockquote>
+<p><strong>f0</strong> : float</p>
+<blockquote>
+<div><p>frequency</p>
+</div></blockquote>
+<p><strong>f1</strong> : float, optional</p>
+<blockquote>
+<div><p>fdot.</p>
+</div></blockquote>
+<p><strong>f2</strong> : float, optional</p>
+<blockquote>
+<div><p>the second derivative of frequency</p>
+</div></blockquote>
+<p><strong>f3</strong> : float, optional</p>
+<blockquote>
+<div><p>the third derivative of frequency</p>
+</div></blockquote>
+<p><strong>f4</strong> : float, optional</p>
+<blockquote>
+<div><p>the fourth derivative of frequency</p>
+</div></blockquote>
+<p><strong>format</strong> : str, optional, default is ‘met’</p>
+<blockquote>
+<div><p>The time system of given time and pepoch. Optional input are
+{‘met’, ‘mjd’}</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>phase</strong> : array-like</p>
+<blockquote>
+<div><p>The phase value for given time and timing parameters</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.fold.fold">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.fold.</span></span><span class="sig-name descname"><span class="pre">fold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pepoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'met'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/fold.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.fold.fold" title="Permalink to this definition"></a></dt>
+<dd><p>Epoch folding the photon array and return the folded profile.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> : array-like</p>
+<blockquote>
+<div><p>the time series of TDB data</p>
+</div></blockquote>
+<p><strong>parfile</strong> : str ,optional</p>
+<blockquote>
+<div><p>read the parameters from parfile</p>
+</div></blockquote>
+<p><strong>pepoch</strong> : float, optional</p>
+<blockquote>
+<div><p>time for input frequecy values.
+NOTE: the output frequecy is the frequency at which
+the time of middle of the time interval</p>
+</div></blockquote>
+<p><strong>f0</strong> : float, optional</p>
+<blockquote>
+<div><p>frequency</p>
+</div></blockquote>
+<p><strong>f1</strong> : float, optional</p>
+<blockquote>
+<div><p>fdot.</p>
+</div></blockquote>
+<p><strong>f2</strong> : float, optional</p>
+<blockquote>
+<div><p>the second derivative of frequency</p>
+</div></blockquote>
+<p><strong>f3</strong> : float, optional</p>
+<blockquote>
+<div><p>the third derivative of frequency</p>
+</div></blockquote>
+<p><strong>f4</strong> : float, optional</p>
+<blockquote>
+<div><p>the fourth derivative of frequency</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int, optional, default is 20</p>
+<blockquote>
+<div><p>the bin number of profile. default value is 20</p>
+</div></blockquote>
+<p><strong>phi0</strong> : float, optional, default is 0</p>
+<blockquote>
+<div><p>the reference phase of the profile, if given,
+the phase is calculated by:</p>
+<div class="math notranslate nohighlight">
+\[\phi = \phi - \phi_{0}\]</div>
+</div></blockquote>
+<p><strong>format</strong> : str, optional</p>
+<blockquote>
+<div><p>the format of time and pepoch, “mjd” or “met”.
+The default if “met”.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The format of event array and the reference time should be
+the same time format (MJD or MET).</p>
+</div>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>profile</strong> : <a class="reference internal" href="data.html#tatpulsar.data.profile.Profile" title="tatpulsar.data.profile.Profile"><code class="xref py py-class docutils literal notranslate"><span class="pre">tatpulsar.data.profile.Profile</span></code></a> object</p>
+<blockquote>
+<div><p>return the profile object define in <a class="reference internal" href="data.html#tatpulsar.data.profile.Profile" title="tatpulsar.data.profile.Profile"><code class="xref py py-class docutils literal notranslate"><span class="pre">tatpulsar.data.profile.Profile</span></code></a></p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tatpulsar.pulse.residuals">
+<span id="timing-analysis"></span><h3>Timing Analysis<a class="headerlink" href="#module-tatpulsar.pulse.residuals" title="Permalink to this headline"></a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.residuals.cal_residual">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.residuals.</span></span><span class="sig-name descname"><span class="pre">cal_residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">toas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toa_errs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f_set_all</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PEPOCH_all</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stop_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inperiod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/residuals.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.residuals.cal_residual" title="Permalink to this definition"></a></dt>
+<dd><p>calculate the residuals for toas in each Ephemeride</p>
+<p>return the residuals as one</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.residuals.cal_residual_from_parameters">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.residuals.</span></span><span class="sig-name descname"><span class="pre">cal_residual_from_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">toas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toa_errs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F_set_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PEPOCH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inperiod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/residuals.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.residuals.cal_residual_from_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>calculate the residuals for toas in one set of Ephemeris parameters
+return the residuals</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>toas</strong> : array-like</p>
+<blockquote>
+<div><p>ToAs in MJD unit</p>
+</div></blockquote>
+<p><strong>toa_errs</strong> : array-float</p>
+<blockquote>
+<div><p>ToAs error in microsecond unit</p>
+</div></blockquote>
+<p><strong>F_set_array</strong> : array-float</p>
+<blockquote>
+<div><p>An array of f0, f1, f2, … etc.</p>
+</div></blockquote>
+<p><strong>PEPOCH</strong> : float</p>
+<blockquote>
+<div><p>reference time in MJD unit</p>
+</div></blockquote>
+<p><strong>inperiod</strong> : bool</p>
+<blockquote>
+<div><p>flag to calculate residuals in period unit</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>residuals</strong> : array-like</p>
+<blockquote>
+<div><p>The timing residuals in either period or time</p>
+</div></blockquote>
+<p><strong>residual_err</strong> : array-like</p>
+<blockquote>
+<div><p>The error of timing residuals</p>
+</div></blockquote>
+<p><strong>residuals_rms</strong> : array-like</p>
+<blockquote>
+<div><p>The root-mean-square of total ToA set from the weighted mean ToA values:</p>
+<div class="math notranslate nohighlight">
+\[\sqrt{\sum \frac{(T - &lt;T&gt;)^2}{N-1}},\]</div>
+<p>where <span class="math notranslate nohighlight">\(T\)</span> is the ToAs, and <span class="math notranslate nohighlight">\(&lt;T&gt;\)</span> is the weighted mean value of ToAs</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.residuals.read_toa">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.residuals.</span></span><span class="sig-name descname"><span class="pre">read_toa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timname</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/residuals.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.residuals.read_toa" title="Permalink to this definition"></a></dt>
+<dd><p>read the standard TEMPO2 format *.tim
+ToA file and return the ToA and ToA errors</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="data.html" class="btn btn-neutral float-left" title="Data Classes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Youli.
+      <span class="lastupdated">Last updated on 2022 Aug 19 at 05:25:41 UTC.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

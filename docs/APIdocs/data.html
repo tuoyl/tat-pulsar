@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Classes &mdash; TAT-pulsar 0.1.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "tags": "ams", "useLabelIds": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script src="../_static/custom.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Pulsation Analysis" href="pulse.html" />
+    <link rel="prev" title="TAT-pulsar package API" href="../autodocs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> TAT-pulsar
+            <img src="../_static/pulsar-logo.jpeg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html"> Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../autodocs.html"> TAT-pulsar API</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Data Classes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-tatpulsar.data.profile">Profile class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pulse.html"> Pulsation Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utilities.html"> Utilities</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">TAT-pulsar</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../autodocs.html">TAT-pulsar package API</a> &raquo;</li>
+      <li>Data Classes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="data-classes">
+<h1>Data Classes<a class="headerlink" href="#data-classes" title="Permalink to this headline"></a></h1>
+<p>The Base classes defined for Profile, and so on.</p>
+<div class="section" id="module-tatpulsar.data.profile">
+<span id="profile-class"></span><h2>Profile class<a class="headerlink" href="#module-tatpulsar.data.profile" title="Permalink to this headline"></a></h2>
+<p>The Class of Profile</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">tatpulsar.data.profile.</span></span><span class="sig-name descname"><span class="pre">Profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cycles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile" title="Permalink to this definition"></a></dt>
+<dd><p>Profile class</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>counts</strong> : array-like</p>
+<blockquote>
+<div><p>the counts in each phase bin of Profile</p>
+</div></blockquote>
+<p><strong>cycles</strong> : int</p>
+<blockquote>
+<div><p>the period cycles of input Profile (default is 1).
+If cycles=2, the phase of profile would be <code class="docutils literal notranslate"><span class="pre">np.linspace(0,</span> <span class="pre">2,</span> <span class="pre">size_of_Profile+1)[:-1]</span></code></p>
+</div></blockquote>
+<p><strong>error</strong> : array-like</p>
+<blockquote>
+<div><p>the error of each phase bin, if not given the error will be the
+poisson error of counts (sqruare root of counts)</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><p><strong>counts</strong> : array-like</p>
+<blockquote>
+<div><p>The counts in each phase bin of Profile</p>
+</div></blockquote>
+<p><strong>phase</strong> : array-like</p>
+<blockquote>
+<div><p>The midpoints of phase bins</p>
+</div></blockquote>
+<p><strong>phase_off</strong> : list</p>
+<blockquote>
+<div><p>The list of phase off interval, the two value are the left
+and right phase bin of off pulse phases.
+left_edge = phase_off[0]
+right_edge = phase_ff[1]</p>
+</div></blockquote>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.norm">
+<span class="sig-name descname"><span class="pre">norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bkg_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.norm" title="Permalink to this definition"></a></dt>
+<dd><p>normalize the profile, and return a normalized Profile object</p>
+<p>bkg_range is the background phase range selected to calculated the mean level
+of background, used in method=0.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>method: int, optional</strong></p>
+<blockquote>
+<div><p>The normalization method utilized, optional methods are {0, 1}
+method = 0 : <span class="math notranslate nohighlight">\(N = (P - P_{min})/(P_{max} - P_{min})\)</span></p>
+<blockquote>
+<div><p>if background range are selected (<cite>bkg_range</cite> is not None)
+<span class="math notranslate nohighlight">\(N = (P - \bar{B})/(P_{max} - \bar{B})\)</span>
+where <span class="math notranslate nohighlight">\(\bar{B}\)</span> is the mean level in <cite>bkg_range</cite></p>
+</div></blockquote>
+<p>method = 1 : <span class="math notranslate nohighlight">\(N = (P-P_{min})/\bar{P}\)</span></p>
+</div></blockquote>
+<p><strong>bkg_range: list, optional</strong></p>
+<blockquote>
+<div><p>The background phase range for background estimation</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.resample">
+<span class="sig-name descname"><span class="pre">resample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'poisson'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.resample" title="Permalink to this definition"></a></dt>
+<dd><p>resampling the profile</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>sample_num</strong> : int, optional</p>
+<blockquote>
+<div><p>number of the resamplings for the profile, the default number is 1</p>
+</div></blockquote>
+<p><strong>kind</strong> : str, optional</p>
+<blockquote>
+<div><p>The distribution of the profile, default is poisson.
+(‘poisson’, ‘gaussian’) are refering to the poisson and gauss distribution</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>resampled_profile</strong> : array or ndarray</p>
+<blockquote>
+<div><p>if sample_num == 1, return a one dimensional array
+if sample_num &gt;1 , return a multi-dimensional array</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.phihist">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.data.profile.</span></span><span class="sig-name descname"><span class="pre">phihist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbins</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.phihist" title="Permalink to this definition"></a></dt>
+<dd><p>Ensure that the input and output of the histogram are appropriate.
+The input variables are the pulse phi of events, and the nbins.
+The counts of each bin are calculated by dividing [0, 1] into number of nbins.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>phi</strong> : array</p>
+<blockquote>
+<div><p>a set of phase value of events.</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int</p>
+<blockquote>
+<div><p>the number of bins of profile</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Profile</strong> : object</p>
+<blockquote>
+<div><p>return the object of Profile</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../autodocs.html" class="btn btn-neutral float-left" title="TAT-pulsar package API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pulse.html" class="btn btn-neutral float-right" title="Pulsation Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Youli.
+      <span class="lastupdated">Last updated on 2022 Aug 19 at 05:01:07 UTC.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
