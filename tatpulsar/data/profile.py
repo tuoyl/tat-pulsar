@@ -64,6 +64,7 @@ class Profile():
             self.error = np.sqrt(counts)
         else:
             self.error = error
+        self.cycles = cycles
 
     @property
     def size(self):
@@ -145,7 +146,7 @@ class Profile():
                     np.mean(self.counts)
             norm_error = np.sqrt(self.error**2 + self.error[self.counts.argmin()]**2)/\
                     np.mean(self.counts)
-        return Profile(norm_counts, error=norm_error)
+        return Profile(norm_counts, error=norm_error, cycles=self.cycles)
 
 def phihist(phi, nbins, **kwargs):
     '''
