@@ -497,7 +497,7 @@ The default if “mjd”</p>
 <span id="epoch-folding"></span><h3>Epoch-folding<a class="headerlink" href="#module-tatpulsar.pulse.fold" title="Permalink to this headline"></a></h3>
 <dl class="py function">
 <dt class="sig sig-object py" id="tatpulsar.pulse.fold.cal_phase">
-<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.fold.</span></span><span class="sig-name descname"><span class="pre">cal_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pepoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'met'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/fold.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.fold.cal_phase" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.fold.</span></span><span class="sig-name descname"><span class="pre">cal_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pepoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'met'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to_1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/fold.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.fold.cal_phase" title="Permalink to this definition"></a></dt>
 <dd><p>calculate the phase for given time or time series.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
@@ -538,6 +538,10 @@ the time of middle of the time interval</p>
 <div><p>The time system of given time and pepoch. Optional input are
 {‘met’, ‘mjd’}</p>
 </div></blockquote>
+<p><strong>to_1</strong> : boolean, optional, default is False</p>
+<blockquote>
+<div><p>normalize phase from 0 to 1</p>
+</div></blockquote>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>phase</strong> : array-like</p>
@@ -550,7 +554,7 @@ the time of middle of the time interval</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="tatpulsar.pulse.fold.fold">
-<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.fold.</span></span><span class="sig-name descname"><span class="pre">fold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pepoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'met'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/fold.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.fold.fold" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.fold.</span></span><span class="sig-name descname"><span class="pre">fold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pepoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gti</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_data_gti</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'met'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/fold.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.fold.fold" title="Permalink to this definition"></a></dt>
 <dd><p>Epoch folding the photon array and return the folded profile.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
@@ -599,6 +603,18 @@ the phase is calculated by:</p>
 <div class="math notranslate nohighlight">
 \[\phi = \phi - \phi_{0}\]</div>
 </div></blockquote>
+<p><strong>gti</strong> : N-darray, optional</p>
+<blockquote>
+<div><p>The good time intervals of given data. default is None, if given,
+the exposure correction for each phase bin will be considered.
+You can also use <cite>use_data_gti</cite> parameter to calculate the GTI
+for given <cite>time</cite> array.</p>
+</div></blockquote>
+<p><strong>use_data_gti: bool, optional, default is False</strong></p>
+<blockquote>
+<div><p>whether calculate the GTI for given <cite>time</cite> (if True the <cite>time</cite>
+must be an array instead of a value).</p>
+</div></blockquote>
 <p><strong>format</strong> : str, optional</p>
 <blockquote>
 <div><p>the format of time and pepoch, “mjd” or “met”.
@@ -614,6 +630,64 @@ the same time format (MJD or MET).</p>
 <dd class="field-even"><p><strong>profile</strong> : <a class="reference internal" href="data.html#tatpulsar.data.profile.Profile" title="tatpulsar.data.profile.Profile"><code class="xref py py-class docutils literal notranslate"><span class="pre">tatpulsar.data.profile.Profile</span></code></a> object</p>
 <blockquote>
 <div><p>return the profile object define in <a class="reference internal" href="data.html#tatpulsar.data.profile.Profile" title="tatpulsar.data.profile.Profile"><code class="xref py py-class docutils literal notranslate"><span class="pre">tatpulsar.data.profile.Profile</span></code></a></p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.fold.phase_exposure">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.fold.</span></span><span class="sig-name descname"><span class="pre">phase_exposure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gti</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pepoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'met'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/fold.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.fold.phase_exposure" title="Permalink to this definition"></a></dt>
+<dd><p>calculate the exposure correction coefficients for each phase bin.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gti: ndarray or list</strong></p>
+<blockquote>
+<div><p>the list of GTI array, example
+[[gti0_0, gti0_1], [gti1_0, gti1_1], …]</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int</p>
+<blockquote>
+<div><p>the bin number of profile</p>
+</div></blockquote>
+<p><strong>f0</strong> : float</p>
+<blockquote>
+<div><p>frequency</p>
+</div></blockquote>
+<p><strong>f1</strong> : float, optional</p>
+<blockquote>
+<div><p>fdot.</p>
+</div></blockquote>
+<p><strong>f2</strong> : float, optional</p>
+<blockquote>
+<div><p>the second derivative of frequency</p>
+</div></blockquote>
+<p><strong>f3</strong> : float, optional</p>
+<blockquote>
+<div><p>the third derivative of frequency</p>
+</div></blockquote>
+<p><strong>f4</strong> : float, optional</p>
+<blockquote>
+<div><p>the fourth derivative of frequency</p>
+</div></blockquote>
+<p><strong>pepoch</strong> : float, optional</p>
+<blockquote>
+<div><p>time for input frequecy values.
+NOTE: the output frequecy is the frequency at which
+the time of middle of the time interval</p>
+</div></blockquote>
+<p><strong>format</strong> : str, optional</p>
+<blockquote>
+<div><p>the format of time and pepoch, “mjd” or “met”.
+The default if “met”.</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>expo_corr: array-like</p>
+<blockquote>
+<div><p>the coeffients for each phase bin to calculate the exposure correction.
+to correction the count in each phase bin, the count (<span class="math notranslate nohighlight">\(R(\phi)\)</span>) should divide the corresponding
+expo_corr value (<span class="math notranslate nohighlight">\(c(\phi)\)</span>).</p>
 </div></blockquote>
 </dd>
 </dl>
@@ -700,7 +774,7 @@ ToA file and return the ToA and ToA errors</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2022 Aug 19 at 05:25:41 UTC.
+      <span class="lastupdated">Last updated on 2022 Oct 07 at 01:22:01 UTC.
       </span></p>
   </div>
 
