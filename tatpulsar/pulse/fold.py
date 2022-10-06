@@ -6,8 +6,7 @@ from numba import float64
 from tatpulsar.utils.functions import met2mjd, get_parameters, cal_event_gti
 from tatpulsar.data.profile import phihist
 
-__all__ = ['fold',
-        'cal_phase']
+__all__ = ['fold', 'cal_phase', 'phase_exposure']
 
 def fold(time, parfile=None,
         pepoch=None, f0=None, f1=0, f2=0, f3=0, f4=0, nbins=20,
