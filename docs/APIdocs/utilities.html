@@ -227,6 +227,30 @@ are the parameters of pulsar.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.utils.functions.cal_event_gti">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.utils.functions.</span></span><span class="sig-name descname"><span class="pre">cal_event_gti</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tgap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/utils/functions.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.utils.functions.cal_event_gti" title="Permalink to this definition"></a></dt>
+<dd><p>calculate the gti edges of given event data.
+if the time gap between two adjacent event is larger
+than <cite>tgap</cite>, it split the event into two intervals. Otherwise,
+we take the event as continous observation.</p>
+<dl class="simple">
+<dt>data: array-like</dt><dd><p>the event array</p>
+</dd>
+<dt>tgap: float</dt><dd><p>the critical time gap to split GTI</p>
+</dd>
+</dl>
+<dl class="field-list">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>gtis: ndarray</p>
+<blockquote>
+<div><p>the list of GTI array, example
+[[gti0_0, gti0_1], [gti1_0, gti1_1], …]</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="tatpulsar.utils.functions.ccf">
 <span class="sig-prename descclassname"><span class="pre">tatpulsar.utils.functions.</span></span><span class="sig-name descname"><span class="pre">ccf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/utils/functions.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.utils.functions.ccf" title="Permalink to this definition"></a></dt>
 <dd><p>Calculate the cross-correlation function for given data.
@@ -347,7 +371,7 @@ The format of input could be a name of parfile, a dictionary, or standard python
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2022 Aug 18 at 14:06:29 UTC.
+      <span class="lastupdated">Last updated on 2022 Oct 07 at 01:19:40 UTC.
       </span></p>
   </div>
 
