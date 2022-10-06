@@ -65,7 +65,8 @@ __all__ = ["numba_histogram",
         "ccf",
         "gauss", "lorentz",
         "rms",
-        "print_loop_percentage"]
+        "print_loop_percentage",
+        "cal_event_gti"]
 
 #@njit
 def met2mjd(data, telescope="fermi"):
@@ -580,3 +581,43 @@ def rms(x):
     root-mean-square function
     '''
     return np.sqrt(x.dot(x)/x.size)
+
+def cal_event_gti(data, tgap=1):
+    """
+    calculate the gti edges of given event data.
+    if the time gap between two adjacent event is larger
+    than `tgap`, it split the event into two intervals. Otherwise,
+    we take the event as continous observation.
+
+    Parameters
+    ---------
+    data: array-like
+        the event array
+    tgap: float
+        the critical time gap to split GTI
+
+    Returns
+    -------
+    gtis: ndarray
+        the list of GTI array, example
+        [[gti0_0, gti0_1], [gti1_0, gti1_1], ...]
+    """
+    if not isinstance(data, np.ndarray):
+        raise TypeError("Apply the GTI on input data, the type of data should be an array")
+
+    data = np.sort(data) #sort data
+
+    tdiff = np.diff(data)
+    gap_indx = np.greater(tdiff, tgap) #index for right edges of gti, apply for data[:-1] array
+    right_edges = data[:-1][gap_indx]
+    left_edges  = data[:-1][np.roll(gap_indx, 1)]
+
+    right_edges = np.append(right_edges, data[-1])
+    left_edges  = np.append(data[0], left_edges)
+
+    return np.dstack((left_edges, right_edges))[0]
+
+
+
+
+
