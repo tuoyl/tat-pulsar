@@ -56,12 +56,14 @@ class Profile():
         if cycles > 2:
             raise IOError("Why do you have to setup so many cycles? 2 cycles is enough.")
         if cycles == 2:
-            self.counts = np.append(counts, counts)
+            self.counts = np.tile(counts, reps=2)
         else:
             self.counts = counts
         self.phase  = np.linspace(0, cycles, self.size+1)[:-1]
         if error is None:
-            self.error = np.sqrt(counts)
+            self.error = np.sqrt(self.counts)
+        elif cycles == 2:
+            self.error = np.tile(error, reps=2)
         else:
             self.error = error
         self.cycles = cycles
@@ -146,7 +148,9 @@ class Profile():
                     np.mean(self.counts)
             norm_error = np.sqrt(self.error**2 + self.error[self.counts.argmin()]**2)/\
                     np.mean(self.counts)
-        return Profile(norm_counts, error=norm_error, cycles=self.cycles)
+#        return Profile(norm_counts, error=norm_error, cycles=self.cycles)
+        self.counts = norm_counts
+        self.error  = norm_error
 
 def phihist(phi, nbins, **kwargs):
     '''
