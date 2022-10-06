@@ -589,7 +589,7 @@ def cal_event_gti(data, tgap=1):
     than `tgap`, it split the event into two intervals. Otherwise,
     we take the event as continous observation.
 
-    Parameter
+    Parameters
     ---------
     data: array-like
         the event array
