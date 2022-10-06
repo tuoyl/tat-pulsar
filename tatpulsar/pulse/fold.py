@@ -220,20 +220,17 @@ def phase_exposure(gti, nbins,
         phase_stop_to1  = phase_stop   - np.floor(phase_stop)
         N_pulse += np.floor(phase_stop - phase_start)
 
-        print("normal")
         idx_start = _get_phase_index(phase_start_to1, phase_bin_edges)
         idx_stop  = _get_phase_index(phase_stop_to1, phase_bin_edges)
         if idx_start != (nbins - 1):
             phase_bin_counts[idx_start+1:] += 1
         phase_bin_counts[idx_start] += \
                 (phase_bin_edges[idx_start+1] - phase_start_to1)/phase_binsize
-        print("partially percentage: ", (phase_bin_edges[idx_start+1] - phase_start_to1)/phase_binsize)
 
         if idx_stop != 0:
             phase_bin_counts[:idx_stop] += 1
         phase_bin_counts[idx_stop] += \
                 (phase_stop_to1 - phase_bin_edges[idx_stop])/phase_binsize
-        print("partially percentage: ", (phase_stop_to1 - phase_bin_edges[idx_stop])/phase_binsize)
 
     phase_bin_counts += N_pulse
 
