@@ -66,7 +66,33 @@ class Profile():
             self.error = np.tile(error, reps=2)
         else:
             self.error = error
-        self.cycles = cycles
+        self._cycles = cycles
+
+    @property
+    def cycles(self):
+        return self._cycles
+    @cycles.setter
+    def cycles(self, value):
+        """
+        modify the cycles for profile
+        """
+        if value > 2:
+            raise IOError("Why do you have to setup so many cycles? 2 cycles is enough.")
+
+        if self._cycles == value:
+            print(f"Cycle is already {value}, nothing to do")
+        elif value == 2:
+            self._cycles = value
+            self.counts = np.tile(self.counts, reps=2)
+            self.error  = np.tile(self.error, reps=2)
+            self.phase  = np.linspace(0, value, self.size+1)[:-1]
+        elif value == 1:
+            self._cycles = value
+            idx = int(self.counts.size/2)
+            self.counts = self.counts[:idx]
+            self.error  = self.error[:idx]
+            self.phase  = np.linspace(0, value, self.size+1)[:-1]
+
 
     @property
     def size(self):
