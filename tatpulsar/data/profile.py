@@ -66,7 +66,33 @@ class Profile():
             self.error = np.tile(error, reps=2)
         else:
             self.error = error
-        self.cycles = cycles
+        self._cycles = cycles
+
+    @property
+    def cycles(self):
+        return self._cycles
+    @cycles.setter
+    def cycles(self, value):
+        """
+        modify the cycles for profile
+        """
+        if value > 2:
+            raise IOError("Why do you have to setup so many cycles? 2 cycles is enough.")
+
+        if self._cycles == value:
+            print(f"Cycle is already {value}, nothing to do")
+        elif value == 2:
+            self._cycles = value
+            self.counts = np.tile(self.counts, reps=2)
+            self.error  = np.tile(self.error, reps=2)
+            self.phase  = np.linspace(0, value, self.size+1)[:-1]
+        elif value == 1:
+            self._cycles = value
+            idx = int(self.counts.size/2)
+            self.counts = self.counts[:idx]
+            self.error  = self.error[:idx]
+            self.phase  = np.linspace(0, value, self.size+1)[:-1]
+
 
     @property
     def size(self):
@@ -117,9 +143,9 @@ class Profile():
         method: int, optional
             The normalization method utilized, optional methods are {0, 1}
             method = 0 : :math:`N = (P - P_{min})/(P_{max} - P_{min})`
-                if background range are selected (`bkg_range` is not None)
-                :math:`N = (P - \\bar{B})/(P_{max} - \\bar{B})`
-                where :math:`\\bar{B}` is the mean level in `bkg_range`
+            if background range are selected (`bkg_range` is not None)
+            :math:`N = (P - \\bar{B})/(P_{max} - \\bar{B})`
+            where :math:`\\bar{B}` is the mean level in `bkg_range`
             method = 1 : :math:`N = (P-P_{min})/\\bar{P}`
 
         bkg_range: list, optional
@@ -177,38 +203,3 @@ def phihist(phi, nbins, **kwargs):
     profile_object = Profile(counts, **kwargs)
 
     return profile_object
-
-def resampling_profile(profile, sample_num=1, kind='poisson'):
-    '''
-    resampling the profile
-
-    Parameters
-    ----------
-    profile : array
-        The un-normalized profile
-
-    sample_num : int, optional
-        number of the resamplings for the profile, the default number is 1
-
-    kind : str, optional
-        The distribution of the profile, default is poisson.
-        ('poisson', 'gaussian') are refering to the poisson and gauss distribution
-
-    Returns
-    -------
-    resampled_profile : array or ndarray
-        if sample_num == 1, return a one dimensional array
-        if sample_num >1 , return a multi-dimensional array
-    '''
-    raw_profile = np.array(profile.tolist()*sample_num)
-    if sample_num <= 0:
-        raiseError("The number of sampling must a positive integer")
-
-    if kind == "poisson":
-        resampled_profile = np.random.poisson(raw_profile)
-    elif kind == "gaussian":
-        pass #TODO
-
-    resampled_profile = resampled_profile.reshape(int(len(resampled_profile)/len(profile)),
-            int(len(profile)))
-    return resampled_profile

@@ -636,6 +636,110 @@ the same time format (MJD or MET).</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.pulse.fold.fold2d">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.fold.</span></span><span class="sig-name descname"><span class="pre">fold2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nseg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pepoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gti</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_data_gti</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'met'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/fold.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.fold.fold2d" title="Permalink to this definition"></a></dt>
+<dd><p>Epoch folding the two array into 2 dimensional histogram</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>histogram2d may be implemented in <cite>Profile</cite> object.</p>
+</div>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time: array-like</strong></p>
+<blockquote>
+<div><p>time array</p>
+</div></blockquote>
+<p><strong>y: array-like</strong></p>
+<blockquote>
+<div><p>another dimensional information of each photon, such as energy channel, or
+time</p>
+</div></blockquote>
+<p><strong>nseg: int</strong></p>
+<blockquote>
+<div><p>the segment number to uniform split y</p>
+</div></blockquote>
+<p><strong>parfile</strong> : str ,optional</p>
+<blockquote>
+<div><p>read the parameters from parfile</p>
+</div></blockquote>
+<p><strong>pepoch</strong> : float, optional</p>
+<blockquote>
+<div><p>time for input frequecy values.
+NOTE: the output frequecy is the frequency at which
+the time of middle of the time interval</p>
+</div></blockquote>
+<p><strong>f0</strong> : float, optional</p>
+<blockquote>
+<div><p>frequency</p>
+</div></blockquote>
+<p><strong>f1</strong> : float, optional</p>
+<blockquote>
+<div><p>fdot.</p>
+</div></blockquote>
+<p><strong>f2</strong> : float, optional</p>
+<blockquote>
+<div><p>the second derivative of frequency</p>
+</div></blockquote>
+<p><strong>f3</strong> : float, optional</p>
+<blockquote>
+<div><p>the third derivative of frequency</p>
+</div></blockquote>
+<p><strong>f4</strong> : float, optional</p>
+<blockquote>
+<div><p>the fourth derivative of frequency</p>
+</div></blockquote>
+<p><strong>nbins</strong> : int, optional, default is 20</p>
+<blockquote>
+<div><p>the bin number of profile. default value is 20</p>
+</div></blockquote>
+<p><strong>phi0</strong> : float, optional, default is 0</p>
+<blockquote>
+<div><p>the reference phase of the profile, if given,
+the phase is calculated by:</p>
+<div class="math notranslate nohighlight">
+\[\phi = \phi - \phi_{0}\]</div>
+</div></blockquote>
+<p><strong>gti</strong> : N-darray, optional</p>
+<blockquote>
+<div><p>The good time intervals of given data. default is None, if given,
+the exposure correction for each phase bin will be considered.
+You can also use <cite>use_data_gti</cite> parameter to calculate the GTI
+for given <cite>time</cite> array. In fold2d case, gti will apply on each profile
+extended in y dimension.</p>
+</div></blockquote>
+<p><strong>use_data_gti: bool, optional, default is False</strong></p>
+<blockquote>
+<div><p>whether calculate the GTI for given <cite>time</cite> (if True the <cite>time</cite>
+must be an array instead of a value).</p>
+</div></blockquote>
+<p><strong>format</strong> : str, optional</p>
+<blockquote>
+<div><p>the format of time and pepoch, “mjd” or “met”.
+The default if “met”.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The format of event array and the reference time should be
+the same time format (MJD or MET).</p>
+</div>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>profiles</strong> : list</p>
+<blockquote>
+<div><p>return a list of Profile object (<a class="reference internal" href="data.html#tatpulsar.data.profile.Profile" title="tatpulsar.data.profile.Profile"><code class="xref py py-class docutils literal notranslate"><span class="pre">tatpulsar.data.profile.Profile</span></code></a>)</p>
+</div></blockquote>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p>IOError</p>
+<blockquote>
+<div><p>If pepoch, f0, and parfile not given,
+or if data is empty.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="tatpulsar.pulse.fold.phase_exposure">
 <span class="sig-prename descclassname"><span class="pre">tatpulsar.pulse.fold.</span></span><span class="sig-name descname"><span class="pre">phase_exposure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gti</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbins</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pepoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'met'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/pulse/fold.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.pulse.fold.phase_exposure" title="Permalink to this definition"></a></dt>
 <dd><p>calculate the exposure correction coefficients for each phase bin.</p>
@@ -774,7 +878,7 @@ ToA file and return the ToA and ToA errors</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2022 Oct 07 at 01:22:01 UTC.
+      <span class="lastupdated">Last updated on 2022 Oct 08 at 20:29:30 UTC.
       </span></p>
   </div>
 
