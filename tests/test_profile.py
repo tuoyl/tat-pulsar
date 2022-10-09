@@ -74,7 +74,8 @@ class TestCycles(unittest.TestCase):
 
     def test_norm(self):
         from copy import deepcopy
-        cnt = np.loadtxt("./data/Crab_profile.dat")
+        dir = "./tests/data/Crab_profile.dat"
+        cnt = np.loadtxt(dir)
         pro = Profile(cnt, cycles=1)
         pro_norm0 = deepcopy(pro)
         pro_norm1 = deepcopy(pro)
