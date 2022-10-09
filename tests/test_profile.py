@@ -8,8 +8,6 @@ import matplotlib as mpl
 # sns.set_context('talk')
 # sns.set_style("whitegrid")
 # sns.set_palette("colorblind")
-plt.style.use(['science', 'nature', 'no-latex'])
-mpl.rcParams['figure.dpi'] = 250
 
 # Test Profile cycle function
 
