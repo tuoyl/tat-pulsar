@@ -3,3 +3,4 @@ numba
 matplotlib
 astropy
 jplephem
+scipy
