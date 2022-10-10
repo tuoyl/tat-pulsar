@@ -42,6 +42,17 @@ class TestCycles(unittest.TestCase):
         with self.assertRaises(IOError):
             pro.cycles=3.5
 
+    def test_operator(self):
+        cnt = np.random.rand(100)
+        pro1 = Profile(cnt, cycles=1)
+        pro2 = Profile(cnt, cycles=1)
+        pro = pro1 + pro2
+        np.testing.assert_array_equal(pro.counts, pro1.counts + pro2.counts)
+        np.testing.assert_array_equal(pro.error, np.sqrt(pro1.error**2 + pro2.error**2))
+        pro = pro1 - pro2
+        np.testing.assert_array_equal(pro.counts, pro1.counts - pro2.counts)
+        np.testing.assert_array_equal(pro.error, np.sqrt(pro1.error**2 + pro2.error**2))
+
 
     def test_setter(self):
         cnt = np.random.rand(100)
