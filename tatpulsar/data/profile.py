@@ -57,8 +57,10 @@ class Profile():
             raise IOError("Why do you have to setup so many cycles? 2 cycles is enough.")
         if cycles == 2:
             self.counts = np.tile(counts, reps=2)
+            self._pickled = True # whether the profile has been duplicated or modified
         else:
             self.counts = counts
+            self._pickled = False # whether the profile has been duplicated or modified
         self.phase  = np.linspace(0, cycles, self.size+1)[:-1]
         if error is None:
             self.error = np.sqrt(self.counts)
@@ -67,6 +69,39 @@ class Profile():
         else:
             self.error = error
         self._cycles = cycles
+        self._pickled = False # whether the profile has been duplicated or modified
+
+    def __add__(self, other):
+        """
+        merge two Profile.
+
+        .. warning::
+
+            When you add two Profile, we recommend that only add two Profile with ONE cycle.
+            If you add two pickled Profile (e.g duplicated the phase into 2 cycles), the new
+            returned Profile has a cycle of ONE, which is incorrect.
+
+        """
+        if not isinstance(other, Profile):
+            raise IOError(f"{other} is not a Profile object")
+        if self.cycles != other.cycles:
+            raise ValueError("the cycles of two Profile object does not match")
+        add_cnt = self.counts + other.counts
+        add_err = np.sqrt(self.error**2 + other.error**2)
+        return Profile(add_cnt, error=add_err)
+
+    def __sub__(self, other):
+        """
+        subtract operator to subtract on Profile from another Profile
+        """
+        if not isinstance(other, Profile):
+            raise IOError(f"{other} is not a Profile object")
+        if self.cycles != other.cycles:
+            raise ValueError("the cycles of two Profile object does not match")
+        sub_cnt = self.counts - other.counts
+        sub_err = np.sqrt(self.error**2 + other.error**2)
+        return Profile(sub_cnt, error=sub_err)
+
 
     @property
     def cycles(self):
