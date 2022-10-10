@@ -24,6 +24,7 @@ jobs:
       uses: codecov/codecov-action@v3
       # Replace `linux` below with the appropriate OS
       # Options are `alpine`, `linux`, `macos`, `windows`
+    - name: Report in Github  
       run: |
         curl -Os https://uploader.codecov.io/latest/linux/codecov
         chmod +x codecov
