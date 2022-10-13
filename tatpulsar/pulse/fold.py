@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 import numpy as np
 import math
+import warnings
 import matplotlib.pyplot as plt
 from numba import float64
 
 from tatpulsar.utils.functions import met2mjd, get_parameters, cal_event_gti
 from tatpulsar.data.profile import phihist, Profile
+from tatpulsar.pulse.residuals import parse_pfiles
 
 __all__ = ['fold', 'fold2d',
            'cal_phase', 'phase_exposure']
@@ -82,8 +84,15 @@ def fold(time, parfile=None,
     time = float64(time) # transfer the data to Numba float 64 bites
 
     if parfile is not None:
-        ## TODO: get pars from Tempo2 parfile
         pass
+        #TODO
+        #frequencies, pepoch, start_time, stop_time = \
+        #        parse_pfiles(parfile)
+        #if len(frequencies) > 5:
+        #    raise IOError("tatpulsar now only support f4, higher order of frequencies not available")
+        #else:
+        #    f0, f1, f2, f3, f4, *_ = frequencies[0]
+
     elif (pepoch is None) or (f0 is None):
         raise IOError("Parameters to fold not given, use TEMPO2 parfile or set 'pepoch' and 'f0'")
 
@@ -246,8 +255,15 @@ def fold2d(time, y, nseg,
         return a list of Profile object (:class:`tatpulsar.data.profile.Profile`)
     """
     if parfile is not None:
-        ## TODO: get pars from Tempo2 parfile
         pass
+        #TODO
+        #frequencies, pepoch, start_time, stop_time = \
+        #        parse_pfiles(parfile)
+        #if len(frequencies) > 5:
+        #    warnings.warn("tatpulsar now only support f4, higher order of frequencies not available")
+        #else:
+        #    f0, f1, f2, f3, f4, *_ = frequencies[0]
+
     elif (pepoch is None) or (f0 is None):
         raise IOError("Parameters to fold not given, use TEMPO2 parfile or set 'pepoch' and 'f0'")
 
