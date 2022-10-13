@@ -18,7 +18,7 @@ URL = 'https://github.com/tuoyl/tat-pulsar'
 EMAIL = 'tuoyl@ihep.ac.cn'
 AUTHOR = 'Youli Tuo'
 REQUIRES_PYTHON = '>=3.7.10'
-VERSION = '0.2.9'
+VERSION = '0.2.10'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
