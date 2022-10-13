@@ -5,6 +5,7 @@ import argparse
 import warnings
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
+from matplotlib.widgets import SpanSelector, Button, TextBox
 import matplotlib as mpl
 import pint
 from astropy.io import fits
@@ -72,6 +73,31 @@ def _get_mission_name(hdulist):
     else:
         return TELESCOP.lower()
 
+def _GUI_time_selection(fig, ax1, ax2, profiles, time):
+    """GUI for time range selection
+    profiles is a ndarray for a list of profiles
+    y is the value of y axis.
+    """
+
+    def toggle_selector(event):
+        #TODO press key to interact
+        pass
+
+    def onselect(ymin, ymax):
+        indmin, indmax = np.searchsorted(time, (ymin, ymax))
+        fig.canvas.mpl_connect('key_press_event', toggle_selector)
+
+        new_cum_profile = Profile(np.sum(profiles[indmin:indmax], axis=0))
+
+        ax1.clear()
+        ax1.errorbar(new_cum_profile.phase + 1/new_cum_profile.phase.size/2,
+                     new_cum_profile.counts,
+                     new_cum_profile.error, ds='steps-mid')
+        ax1.set_ylabel("Counts")
+    span = SpanSelector(ax2, onselect, 'vertical', useblit=True,
+            props=dict(alpha=0.5, facecolor='red'), interactive=True)
+    return span
+
 def main():
     """
     fold the FITS data using the giving pulsar parfile into 2D histogram Profile.
@@ -82,7 +108,6 @@ def main():
 
     data = np.array([])
     for file in args.eventfile:
-        print(file)
         hdulist = fits.open(file)
         data = np.append(data,
                          hdulist[args.extnum].data[args.colname])
@@ -118,9 +143,8 @@ def main():
                      f3=f3,
                      f4=f4)
 
-    # TODO: GUI
-    index = (0, -1)
-    cum_profile = Profile(np.sum(np.asarray([x.counts for x in profile])[index[0]:index[1]], axis=0))
+    profile_slices = np.asarray([x.counts for x in profile])
+    cum_profile = Profile(np.sum(np.asarray([x.counts for x in profile]), axis=0))
     for x in profile:
         x.norm()
 
@@ -137,13 +161,17 @@ def main():
     ax1.set_ylabel("Counts")
     ax1.errorbar(cum_profile.phase+1/args.nbins/2, cum_profile.counts,
                  cum_profile.error, ds='steps-mid')
-    ax2.imshow([x.counts for x in profile], aspect='auto',
-               origin='lower',
-               extent=[0, 1, data.min(), data.max()],
-               cmap='jet')
+
+    heatmap = ax2.imshow([x.counts for x in profile], aspect='auto',
+                         origin='lower',
+                         extent=[0, 1, data.min(), data.max()],
+                         cmap='jet')
     ax2.set_title("Time-resolved Profiles", fontsize=6, pad=1)
     ax2.set_xlabel("Phase")
     ax2.set_ylabel("Time")
+
+    time_edges = np.linspace(data.min(), data.max(), args.nseg)
+    span = _GUI_time_selection(fig, ax1, ax2, profile_slices, time_edges)
     plt.show()
 
 if __name__ == "__main__":
