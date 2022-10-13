@@ -26,7 +26,10 @@ REQUIRED = [
     'numba',
     'matplotlib',
     'astropy',
-    'jplephem'
+    'jplephem',
+    'scipy',
+    'pint-pulsar',
+    'SciencePlots'
 ]
 
 # What packages are optional?
@@ -114,6 +117,7 @@ setup(
     entry_points={
         'console_scripts': [
             "TATResiduals = tatpulsar.launcher.TATResiduals:main",
+            "TATfold2d = tatpulsar.launcher.TATfold2d:main",
             ],
     },
     install_requires=REQUIRED,
