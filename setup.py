@@ -9,7 +9,17 @@ import os
 import sys
 from shutil import rmtree
 
-from setuptools import find_packages, setup, Command
+from setuptools import find_packages, setup, Command, Extension
+from distutils.core import setup
+from distutils.extension import Extension
+from Cython.Build import cythonize
+try:
+    from Cython.Distutils import build_ext
+except ImportError:
+    use_cython = False
+else:
+    use_cython = True
+
 
 # Package meta-data.
 NAME = 'tat-pulsar'
@@ -18,7 +28,7 @@ URL = 'https://github.com/tuoyl/tat-pulsar'
 EMAIL = 'tuoyl@ihep.ac.cn'
 AUTHOR = 'Youli Tuo'
 REQUIRES_PYTHON = '>=3.7.10'
-VERSION = '0.2.11'
+VERSION = '0.2.12'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
@@ -98,6 +108,22 @@ class UploadCommand(Command):
 
         sys.exit()
 
+#ext_modules=[
+#      Extension("tatpulsar.pulse.binaryCorr",
+#                sources=["binaryCorr.pyx"],
+#                include_dirs=['./tatpulsar/pulse'],
+#                libraries=["m"] # Unix-like specific
+#      )
+#  ]
+
+if use_cython:
+    ext_modules = [
+            Extension("tatpulsar.pulse.binarycor", ['tatpulsar/pulse/binarycor.pyx']),
+    ]
+else:
+    ext_modules = [
+            Extension("tatpulsar.pulse.binarycor", ["tatpulsar/pulse/binarycor.pyx"]),
+    ]
 
 # Where the magic happens:
 setup(
@@ -137,5 +163,7 @@ setup(
     # $ setup.py publish support.
     cmdclass={
         'upload': UploadCommand,
+        'build_ext': build_ext,
     },
+    ext_modules = ext_modules
 )
