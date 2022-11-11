@@ -28,10 +28,32 @@ cpdef double Cor(double time, double pbp_t0, \
                  double pbp_e, double pbp_pb, double pbp_pbdot, double pbp_omega, double pbp_omdot, \
                  double pbp_a1sini, double pbp_gamma
                  ):
-  '''
-  How to call it:
-  tor = binaryCorr.Cor(time[j]/86400.+MJD, Tw, e, Porb, 0, omiga, 0, asin, 0); uint sec
-  time = time + tor
+    '''
+    Parameters
+    ----------
+    time: float
+        The time of observed photon in MJD
+    Tw: float
+        The periastron time in MJD
+    E: float
+        Eccentricity
+    Porb: float
+        Orbital period in second
+    PdotOrb: float
+        Second derivative of Orbital period in sec/sec
+    omega: float
+        Long. of periastron in degree #TODO
+    omegadot: float
+        second derivative of Long. of periastron in deg/sec
+    axsini: float
+        projection of semi major axis in light-sec
+    gamma: float
+        0
+
+    Returns
+    -------
+    torb: float
+        The correction value
   '''
   cdef double torb
   cdef double orbph
