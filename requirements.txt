@@ -6,3 +6,4 @@ jplephem
 scipy
 pint-pulsar
 SciencePlots
+Cython>=0.14
