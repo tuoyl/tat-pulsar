@@ -4,7 +4,7 @@ import numba
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from tatpulsar.utils.functions import *
-from tatpulsar.data.profile import resampling_profile, norm_profile, Profile
+from tatpulsar.data.profile import resampling_profile, Profile
 
 import sys
 
@@ -110,7 +110,7 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
         delta_phi = np.argmax(profile)/len(profile) + 0.5*len(profile)
         if fig_flag:
             plt.figure()
-            plt.errorbar(np.linspace(0,1,len(profile)), norm_profile(profile),
+            plt.errorbar(np.linspace(0,1,len(profile)), profile,
                     drawstyle='steps-mid')
 
 
@@ -336,7 +336,6 @@ def cal_toa(fbest, profile, data, method="max", error_method="default",
     toa = met2mjd(toa, telescope=kwargs['telescope'])
     return toa, toa_err
 
-@njit
 def _get_error_quantiles(data, toa, low=0.16, mid=0.5, hig=0.84):
     """
     The error of 1sigma is obtained from
@@ -373,7 +372,6 @@ def _get_error_by_profile_shape(period, peak_sigma, source_counts, background_co
     return sigma_ToA
 
 
-@njit
 def _calculate_delta_phi_by_ccf(profile, profile_std):
     #profile = np.append(profile, profile)
     #profile_std = np.append(profile_std, profile_std)
