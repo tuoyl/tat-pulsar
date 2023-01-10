@@ -34,6 +34,8 @@ class Profile():
         and right phase bin of off pulse phases.
         left_edge = phase_off[0]
         right_edge = phase_ff[1]
+    ref_time : float, default None
+        The reference time (in second) used to fold the profile
     """
 
     def __init__(self, counts, cycles=1, error=None):
@@ -70,6 +72,7 @@ class Profile():
             self.error = error
         self._cycles = cycles
         self._pickled = False # whether the profile has been duplicated or modified
+        self.ref_time = None
 
     def __add__(self, other):
         """
