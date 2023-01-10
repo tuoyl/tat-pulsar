@@ -108,6 +108,7 @@ def main():
 
     data = np.array([])
     for file in args.eventfile:
+        print(f'File {file} is now loaded')
         hdulist = fits.open(file)
         data = np.append(data,
                          hdulist[args.extnum].data[args.colname])
