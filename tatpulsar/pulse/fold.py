@@ -118,6 +118,7 @@ def fold(time, parfile=None,
     profile = phihist(phi, nbins)
     profile_cor = Profile(counts=profile.counts/exp_cor,
                           error=profile.error/exp_cor)
+    profile_cor.ref_time = pepoch # store reference time to Profile
 
     return profile_cor
 
