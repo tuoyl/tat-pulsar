@@ -2,6 +2,9 @@
 import numpy as np
 import numba
 import matplotlib.pyplot as plt
+from scipy.optimize import basinhopping
+from copy import deepcopy
+from tqdm import tqdm
 from scipy.optimize import curve_fit
 from tatpulsar.utils.functions import *
 from tatpulsar.utils.functions import gauss as Gauss
@@ -70,11 +73,12 @@ def cal_toa(fbest, profile, method="max",
     if not isinstance(profile, Profile):
         raise TypeError("The input profile is not tatpulsar.data.Profile object")
 
+    if phi_range is not None:
+        mask = (profile.phase >= phi_range[0])&(profile.phase <= phi_range[1])
+    else:
+        mask = np.ones(profile.counts.size, dtype=bool)
+
     if method == 'max':
-        if phi_range is not None:
-            mask = (profile.phase >= phi_range[0])&(profile.phase <= phi_range[1])
-        else:
-            mask = np.ones(profile.counts.size, dtype=bool)
         ph = profile.phase[mask]
         pro = profile.counts[mask]
         delta_phi = ph[np.argmax(pro)]
@@ -84,9 +88,82 @@ def cal_toa(fbest, profile, method="max",
         profile_sim = np.random.poisson(profile_duplicated)
         delta_phis = ph[np.argmax(profile_sim, axis=1)]
 
+        ## TODO: this is highly not safe
+        if (delta_phi < 0.25) or (delta_phi >0.75):
+            delta_phis[delta_phis<0.5]  = delta_phis[delta_phis<0.5]+1
+
+    elif method == 'fft':
+        # Taylor FFT ccf
+        p0 = [1, 0]
+        ph = profile.phase
+        pro = profile.counts
+        std_ph = std_pro.phase
+        std_pro_masked = std_pro.counts
+
+        res = basinhopping(obj_fun, p0,
+                           minimizer_kwargs={'args':([pro, std_pro_masked])})
+        amp, shift = res.x
+
+        delta_phi = std_ph[np.argmax(std_pro_masked)] + shift
+        delta_phi = delta_phi - np.floor(delta_phi)
+
+        ## Caclualte the error by profile simulation
+        profile_duplicated = np.asarray([pro]*nsteps)
+        profile_sim = np.random.poisson(profile_duplicated)
+        delta_phis = np.array([])
+        for p_tmp in tqdm(profile_sim):
+            res_tmp = basinhopping(obj_fun, p0,
+                                  minimizer_kwargs={'args':([p_tmp, std_pro_masked])})
+            amp_tmp, shift_tmp = res_tmp.x
+            delta_phi_tmp = std_ph[np.argmax(std_pro_masked)] + shift_tmp
+            delta_phi_tmp = delta_phi_tmp - np.floor(delta_phi_tmp)
+            delta_phis = np.append(delta_phis, delta_phi_tmp)
+
+    elif method == 'ccf':
+        ph = profile.phase
+        pro = profile.counts
+        std_ph = std_pro.phase
+        std_pro_masked = std_pro.counts
+        y, shift = ccf(pro, std_pro_masked)
+
+        delta_phi = std_ph[np.argmax(np.roll(std_pro_masked,shift))]
+
+        ## Caclualte the error by profile simulation
+        profile_duplicated = np.asarray([pro]*nsteps)
+        profile_sim = np.random.poisson(profile_duplicated)
+        delta_phis = np.array([])
+        for p_tmp in tqdm(profile_sim):
+            _, shift_tmp = ccf(p_tmp, std_pro_masked)
+
+            delta_phi_tmp = std_ph[np.argmax(np.roll(std_pro_masked,shift_tmp))]
+            delta_phis = np.append(delta_phis, delta_phi_tmp)
+
+
     if fig_flag:
-        plt.errorbar(profile.phase, profile.counts, ds='steps-mid', c='k')
+        profile_tmp = deepcopy(profile)
+        profile_tmp.cycles = 2
+        profile_tmp.norm()
+        if method == 'fft':
+            std_pro_tmp = deepcopy(std_pro)
+            std_pro_tmp.cycles = 2
+            std_pro_tmp.norm()
+            new_ph = std_pro_tmp.phase + shift
+            new_ph = new_ph - np.floor(new_ph)
+            plt.errorbar(new_ph, std_pro_tmp.counts*amp, std_pro_tmp.error*amp,
+                         c='r', ds='steps-mid', label='template profile')
+        elif method == 'ccf':
+            std_pro_tmp = deepcopy(std_pro)
+            std_pro_tmp.cycles = 2
+            std_pro_tmp.norm()
+            new_ph = std_pro_tmp.phase
+            plt.errorbar(new_ph, np.roll(std_pro_tmp.counts, shift), std_pro_tmp.error,
+                         c='r', ds='steps-mid', label='template profile')
+
+        plt.errorbar(profile_tmp.phase, profile_tmp.counts,
+                     profile_tmp.error, ds='steps-mid', c='k')
         plt.axvline(delta_phi)
+        for i in delta_phis:
+            plt.axvline(i, lw=0.1)
         if phi_range is not None:
             plt.axvline(phi_range[0], ls='dotted')
             plt.axvline(phi_range[1], ls='dotted')
@@ -103,6 +180,26 @@ def cal_toa(fbest, profile, method="max",
     TOA = (1/fbest)*delta_phi + ref_time
     TOA_err = (1/fbest)*np.std(delta_phis)
     return TOA, TOA_err
+
+def fftfit_fun(profile, template, amplitude, phase):
+    '''Objective function to be minimized - \'a la Taylor (1992).'''
+
+    prof_ft = np.fft.fft(profile)
+    temp_ft = np.fft.fft(template)
+    freq = np.fft.fftfreq(len(profile))
+    good = freq > 0
+    idx = np.arange(0, prof_ft.size, dtype=int)
+    sigma = np.std(prof_ft[good])
+    return np.sum(np.absolute(prof_ft - temp_ft*amplitude*np.exp(-2*np.pi*1.0j*idx*phase))**2 / sigma)
+
+def obj_fun(pars, data):
+    '''
+    Wrap parameters and input data up in order to be used with minimization
+    algorithms.
+    '''
+    amplitude, phase = pars
+    profile, template = data
+    return fftfit_fun(profile, template, amplitude, phase)
 
 #def cal_toa(fbest, profile, data, method="max", error_method="default",
 #        fig_flag=False, std_pro='', t0=None, **kwargs):
