@@ -15,7 +15,7 @@ import sys
 __all__ = ['cal_toa']
 
 def cal_toa(fbest, profile, method="max",
-            ref_time=None, fig_flag=False, std_pro=None,
+            ref_time=None, debug=False, std_pro=None,
             nsteps=100, phi_range=None, **kwargs):
     """
     Calculate the Time of Arrival (ToA) of profile
@@ -33,7 +33,7 @@ def cal_toa(fbest, profile, method="max",
         The ref_time that folded the profile. The ref_time is provided by Profile object if you
         folded using `tatpulsar.pulse.fold` function. Otherwise you must assign.
 
-    fig_flag : bool, optional
+    debug : bool, optional
         flag to plot the ToA fitting processes for debugging
 
     method : str, optional
@@ -139,7 +139,7 @@ def cal_toa(fbest, profile, method="max",
             delta_phis = np.append(delta_phis, delta_phi_tmp)
 
 
-    if fig_flag:
+    if debug:
         profile_tmp = deepcopy(profile)
         profile_tmp.cycles = 2
         profile_tmp.norm()
@@ -156,7 +156,8 @@ def cal_toa(fbest, profile, method="max",
             std_pro_tmp.cycles = 2
             std_pro_tmp.norm()
             new_ph = std_pro_tmp.phase
-            plt.errorbar(new_ph, np.roll(std_pro_tmp.counts, shift), std_pro_tmp.error,
+            plt.errorbar(new_ph, np.roll(std_pro_tmp.counts, shift),
+                                 np.roll(std_pro_tmp.error, shift),
                          c='r', ds='steps-mid', label='template profile')
 
         plt.errorbar(profile_tmp.phase, profile_tmp.counts,
