@@ -143,12 +143,9 @@ def main():
                      f2=f2,
                      f3=f3,
                      f4=f4)
-    for x in profile:
-        x.cycles=2
 
     profile_slices = np.asarray([x.counts for x in profile])
     cum_profile = Profile(np.sum(np.asarray([x.counts for x in profile]), axis=0))
-    cum_profile.cycles=2
     for x in profile:
         x.norm()
 
