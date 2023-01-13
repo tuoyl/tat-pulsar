@@ -5,7 +5,7 @@ import warnings
 import matplotlib.pyplot as plt
 from numba import float64
 
-from tatpulsar.utils.functions import met2mjd, get_parameters, cal_event_gti
+from tatpulsar.utils.functions import met2mjd, mjd2met, get_parameters, cal_event_gti
 from tatpulsar.data.profile import phihist, Profile
 from tatpulsar.pulse.residuals import parse_pfiles
 
@@ -15,7 +15,7 @@ __all__ = ['fold', 'fold2d',
 def fold(time, parfile=None,
         pepoch=None, f0=None, f1=0, f2=0, f3=0, f4=0, nbins=20,
         phi0=0, gti=None, use_data_gti=False,
-        format='met'):
+        format='met', **kwargs):
     """
     Epoch folding the photon array and return the folded profile.
 
@@ -84,14 +84,18 @@ def fold(time, parfile=None,
     time = float64(time) # transfer the data to Numba float 64 bites
 
     if parfile is not None:
-        pass
-        #TODO
-        #frequencies, pepoch, start_time, stop_time = \
-        #        parse_pfiles(parfile)
-        #if len(frequencies) > 5:
-        #    raise IOError("tatpulsar now only support f4, higher order of frequencies not available")
-        #else:
-        #    f0, f1, f2, f3, f4, *_ = frequencies[0]
+        frequencies, pepoch, start_time, stop_time = \
+                parse_pfiles(parfile)
+        f0, f1, f2, f3, f4, *_ = frequencies
+
+        if 'telescope' not in kwargs:
+            raise IOError("'telescope' must be assigned, used to convert MJD to MET")
+        else:
+            telescope=kwargs['telescope']
+
+        pepoch = mjd2met(pepoch,
+                         telescope=telescope)
+        format = 'met'
 
     elif (pepoch is None) or (f0 is None):
         raise IOError("Parameters to fold not given, use TEMPO2 parfile or set 'pepoch' and 'f0'")
@@ -256,14 +260,18 @@ def fold2d(time, y, nseg,
         return a list of Profile object (:class:`tatpulsar.data.profile.Profile`)
     """
     if parfile is not None:
-        pass
-        #TODO
-        #frequencies, pepoch, start_time, stop_time = \
-        #        parse_pfiles(parfile)
-        #if len(frequencies) > 5:
-        #    warnings.warn("tatpulsar now only support f4, higher order of frequencies not available")
-        #else:
-        #    f0, f1, f2, f3, f4, *_ = frequencies[0]
+        frequencies, pepoch, start_time, stop_time = \
+                parse_pfiles(parfile)
+        f0, f1, f2, f3, f4, *_ = frequencies
+
+        if 'telescope' not in kwargs:
+            raise IOError("'telescope' must be assigned, used to convert MJD to MET")
+        else:
+            telescope=kwargs['telescope']
+
+        pepoch = mjd2met(pepoch,
+                         telescope=telescope)
+        format = 'met'
 
     elif (pepoch is None) or (f0 is None):
         raise IOError("Parameters to fold not given, use TEMPO2 parfile or set 'pepoch' and 'f0'")
