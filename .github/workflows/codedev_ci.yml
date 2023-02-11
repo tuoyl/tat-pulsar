@@ -14,8 +14,6 @@ jobs:
     - uses: actions/setup-python@v3
       with:
         python-version: '3.7.10'
-      env:
-        AGENT_TOOLSDIRECTORY: /opt/hostedtoolache
     - name: Install Pytest
       run: pip install pytest-cov
     - name: Install requirements
