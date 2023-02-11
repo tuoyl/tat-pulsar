@@ -11,10 +11,9 @@ jobs:
         working-directory: .
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-python@v2
+    - uses: actions/setup-python@v3
       with:
         python-version: '3.7.10'
-        cache: "pip"
       env:
         AGENT_TOOLSDIRECTORY: /opt/hostedtoolache
     - name: Install Pytest
