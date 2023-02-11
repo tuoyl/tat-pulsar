@@ -201,7 +201,7 @@ def numba_histogram(a, bins):
     return hist, bin_edges
 
 
-#@njit(parallel=True, nogil=True)
+@njit(parallel=True, nogil=True)
 def cal_chisquare(data, f, pepoch, nbins, F1=0, F2=0, F3=0, F4=0, parallel=False):
     """
     Calculate the Pearson-Chisquare value for given spinning parameters at given epoch time.
