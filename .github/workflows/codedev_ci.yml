@@ -15,7 +15,7 @@ jobs:
       with:
         python-version: '3.7.10'
         cache: "pip"
-      evn:
+      env:
         AGENT_TOOLSDIRECTORY: /opt/hostedtoolache
     - name: Install Pytest
       run: pip install pytest-cov
