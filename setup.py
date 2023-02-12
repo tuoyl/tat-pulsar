@@ -40,6 +40,7 @@ REQUIRED = [
     'scipy',
     'pint-pulsar',
     'SciencePlots',
+    'Cython',
     'tk'
 ]
 
