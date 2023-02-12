@@ -28,7 +28,7 @@ URL = 'https://github.com/tuoyl/tat-pulsar'
 EMAIL = 'tuoyl@ihep.ac.cn'
 AUTHOR = 'Youli Tuo'
 REQUIRES_PYTHON = '>=3.7.10'
-VERSION = '0.2.20'
+VERSION = '0.3.1'
 
 # What packages are required for this module to be executed?
 REQUIRED = [
@@ -39,7 +39,8 @@ REQUIRED = [
     'jplephem',
     'scipy',
     'pint-pulsar',
-    'SciencePlots'
+    'SciencePlots',
+    'tk'
 ]
 
 # What packages are optional?
