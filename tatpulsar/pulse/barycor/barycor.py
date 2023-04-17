@@ -24,6 +24,7 @@ import numpy as np
 from jplephem.spk import SPK
 from tatpulsar.pulse.barycor.tdb2tdt import tdb2tdt
 import tatpulsar.pulse.barycor as barydir
+import tatpulsar.config
 from scipy.interpolate import interp1d
 
 
@@ -89,7 +90,7 @@ def barycor(date, ra, dec,
 
     jd =  np.array(date,dtype=np.float64) + 2400000.5
     if jplephem is None:
-        jplephem = _get_jplfile()
+        jplephem = tatpulsar.config.jpleph('de421')
     if not os.path.exists(jplephem):
         raise FileNotFoundError("File {} not found".format(jplephem))
     kernel = SPK.open(jplephem)
