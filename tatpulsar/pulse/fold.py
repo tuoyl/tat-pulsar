@@ -4,13 +4,16 @@ import math
 import warnings
 import matplotlib.pyplot as plt
 from numba import float64
+from tqdm import tqdm
 
 from tatpulsar.utils.functions import met2mjd, mjd2met, get_parameters, cal_event_gti
+from tatpulsar.utils.functions import ccf
 from tatpulsar.data.profile import phihist, Profile
 from tatpulsar.pulse.residuals import parse_pfiles
 
 __all__ = ['fold', 'fold2d',
-           'cal_phase', 'phase_exposure']
+           'cal_phase', 'phase_exposure',
+           'align_profile', 'merge_aligned_profile']
 
 def fold(time, parfile=None,
         pepoch=None, f0=None, f1=0, f2=0, f3=0, f4=0, nbins=20,
@@ -385,3 +388,50 @@ def _get_phase_index(phi, phase_bin_edges):
         return np.searchsorted(phase_bin_edges, phi)
     else:
         return np.searchsorted(phase_bin_edges, phi) - 1
+
+def align_profile(profile_list, template):
+    """
+    use ccf function to align each profile in the list to the given template
+
+    Parameters
+    ----------
+    profile_list: list of array
+        A list of profile. each element in that list is an array of profile
+    template: array-like
+        the array of template profile.
+
+    Returns
+    -------
+    new_list: list
+        The list of aligned profiles
+    """
+    if not isinstance(profile_list, list):
+        raise TypeError("The profile_list is not a list type")
+    if not isinstance(template, np.ndarray):
+        raise TypeError("The template profile is not an array")
+
+    new_list = []
+    for i in tqdm(range(len(profile_list))):
+        y, delay = ccf(template, profile_list[i])
+        new_list.append(np.roll(profile_list[i], delay))
+    return new_list
+
+def merge_aligned_profile(profile_list, template):
+    """
+    align each profile in the `profile_list` and return the profile that sum up
+    the counts of each profile
+
+    Parameters
+    ----------
+    profile_list: list of array
+        A list of profile. each element in that list is an array of profile
+    template: array-like
+        the array of template profile.
+
+    Returns
+    -------
+    new_profile: array
+        The array of merged aligned profiles
+    """
+    new_list = align_profile(profile_list, template)
+    return np.sum(np.asarray(new_list), axis=0)
