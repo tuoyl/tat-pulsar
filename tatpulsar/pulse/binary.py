@@ -4,17 +4,16 @@ Module for binary related analysis and correction
 
 import numpy as np
 from astropy.io import fits
-from tatpulsar.pulse.binaryCorr import Cor as KeplerCor
+from tatpulsar.pulse.binarycor import Cor as KeplerCor
 
-__all__ = ['event_orbit_cor',
+__all__ = ['orbit_cor_kepler',
         'orbit_cor_bt',
         'orbit_cor_deeter',
         'doppler_cor']
 
 __method__ = ["BT", "Deeter"]
 
-@numba.njit
-def event_orbit_cor(time, Tw, ecc, Porb, omega, axsini,
+def orbit_cor_kepler(time, Tw, ecc, Porb, omega, axsini,
                     PdotOrb=0, omegadot=0, gamma=0):
     """
     Corrects observed times of photons to their emission times
@@ -55,7 +54,7 @@ def event_orbit_cor(time, Tw, ecc, Porb, omega, axsini,
     >>> omega = -26. *np.pi/180.    #Longitude of periastron (radians)
     >>> axsin = 530.                 #Projected semi-major axis (light seconds)
     >>> Porb_dot = 0                #First derivative of Orbital period
-    >>> binary_corrected_time = event_orbit_cor(observed_time
+    >>> binary_corrected_time = orbit_cor_kepler(observed_time
                                                 Tw=Tw,
                                                 ecc=e,
                                                 Porb=Porb,
@@ -67,7 +66,7 @@ def event_orbit_cor(time, Tw, ecc, Porb, omega, axsini,
     """
     tor = np.empty_like(time)
     for i in range(len(time)):
-        tor[i] = KeplerCor(time[i], Tw, ecc, Porb, Porb_dot, omega, omegadot, axsini, gamma)
+        tor[i] = KeplerCor(time[i], Tw, ecc, Porb, PdotOrb, omega, omegadot, axsini, gamma)
     tor = tor/86400
     t_em = time + tor
     return t_em
