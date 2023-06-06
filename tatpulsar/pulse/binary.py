@@ -4,12 +4,72 @@ Module for binary related analysis and correction
 
 import numpy as np
 from astropy.io import fits
+from tatpulsar.pulse.binarycor import Cor as KeplerCor
 
-__all__ = ['orbit_cor_bt',
+__all__ = ['orbit_cor_kepler',
+        'orbit_cor_bt',
         'orbit_cor_deeter',
         'doppler_cor']
 
 __method__ = ["BT", "Deeter"]
+
+def orbit_cor_kepler(time, Tw, ecc, Porb, omega, axsini,
+                    PdotOrb=0, omegadot=0, gamma=0):
+    """
+    Corrects observed times of photons to their emission times
+    based on the Kepler function for a binary system.
+
+    Parameters
+    ----------
+    time: float
+        The time of observed photon in MJD
+    Tw: float
+        The periastron time in MJD
+    ecc: float
+        Eccentricity
+    Porb: float
+        Orbital period in second
+    PdotOrb: float (optional)
+        Second derivative of Orbital period in sec/sec default is 0
+    omega: float
+        Long. of periastron in radians.
+    omegadot: float (optional)
+        second derivative of Long. of periastron in rad/sec
+    axsini: float
+        projection of semi major axis in light-sec
+    gamma: float
+        0
+
+    Returns
+    -------
+    t_em: float
+        The emitting time of photon in binary system in MJD
+
+    Example
+    -------
+    >>> observed_time = np.array([...]) # Time series in MJD
+    >>> Tw = 54424.71               #Barycentric time (in MJD(TDB)) of periastron
+    >>> e = 0.68                    #orbital eccentricity
+    >>> Porb = 249.48 * 86400.      #Orbital period (s)
+    >>> omega = -26. *np.pi/180.    #Longitude of periastron (radians)
+    >>> axsin = 530.                 #Projected semi-major axis (light seconds)
+    >>> Porb_dot = 0                #First derivative of Orbital period
+    >>> binary_corrected_time = orbit_cor_kepler(observed_time
+                                                Tw=Tw,
+                                                ecc=e,
+                                                Porb=Porb,
+                                                Porb_dot,
+                                                omega,
+                                                0,
+                                                asin,
+                                                0)
+    """
+    tor = np.empty_like(time)
+    for i in range(len(time)):
+        tor[i] = KeplerCor(time[i], Tw, ecc, Porb, PdotOrb, omega, omegadot, axsini, gamma)
+    tor = tor/86400
+    t_em = time + tor
+    return t_em
 
 
 def orbit_cor_bt(t, Porb, axsini, e, omega, Tw, gamma):
