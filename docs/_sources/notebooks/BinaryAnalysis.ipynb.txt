@@ -44,7 +44,21 @@
     "## Download Data\n",
     "First, we use wget to download the data, taking the observation data for Cen X-3 from IXPE as an example. This data has several advantages:\n",
     "- The data size is manageable.\n",
-    "- It's real and publicly available.\n"
+    "- It's real and publicly available.\n",
+    "\n",
+    "The orbital parameter provided by the GBM epoch-folding monitor (https://gammaray.nsstc.nasa.gov/gbm/science/pulsars/lightcurves/cenx3.html)\n",
+    "\n",
+    "\n",
+    "| | |\n",
+    "| --------------- | --------------- |\n",
+    "| RA    | 170.3133 deg    |\n",
+    "| Decl  | -60.6233 deg    |\n",
+    "| Orbital Period    | 2.0869953 days    |\n",
+    "| Period Deriv.   | -1.0150E-08 days/day    |\n",
+    "| T half pi  | 2455073.68504 (JED)    |\n",
+    "| axsin(i)    | 39.653 light-sec   |\n",
+    "| Long. of periastron   | 0.00 deg    |\n",
+    "| Eccentricity    | 0.0000    |\n"
    ]
   },
   {

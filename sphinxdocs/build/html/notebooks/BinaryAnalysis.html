@@ -392,6 +392,39 @@ Populating the interactive namespace from numpy and matplotlib
 <div class="section" id="Download-Data">
 <h2>Download Data<a class="headerlink" href="#Download-Data" title="Permalink to this headline"></a></h2>
 <p>First, we use wget to download the data, taking the observation data for Cen X-3 from IXPE as an example. This data has several advantages: - The data size is manageable. - It’s real and publicly available.</p>
+<p>The orbital parameter provided by the GBM epoch-folding monitor (<a class="reference external" href="https://gammaray.nsstc.nasa.gov/gbm/science/pulsars/lightcurves/cenx3.html">https://gammaray.nsstc.nasa.gov/gbm/science/pulsars/lightcurves/cenx3.html</a>)</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 49%" />
+<col style="width: 51%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>RA</p></td>
+<td><p>170.3133 deg</p></td>
+</tr>
+<tr class="row-even"><td><p>Decl</p></td>
+<td><p>-60.6233 deg</p></td>
+</tr>
+<tr class="row-odd"><td><p>Orbital Period</p></td>
+<td><p>2.0869953 days</p></td>
+</tr>
+<tr class="row-even"><td><p>Period Deriv.</p></td>
+<td><p>-1.0150E-08 days/day</p></td>
+</tr>
+<tr class="row-odd"><td><p>T half pi</p></td>
+<td><p>2455073.68504 (JED)</p></td>
+</tr>
+<tr class="row-even"><td><p>axsin(i)</p></td>
+<td><p>39.653 light-sec</p></td>
+</tr>
+<tr class="row-odd"><td><p>Long. of periastron</p></td>
+<td><p>0.00 deg</p></td>
+</tr>
+<tr class="row-even"><td><p>Eccentricity</p></td>
+<td><p>0.0000</p></td>
+</tr>
+</tbody>
+</table>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -774,7 +807,7 @@ orbit_cor_kepler(time, Tw, ecc, Porb, omega, axsini, PdotOrb=0, omegadot=0, gamm
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Jun 03 at 17:50:36 UTC.
+      <span class="lastupdated">Last updated on 2023 Jun 06 at 12:09:33 UTC.
       </span></p>
   </div>
 

@@ -100,32 +100,46 @@
 </style>
 <div class="section" id="tat-pulsar-documentation">
 <h1>TAT-pulsar documentation<a class="headerlink" href="#tat-pulsar-documentation" title="Permalink to this headline"></a></h1>
-<p>A very useful toolbox for your high energy pulsar timing analysis.</p>
+<p>Hey there! This is a Python toolbox made for folks interested in messing around with pulsar timing analysis, especially in high-energy scenarios. You know those pesky corrections needed for stuff like the barycentric correction and binary systems? Yeah, we’ve got functions for those. Plus, we’ve included some timing analysis tools and some examples to help you get started with your pulsar timing exploration. Enjoy!</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">Installation</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Navigation</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><p>Download the whole repository to your local directory using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code> or <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span></code>.</p>
-<p>For example, In you local path execute:</p>
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">pip Installation</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">source code Installation</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">Navigation</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><ol class="arabic simple">
+<li><p>Open your terminal or command prompt.</p></li>
+<li><p>Type in the following command:</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install tat-pulsar</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Let pip handle the rest. You should see messages indicating that TAT-Pulsar was successfully installed.</p></li>
+</ol>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><ol class="arabic simple">
+<li><p>Open your terminal or command prompt.</p></li>
+<li><p>Navigate to the directory where you want to clone the GitHub repository using the ‘cd’ command:</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd /path/to/your/directory</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Clone the TAT-Pulsar repository with the following command:</p></li>
+</ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">git clone https://github.com/tuoyl/TAT-pulsar.git</span>
 </pre></div>
 </div>
-<p>And you will get the folder <code class="docutils literal notranslate"><span class="pre">tat-pulsar</span></code>, in the folder you will see a file named <code class="docutils literal notranslate"><span class="pre">setup.py</span></code>. We will install the whole package based on this script.</p>
-<p>The most elegant thing to do before installing is to create a new conda environment to avoid conflicts with your existing python environment.</p>
+<p>Once you follow these steps, you’ll find a new folder named ‘tat-pulsar’. Inside this folder, there’s a file called ‘setup.py’ - this little script is our ticket to installing the entire package.But before we dive into installation, here’s a pro tip: it’s a smart move to create a new conda environment first. Why? Well, it helps keep things clean and tidy, avoiding any clashes with your existing Python environment.</p>
+<ol class="arabic simple" start="4">
+<li><p>create a conda Environment</p></li>
+</ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda create -n tatpulsar-env python=3</span>
+<span class="go">conda activate tatpulsar-env</span>
 </pre></div>
 </div>
-<p>after downloading the dependancies, execute</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda activate tatpulsar-env</span>
-</pre></div>
-</div>
-<p>to enter the tatpulsar-env environment of conda, you will see (<code class="docutils literal notranslate"><span class="pre">tatpulsar-env</span></code>) before the shell prompt.</p>
-<p>Now you are all set to install the repository. In the directory where the setup.py located, execute:</p>
+<ol class="arabic simple" start="5">
+<li><p>install the source code</p></li>
+</ol>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip install -e .</span>
 </pre></div>
 </div>
-<p>if you want to uninstall the package for generating the product.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 -m pip uninstall tatpulsar</span>
-</pre></div>
-</div>
-</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"></div></div>
+</div><div aria-labelledby="tab-0-0-2" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-2" name="0-2" role="tabpanel" tabindex="0"></div></div>
 <div class="section" id="contents">
 <h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline"></a></h2>
 <div class="toctree-wrapper compound">
@@ -157,7 +171,7 @@
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Jun 03 at 17:50:36 UTC.
+      <span class="lastupdated">Last updated on 2023 Jun 06 at 12:20:23 UTC.
       </span></p>
   </div>
 

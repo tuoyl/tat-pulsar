@@ -6,61 +6,58 @@
 TAT-pulsar documentation
 ========================
 
-A very useful toolbox for your high energy pulsar timing analysis.
-
+Hey there! This is a Python toolbox made for folks interested in messing around with pulsar timing analysis, especially in high-energy scenarios. You know those pesky corrections needed for stuff like the barycentric correction and binary systems? Yeah, we've got functions for those. Plus, we've included some timing analysis tools and some examples to help you get started with your pulsar timing exploration. Enjoy!
 
 .. tabs::
 
-    .. tab:: Installation
+    .. tab:: pip Installation
 
 
-        Download the whole repository to your local directory using ``git clone`` or ``git fetch``.
+        1. Open your terminal or command prompt.
 
-        For example, In you local path execute:
+        2. Type in the following command:
 
         .. code-block:: console
 
-           git clone https://github.com/tuoyl/TAT-pulsar.git
+            pip install tat-pulsar
 
-        And you will get the folder ``tat-pulsar``, in the folder you will see a file named ``setup.py``. We will install the whole package based on this script.
+        3. Let pip handle the rest. You should see messages indicating that TAT-Pulsar was successfully installed.
 
-        The most elegant thing to do before installing is to create a new conda environment to avoid conflicts with your existing python environment.
+
+    .. tab:: source code Installation
+
+        1. Open your terminal or command prompt.
+
+        2. Navigate to the directory where you want to clone the GitHub repository using the 'cd' command:
+
+
+        .. code-block:: console
+
+            cd /path/to/your/directory
+
+        3.  Clone the TAT-Pulsar repository with the following command:
+
+        .. code-block:: console
+
+            git clone https://github.com/tuoyl/TAT-pulsar.git
+
+        Once you follow these steps, you'll find a new folder named 'tat-pulsar'. Inside this folder, there's a file called 'setup.py' - this little script is our ticket to installing the entire package.But before we dive into installation, here's a pro tip: it's a smart move to create a new conda environment first. Why? Well, it helps keep things clean and tidy, avoiding any clashes with your existing Python environment.
+
+        4. create a conda Environment
 
         .. code-block:: console
 
             conda create -n tatpulsar-env python=3
-
-        after downloading the dependancies, execute
-
-        .. code-block:: console
-
             conda activate tatpulsar-env
 
-        to enter the tatpulsar-env environment of conda, you will see (``tatpulsar-env``) before the shell prompt.
-
-
-        Now you are all set to install the repository. In the directory where the setup.py located, execute:
+        5. install the source code
 
         .. code-block:: console
 
             python3 -m pip install -e .
 
 
-        if you want to uninstall the package for generating the product.
-
-        .. code-block:: console
-
-            python3 -m pip uninstall tatpulsar
-
-
     .. tab:: Navigation
-
-
-
-
-
-
-
 
 Contents
 --------
