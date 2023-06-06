@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Binary System Analysis &mdash; TAT-pulsar 0.1.2 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "tags": "ams", "useLabelIds": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script src="../_static/custom.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TAT-pulsar package API" href="../autodocs.html" />
+    <link rel="prev" title="Pulsar Timing Analysis" href="PulsarTimingAnalysis.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> TAT-pulsar
+            <img src="../_static/pulsar-logo.jpeg" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorials.html"> Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="PulsarTimingAnalysis.html"> Crab Analysis</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Binary System Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Download-Data">Download Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Barycentric-Correction">Barycentric Correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Frequency-Search-without-Binary-correction">Frequency Search without Binary correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Binary-Correction">Binary Correction</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Deeter-correction">Deeter correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Solving-Kepler-equation">Solving Kepler equation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../autodocs.html"> TAT-pulsar API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">TAT-pulsar</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../tutorials.html">TAT-pulsar Tutorial</a> &raquo;</li>
+      <li>Binary System Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 0;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">pylab</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">wget</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">([</span><span class="s1">&#39;science&#39;</span><span class="p">,</span> <span class="s1">&#39;nature&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">250</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Using matplotlib backend: &lt;object object at 0x7f9e6e6b2080&gt;
+Populating the interactive namespace from numpy and matplotlib
+</pre></div></div>
+</div>
+<div class="section" id="Binary-System-Analysis">
+<h1>Binary System Analysis<a class="headerlink" href="#Binary-System-Analysis" title="Permalink to this headline"></a></h1>
+<div class="section" id="Download-Data">
+<h2>Download Data<a class="headerlink" href="#Download-Data" title="Permalink to this headline"></a></h2>
+<p>First, we use wget to download the data, taking the observation data for Cen X-3 from IXPE as an example. This data has several advantages: - The data size is manageable. - It’s real and publicly available.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download the Example Data of IXPE on Cen X-3</span>
+<span class="o">!</span>wget -q -nH --no-check-certificate --cut-dirs<span class="o">=</span><span class="m">5</span> -r -l0 -c -N -np -R <span class="s1">&#39;index*&#39;</span> -erobots<span class="o">=</span>off --retr-symlinks <span class="err">\</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">heasarc</span><span class="o">.</span><span class="n">gsfc</span><span class="o">.</span><span class="n">nasa</span><span class="o">.</span><span class="n">gov</span><span class="o">/</span><span class="n">FTP</span><span class="o">/</span><span class="n">ixpe</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">obs</span><span class="o">/</span><span class="mi">01</span><span class="o">//</span><span class="mi">01006501</span><span class="o">/</span><span class="n">event_l2</span><span class="o">/</span>
+<span class="o">!</span>wget -nH --no-check-certificate --cut-dirs<span class="o">=</span><span class="m">5</span> -r -l0 -c -N -np -R <span class="s1">&#39;index*&#39;</span> -erobots<span class="o">=</span>off --retr-symlinks <span class="err">\</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">heasarc</span><span class="o">.</span><span class="n">gsfc</span><span class="o">.</span><span class="n">nasa</span><span class="o">.</span><span class="n">gov</span><span class="o">/</span><span class="n">FTP</span><span class="o">/</span><span class="n">ixpe</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">obs</span><span class="o">/</span><span class="mi">01</span><span class="o">/</span><span class="mi">01006501</span><span class="o">/</span><span class="n">hk</span><span class="o">/</span><span class="n">ixpe01006501_all_orb_v07</span><span class="o">.</span><span class="n">fits</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--2023-06-03 17:34:54--  https://heasarc.gsfc.nasa.gov/FTP/ixpe/data/obs/01/01006501/hk/ixpe01006501_all_orb_v07.fits.gz
+Resolving heasarc.gsfc.nasa.gov (heasarc.gsfc.nasa.gov)... 129.164.179.23
+Connecting to heasarc.gsfc.nasa.gov (heasarc.gsfc.nasa.gov)|129.164.179.23|:443... connected.
+HTTP request sent, awaiting response... 304 Not Modified
+File ‘01006501/hk/ixpe01006501_all_orb_v07.fits.gz’ not modified on server. Omitting download.
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>ls <span class="m">01006501</span>/*
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+01006501/event_l2:
+ixpe01006501_det1_evt2_v15.fits.gz ixpe01006501_det3_evt2_v15.fits.gz
+ixpe01006501_det2_evt2_v15.fits.gz
+
+01006501/hk:
+ixpe01006501_all_orb_v07.fits.gz
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Barycentric-Correction">
+<h2>Barycentric Correction<a class="headerlink" href="#Barycentric-Correction" title="Permalink to this headline"></a></h2>
+<p>Next, we use the <code class="docutils literal notranslate"><span class="pre">barycor</span></code> function from the <code class="docutils literal notranslate"><span class="pre">tatpulsar</span></code> package to apply a barycentric correction based on the solar system’s center of mass. Please note that for IXPE data, HEAsoft has a dedicated correction program (<code class="docutils literal notranslate"><span class="pre">barycorr</span></code>). Here, we are demonstrate that <code class="docutils literal notranslate"><span class="pre">tatpulsar</span></code> package also includes a valid barycentric correction function.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## READ Data</span>
+<span class="n">file</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;./01006501/event_l2/ixpe01006501_det*.fits.gz&quot;</span><span class="p">)</span>
+<span class="n">orbit</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;./01006501/hk/ixpe01006501_all_orb_v07.fits.gz&quot;</span><span class="p">)</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+<span class="k">for</span> <span class="n">evt</span> <span class="ow">in</span> <span class="n">file</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">evt</span><span class="p">)</span>
+    <span class="n">hdulist</span> <span class="o">=</span> <span class="n">fits</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">evt</span><span class="p">)</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="s2">&quot;TIME&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+./01006501/event_l2/ixpe01006501_det1_evt2_v15.fits.gz
+./01006501/event_l2/ixpe01006501_det2_evt2_v15.fits.gz
+./01006501/event_l2/ixpe01006501_det3_evt2_v15.fits.gz
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tatpulsar.utils.functions</span> <span class="kn">import</span> <span class="n">met2mjd</span><span class="p">,</span> <span class="n">mjd2met</span>
+<span class="kn">from</span> <span class="nn">tatpulsar.pulse.barycor.barycor</span> <span class="kn">import</span> <span class="n">barycor</span>
+
+<span class="n">ra</span><span class="o">=</span><span class="mf">170.313301</span>
+<span class="n">dec</span><span class="o">=-</span><span class="mf">60.6233</span>
+
+<span class="n">tdb_mjd</span> <span class="o">=</span> <span class="n">barycor</span><span class="p">(</span><span class="n">met2mjd</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">telescope</span><span class="o">=</span><span class="s1">&#39;ixpe&#39;</span><span class="p">),</span>
+                  <span class="n">ra</span><span class="o">=</span><span class="n">ra</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="n">dec</span><span class="p">,</span>
+                  <span class="n">orbit</span><span class="o">=</span><span class="n">orbit</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                  <span class="n">accelerate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">tdb_met</span> <span class="o">=</span> <span class="n">mjd2met</span><span class="p">(</span><span class="n">tdb_mjd</span><span class="p">,</span> <span class="s1">&#39;ixpe&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Accelerating barycor
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Frequency-Search-without-Binary-correction">
+<h2>Frequency Search without Binary correction<a class="headerlink" href="#Frequency-Search-without-Binary-correction" title="Permalink to this headline"></a></h2>
+<p>Next, we perform a period search for the pulsar using the <code class="docutils literal notranslate"><span class="pre">epoch_folding_search</span></code> function in <code class="docutils literal notranslate"><span class="pre">stingray</span></code>.</p>
+<p>What we demonstrate here is that the period found before applying the binary orbit correction is not the intrinsic period of the neutron star. The actual period differs from the modulated period found, due to the binary orbit modulation.</p>
+<p>However, once we apply the binary orbit correction to the photons, the period found is indeed the intrinsic period of the neutron star.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">stingray.pulse.search</span> <span class="kn">import</span> <span class="n">epoch_folding_search</span>
+<span class="n">period</span> <span class="o">=</span> <span class="mf">4.79660</span>
+<span class="n">nbin</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">df_min</span> <span class="o">=</span> <span class="mf">1e-4</span>
+<span class="n">df</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="n">frequencies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">period</span> <span class="o">-</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">period</span> <span class="o">+</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+
+<span class="n">freq</span><span class="p">,</span> <span class="n">efstat</span> <span class="o">=</span> <span class="n">epoch_folding_search</span><span class="p">(</span><span class="n">tdb_met</span><span class="p">,</span> <span class="n">frequencies</span><span class="p">,</span> <span class="n">nbin</span><span class="o">=</span><span class="n">nbin</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">250</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">efstat</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">nbin</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;n-1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">period</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">freq</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">efstat</span><span class="p">)],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Observed frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Freq (Hz)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;EF stat&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x7f9e5dbd5210&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_BinaryAnalysis_10_1.png" src="../_images/notebooks_BinaryAnalysis_10_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Binary-Correction">
+<h2>Binary Correction<a class="headerlink" href="#Binary-Correction" title="Permalink to this headline"></a></h2>
+<p>Next, we apply a binary orbit correction using two methods. One is the correction under extreme gravitational fields as described in Deeter’s paper, and the other is by solving Kepler’s equation to calculate the intrinsic emission time of the photons in the binary system.</p>
+<div class="section" id="Deeter-correction">
+<h3>Deeter correction<a class="headerlink" href="#Deeter-correction" title="Permalink to this headline"></a></h3>
+<p>Correct the photon arrival times to the photon emission time Deeter model.</p>
+<p>Reference: <code class="docutils literal notranslate"><span class="pre">Deeter</span> <span class="pre">et</span> <span class="pre">al.</span> <span class="pre">1981,</span> <span class="pre">ApJ,</span> <span class="pre">247:1003-1012</span></code></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tatpulsar.pulse.binary</span> <span class="kn">import</span> <span class="n">orbit_cor_deeter</span>
+
+<span class="c1">#-----------------------------------</span>
+<span class="n">Porb</span> <span class="o">=</span> <span class="mf">2.0869953</span> <span class="c1">#day</span>
+<span class="n">axsini</span> <span class="o">=</span> <span class="mf">39.653</span> <span class="c1">#light-sec</span>
+<span class="n">e</span> <span class="o">=</span> <span class="mf">0.0000</span>
+<span class="n">omega</span> <span class="o">=</span> <span class="mf">0.00</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">T_pi2</span> <span class="o">=</span> <span class="mf">2455073.68504</span> <span class="o">-</span> <span class="mf">2400000.5</span> <span class="c1">#mjd</span>
+<span class="n">x_mid</span> <span class="o">=</span> <span class="mi">298</span>
+<span class="n">y_mid</span> <span class="o">=</span> <span class="mi">306</span>
+
+<span class="n">Tnod</span> <span class="o">=</span> <span class="n">T_pi2</span> <span class="o">+</span> <span class="n">Porb</span><span class="o">/</span><span class="mi">2</span> <span class="c1"># mjd</span>
+<span class="n">tnod</span> <span class="o">=</span> <span class="n">mjd2met</span><span class="p">(</span><span class="n">Tnod</span><span class="p">,</span> <span class="n">telescope</span><span class="o">=</span><span class="s1">&#39;ixpe&#39;</span><span class="p">)</span> <span class="c1">#met</span>
+
+<span class="n">tdb_bicor</span> <span class="o">=</span> <span class="n">orbit_cor_deeter</span><span class="p">(</span><span class="n">tdb_met</span><span class="p">,</span> <span class="n">Porb</span><span class="o">*</span><span class="mi">86400</span><span class="p">,</span> <span class="n">axsini</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">tnod</span><span class="p">)</span>
+
+<span class="c1">## EF search</span>
+<span class="n">period</span> <span class="o">=</span> <span class="mf">4.79660</span>
+<span class="n">nbin</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">df_min</span> <span class="o">=</span> <span class="mf">1e-4</span>
+<span class="n">df</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="n">frequencies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">period</span><span class="o">-</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">period</span> <span class="o">+</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+<span class="n">freq</span><span class="p">,</span> <span class="n">efstat</span> <span class="o">=</span> <span class="n">epoch_folding_search</span><span class="p">(</span><span class="n">tdb_bicor</span><span class="p">,</span> <span class="n">frequencies</span><span class="p">,</span> <span class="n">nbin</span><span class="o">=</span><span class="n">nbin</span><span class="p">)</span>
+
+<span class="c1"># Plotting</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">efstat</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">nbin</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;n-1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">period</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">freq</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">efstat</span><span class="p">)],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Observed frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Freq (Hz)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;EF stat&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x7f9e5e060a10&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_BinaryAnalysis_13_1.png" src="../_images/notebooks_BinaryAnalysis_13_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Solving-Kepler-equation">
+<h3>Solving Kepler equation<a class="headerlink" href="#Solving-Kepler-equation" title="Permalink to this headline"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tatpulsar.pulse.binary</span> <span class="kn">import</span> <span class="n">orbit_cor_kepler</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">orbit_cor_kepler</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Help on function orbit_cor_kepler in module tatpulsar.pulse.binary:
+
+orbit_cor_kepler(time, Tw, ecc, Porb, omega, axsini, PdotOrb=0, omegadot=0, gamma=0)
+    Corrects observed times of photons to their emission times
+    based on the Kepler function for a binary system.
+
+    Parameters
+    ----------
+    time: float
+        The time of observed photon in MJD
+    Tw: float
+        The periastron time in MJD
+    ecc: float
+        Eccentricity
+    Porb: float
+        Orbital period in second
+    PdotOrb: float (optional)
+        Second derivative of Orbital period in sec/sec default is 0
+    omega: float
+        Long. of periastron in radians.
+    omegadot: float (optional)
+        second derivative of Long. of periastron in rad/sec
+    axsini: float
+        projection of semi major axis in light-sec
+    gamma: float
+        0
+
+    Returns
+    -------
+    t_em: float
+        The emitting time of photon in binary system in MJD
+
+    Example
+    -------
+    &gt;&gt;&gt; observed_time = np.array([...]) # Time series in MJD
+    &gt;&gt;&gt; Tw = 54424.71               #Barycentric time (in MJD(TDB)) of periastron
+    &gt;&gt;&gt; e = 0.68                    #orbital eccentricity
+    &gt;&gt;&gt; Porb = 249.48 * 86400.      #Orbital period (s)
+    &gt;&gt;&gt; omega = -26. *np.pi/180.    #Longitude of periastron (radians)
+    &gt;&gt;&gt; axsin = 530.                 #Projected semi-major axis (light seconds)
+    &gt;&gt;&gt; Porb_dot = 0                #First derivative of Orbital period
+    &gt;&gt;&gt; binary_corrected_time = orbit_cor_kepler(observed_time
+                                                Tw=Tw,
+                                                ecc=e,
+                                                Porb=Porb,
+                                                Porb_dot,
+                                                omega,
+                                                0,
+                                                asin,
+                                                0)
+
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#-----------------------------------</span>
+<span class="n">Porb</span> <span class="o">=</span> <span class="mf">2.0869953</span> <span class="c1">#day</span>
+<span class="n">axsini</span> <span class="o">=</span> <span class="mf">39.653</span> <span class="c1">#light-sec</span>
+<span class="n">e</span> <span class="o">=</span> <span class="mf">0.0000</span>
+<span class="n">omega</span> <span class="o">=</span> <span class="mf">0.00</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span>
+<span class="n">T_pi2</span> <span class="o">=</span> <span class="mf">2455073.68504</span> <span class="o">-</span> <span class="mf">2400000.5</span> <span class="c1">#mjd</span>
+
+<span class="n">T_periastron</span> <span class="o">=</span> <span class="n">T_pi2</span> <span class="o">+</span> <span class="n">Porb</span><span class="o">/</span><span class="mi">2</span> <span class="c1"># mjd</span>
+<span class="n">t_periastron</span> <span class="o">=</span> <span class="n">mjd2met</span><span class="p">(</span><span class="n">Tnod</span><span class="p">,</span> <span class="n">telescope</span><span class="o">=</span><span class="s1">&#39;ixpe&#39;</span><span class="p">)</span> <span class="c1">#met</span>
+
+<span class="n">tdb_bicor_kepler</span> <span class="o">=</span> <span class="n">orbit_cor_kepler</span><span class="p">(</span><span class="n">met2mjd</span><span class="p">(</span><span class="n">tdb_met</span><span class="p">,</span> <span class="s1">&#39;ixpe&#39;</span><span class="p">),</span>
+                                    <span class="n">Tw</span><span class="o">=</span><span class="n">T_periastron</span><span class="p">,</span>
+                                    <span class="n">ecc</span><span class="o">=</span><span class="n">e</span><span class="p">,</span>
+                                    <span class="n">Porb</span><span class="o">=</span><span class="n">Porb</span><span class="o">*</span><span class="mi">86400</span><span class="p">,</span>
+                                    <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">,</span>
+                                    <span class="n">axsini</span><span class="o">=</span><span class="n">axsini</span><span class="p">)</span>
+<span class="n">tdb_bicor_kepler</span> <span class="o">=</span> <span class="n">mjd2met</span><span class="p">(</span><span class="n">tdb_bicor_kepler</span><span class="p">,</span> <span class="s1">&#39;ixpe&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## EF search</span>
+<span class="n">period</span> <span class="o">=</span> <span class="mf">4.79660</span>
+<span class="n">nbin</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">df_min</span> <span class="o">=</span> <span class="mf">1e-4</span>
+<span class="n">df</span> <span class="o">=</span> <span class="mf">1e-6</span>
+<span class="n">frequencies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">period</span><span class="o">-</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">period</span> <span class="o">+</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
+<span class="n">freq</span><span class="p">,</span> <span class="n">efstat</span> <span class="o">=</span> <span class="n">epoch_folding_search</span><span class="p">(</span><span class="n">tdb_bicor_kepler</span><span class="p">,</span> <span class="n">frequencies</span><span class="p">,</span> <span class="n">nbin</span><span class="o">=</span><span class="n">nbin</span><span class="p">)</span>
+
+<span class="c1"># Plotting</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">efstat</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">nbin</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;n-1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">period</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;True frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">freq</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">efstat</span><span class="p">)],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Observed frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Freq (Hz)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;EF stat&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x7f9e5db28710&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_BinaryAnalysis_18_1.png" src="../_images/notebooks_BinaryAnalysis_18_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="PulsarTimingAnalysis.html" class="btn btn-neutral float-left" title="Pulsar Timing Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../autodocs.html" class="btn btn-neutral float-right" title="TAT-pulsar package API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Youli.
+      <span class="lastupdated">Last updated on 2023 Jun 03 at 17:50:36 UTC.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
