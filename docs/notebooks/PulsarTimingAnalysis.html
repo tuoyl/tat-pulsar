@@ -53,6 +53,10 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#"> Crab Analysis</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#Search-the-best-frequency">Search the best frequency</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Bayrcentric-correction">Bayrcentric correction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Fold-profile">Fold profile</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Play-with-the-Profile-object">Play with the Profile object</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="BinaryAnalysis.html"> Binary System Analysis</a></li>
@@ -357,6 +361,8 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Pulsar-Timing-Analysis">
 <h1>Pulsar Timing Analysis<a class="headerlink" href="#Pulsar-Timing-Analysis" title="Permalink to this headline"></a></h1>
+<p>Welcome to our step-by-step Jupyter notebook tutorial on pulsar timing analysis using the TAT-Pulsar Python package.</p>
+<p>Throughout this guide, we’ll provide you with hands-on examples of how to use the key features of TAT-Pulsar.</p>
 <div class="section" id="Search-the-best-frequency">
 <h2>Search the best frequency<a class="headerlink" href="#Search-the-best-frequency" title="Permalink to this headline"></a></h2>
 <div class="nbinput nblast docutils container">
@@ -398,7 +404,8 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-The test data &#39;NICER_Crab_data.gz&#39; is already downloaded!
+Downloading the test datab
+100% [............................................................................] 207025 / 207025
 </pre></div></div>
 </div>
 </div>
@@ -444,24 +451,24 @@ The test data &#39;NICER_Crab_data.gz&#39; is already downloaded!
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-PSR_B         0531+21
-RA_hh               5
-RA_mm              34
-RA_ss          31.972
-DEC_hh             22
-DEC_mm              0
-DEC_ss          52.07
-MJD1            57966
-MJD2            57997
-t0geo           57981
-f0            29.6394
-f1       -3.68701e-10
-f2           9.29e-21
-RMS               0.6
-O                   J
-B               DE200
-name          0531+21
-Notes             NaN
+PSR_B       0531+21
+RA_hh             5
+RA_mm            34
+RA_ss        31.972
+DEC_hh           22
+DEC_mm            0
+DEC_ss        52.07
+MJD1          57966
+MJD2          57997
+t0geo       57981.0
+f0        29.639378
+f1             -0.0
+f2              0.0
+RMS             0.6
+O                 J
+B             DE200
+name        0531+21
+Notes           NaN
 Name: 374, dtype: object
 </pre></div></div>
 </div>
@@ -522,6 +529,9 @@ Accelerating barycor
 </pre></div></div>
 </div>
 <p>Now we calculate the phase for each photon, and fold the profile, using the function <code class="docutils literal notranslate"><span class="pre">tatpulsar.pulse.fold.fold</span></code>.</p>
+</div>
+<div class="section" id="Fold-profile">
+<h2>Fold profile<a class="headerlink" href="#Fold-profile" title="Permalink to this headline"></a></h2>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
@@ -555,6 +565,45 @@ Text(0, 0.5, &#39;Counts&#39;)
 <img alt="../_images/notebooks_PulsarTimingAnalysis_14_1.png" src="../_images/notebooks_PulsarTimingAnalysis_14_1.png" />
 </div>
 </div>
+<div class="section" id="Play-with-the-Profile-object">
+<h3>Play with the Profile object<a class="headerlink" href="#Play-with-the-Profile-object" title="Permalink to this headline"></a></h3>
+<p>let’s see some features of <code class="docutils literal notranslate"><span class="pre">Profile</span></code> object</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">profile</span><span class="o">.</span><span class="n">cycles</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Set the phase cycles of profile</span>
+<span class="n">profile</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span> <span class="c1"># Normalization</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">profile</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span> <span class="n">profile</span><span class="o">.</span><span class="n">counts</span><span class="p">,</span>
+             <span class="n">yerr</span><span class="o">=</span><span class="n">profile</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="n">ds</span><span class="o">=</span><span class="s1">&#39;steps-mid&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Cycle is already 2, nothing to do
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;ErrorbarContainer object of 3 artists&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_PulsarTimingAnalysis_16_2.png" src="../_images/notebooks_PulsarTimingAnalysis_16_2.png" />
+</div>
+</div>
+</div>
 </div>
 </div>
 
@@ -570,7 +619,7 @@ Text(0, 0.5, &#39;Counts&#39;)
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Jun 06 at 12:09:33 UTC.
+      <span class="lastupdated">Last updated on 2023 Jun 06 at 15:08:58 UTC.
       </span></p>
   </div>
 
