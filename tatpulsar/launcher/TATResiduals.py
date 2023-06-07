@@ -12,6 +12,7 @@ def parse_args():
 
     #optional
     parser.add_argument("--period", action='store_true', help="show residuals in period", required=False)
+    parser.add_argument("--phi0", type=float, help="The phase shift of the residuals", required=False, default=0)
     parser.add_argument("--saveresi", type=str, help="show residuals in period", required=False)
     parser.add_argument("--savefig", type=str, help="show residuals in period", required=False)
     parser.add_argument("--notitle", action='store_true', help="show rms image title", required=False)
@@ -30,7 +31,8 @@ def main():
         args.parfile))
     toas, toa_errs = read_toa(args.timfile)
 
-    x, y, yerr, yrms = cal_residual(toas, toa_errs, *parameters, inperiod=args.period)
+    x, y, yerr, yrms = cal_residual(toas, toa_errs, *parameters, inperiod=args.period,
+                                    phi_shift=args.phi0)
 
     if args.saveresi:
         np.savetxt(args.saveresi, np.c_[x, y, yerr])

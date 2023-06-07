@@ -176,7 +176,8 @@ def parse_pfiles(pfiles_args):
         stop_time  = eph_data[-1]
     return f_set_all, PEPOCH_all, start_time, stop_time
 
-def cal_residual(toas, toa_errs, f_set_all, PEPOCH_all, start_time, stop_time, inperiod=False):
+def cal_residual(toas, toa_errs, f_set_all, PEPOCH_all, start_time, stop_time, inperiod=False,
+                 phi_shift=0):
     """
     calculate the residuals for toas in each Ephemeride
 
@@ -186,6 +187,9 @@ def cal_residual(toas, toa_errs, f_set_all, PEPOCH_all, start_time, stop_time, i
     residual_err = np.array([])
     residuals_toas = np.array([])
 
+    start_time = np.atleast_1d(start_time)
+    stop_time = np.atleast_1d(start_time)
+
     for i in range(len(start_time)):
         toas_in_eph = toas    [(toas>=start_time[i]) & (toas<stop_time[i]) ]
         errs_in_eph = toa_errs[(toas>=start_time[i]) & (toas<stop_time[i]) ]
@@ -194,7 +198,7 @@ def cal_residual(toas, toa_errs, f_set_all, PEPOCH_all, start_time, stop_time, i
 
         phi = np.sum(
                 np.array([ (1/math.factorial(j+1))*(dt**(j+1))*f_set_in_eph[j] for j in range(len(f_set_in_eph))]),
-                axis=0)
+                axis=0) + phi_shift
         phi -= np.floor(phi)
         f0_at_toa = np.sum(
                 np.array([(1/math.factorial(j))*(dt**j)*f_set_in_eph[j] for j in range(len(f_set_in_eph))]),
