@@ -55,19 +55,3 @@ if you want to uninstall the package for generating the product.
 ```
 python3 -m pip uninstall tat-pulsar
 ```
-
----
-## Todo list
-- [ ] optimize the structure of the package (!important!)
-  - [x] root directory contains `data`, `utils`, `pulse`(for searching, folding and related timing analysis)
-  - construct object for 
-    - [ ] `Profile`
-    - [ ] `TOA` defined in data directory
-  - reconstruct and optimize the output results of
-    - [x] `tatpulsar.pulse.fold` 
-    - [ ] `tatpulsar.pulse.search`
-- [ ] Documentation (real data example, tutorial)
-- [x] barycentric correction module
-    - [ ] add console script for Event FITS file barycor
-- [ ] binary analysis (search, binary correction)
-- [ ] profile simulator
