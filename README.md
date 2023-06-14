@@ -1,8 +1,15 @@
 # TAT-pulsar (Timing Analysis Toolkit for pulsar astrophysics)
+Hey there! This is a Python toolbox made for folks interested in messing around with pulsar timing analysis, especially in high-energy scenarios. You know those pesky corrections needed for stuff like the barycentric correction and binary systems? Yeah, we’ve got functions for those. Plus, we’ve included some timing analysis tools and some examples to help you get started with your pulsar timing exploration. Enjoy!
+
 [![DOI:<your number>](https://zenodo.org/badge/DOI/10.5281/zenodo.6784362.svg)](<https://zenodo.org/record/6784362#.Yr5jiC8RqrM>)
 [![Upload Python Package](https://github.com/tuoyl/tat-pulsar/actions/workflows/python-publish.yml/badge.svg)](https://github.com/tuoyl/tat-pulsar/actions/workflows/python-publish.yml)
 [![codecov](https://codecov.io/github/tuoyl/tat-pulsar/branch/master/graph/badge.svg?token=LShslbL6pg)](https://codecov.io/github/tuoyl/tat-pulsar)
 
+## Install the Package using `pip`
+1. Open your terminal or command prompt.
+2. Type in the following command:
+```pip install tat-pulsar```
+  
 ## Install the Package using conda
 
 ## Download the repository
