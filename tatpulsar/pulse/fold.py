@@ -16,6 +16,8 @@ __all__ = ['fold', 'fold2d',
            'align_profile', 'merge_aligned_profile', 'fold_lightcurve']
 
 def fold_lightcurve():
+    #aaaaaaaaaaaaaa
+    return
 
 
 def fold(time, parfile=None,
