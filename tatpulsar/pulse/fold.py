@@ -13,7 +13,10 @@ from tatpulsar.pulse.residuals import parse_pfiles
 
 __all__ = ['fold', 'fold2d',
            'cal_phase', 'phase_exposure',
-           'align_profile', 'merge_aligned_profile']
+           'align_profile', 'merge_aligned_profile', 'fold_lightcurve']
+
+def fold_lightcurve():
+
 
 def fold(time, parfile=None,
         pepoch=None, f0=None, f1=0, f2=0, f3=0, f4=0, nbins=20,
