@@ -15,7 +15,6 @@ __all__ = ['fold', 'fold2d',
            'cal_phase', 'phase_exposure',
            'align_profile', 'merge_aligned_profile', 'fold_lightcurve']
 
-
 def fold_lightcurve(time, cts, pepoch, f0, f1=0, f2=0, f3=0, f4=0, format='met', nbins=16, dt=1, cts_err=None):
 
     """
@@ -99,7 +98,6 @@ def fold_lightcurve(time, cts, pepoch, f0, f1=0, f2=0, f3=0, f4=0, format='met',
 
     # ---
     return Profile(bin_cts, error=bin_cts_err, cycles=1)
-
 
 def fold(time, parfile=None,
         pepoch=None, f0=None, f1=0, f2=0, f3=0, f4=0, nbins=20,
