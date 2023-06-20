@@ -66,7 +66,6 @@ def fold_lightcurve(time, cts, pepoch, f0, f1=0, f2=0, f3=0, f4=0, format='met',
     -------
     profile : :class:`tatpulsar.data.profile.Profile` object
         return the profile object define in :class:`tatpulsar.data.profile.Profile`
- 
     """
     if format == 'mjd':
         if 'telescope' not in kwargs:
