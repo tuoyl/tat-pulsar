@@ -9,7 +9,8 @@ from tatpulsar.pulse.binarycor import Cor as KeplerCor
 __all__ = ['orbit_cor_kepler',
         'orbit_cor_bt',
         'orbit_cor_deeter',
-        'doppler_cor']
+        'doppler_cor',
+        'freq_dopper']
 
 __method__ = ["BT", "Deeter"]
 
@@ -215,12 +216,12 @@ def doppler_cor(time, f0, f1, f2, axsini, Porb, omega, e, T_halfpi):
     """
     t0 = min(time) # set reference time as the start of time
     f_spin = f0 + f1*(time-t0) + 0.5*f2*(time-t0)**2
-    f_dopp = _get_fdopp(time, f0, axsini, Porb, omega, e, T_halfpi)
+    f_dopp = freq_dopper(time, f0, axsini, Porb, omega, e, T_halfpi)
 
     f_intri = f_spin - f_dopp
     return f_intri
 
-def _get_fdopp(time, f0, axsini, Porb, omega, e, T_halfpi):
+def freq_dopper(time, f0, axsini, Porb, omega, e, T_halfpi):
     """
     calculate the frequency modulated by Doppler effect
     """
