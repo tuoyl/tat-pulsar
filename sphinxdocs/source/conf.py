@@ -22,7 +22,7 @@ copyright = '2022, Youli'
 author = 'Youli Tuo'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.2'
+release = '0.4.3'
 
 
 # -- General configuration ---------------------------------------------------
@@ -97,7 +97,7 @@ html_css_files = ["custom.css"]
 html_js_files = ['custom.js']
 
 # Setup the Logo path or URL
-html_logo = './images/pulsar-logo.jpeg'
+html_logo = './images/TATlogo3.pdf'
 
 
 ## nbsphinx
