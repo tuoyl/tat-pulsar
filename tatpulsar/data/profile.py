@@ -2,6 +2,7 @@
 The Class of Profile
 """
 import numpy as np
+from scipy.stats import chi2
 
 __all__ = ['Profile',
         "phihist"]
@@ -136,6 +137,22 @@ class Profile():
     def size(self):
         return self.counts.size
 
+    @property
+    def dof(self):
+        return self.size - 1
+
+    @property
+    def chisq(self):
+        return np.sum( (counts - np.mean(counts))**2 / counts )
+
+    @property
+    def significance(self):
+        p_value = 1 - chi2.cdf(self.chisq, self.dof)
+        # we are dealing with one-tailed tests
+        # the inverse of the survival function
+        sigma = stats.norm.isf(p_value)
+        return sigma
+
     def resample(self, sample_num=1, kind='poisson'):
         '''
         resampling the profile
@@ -215,6 +232,12 @@ class Profile():
 #        return Profile(norm_counts, error=norm_error, cycles=self.cycles)
         self.counts = norm_counts
         self.error  = norm_error
+
+    @property
+    def significance(self):
+        """
+        Return the significance of given profile
+        """
 
 def phihist(phi, nbins, **kwargs):
     '''
