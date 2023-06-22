@@ -15,7 +15,9 @@ __all__ = ['fold', 'fold2d',
            'cal_phase', 'phase_exposure',
            'align_profile', 'merge_aligned_profile', 'fold_lightcurve']
 
-def fold_lightcurve(time, cts, pepoch, f0, f1=0, f2=0, f3=0, f4=0, format='met', nbins=16, dt=1, cts_err=None):
+def fold_lightcurve(time, counts, pepoch, f0,
+                    nbins=16, dt=1, counts_err=None,
+                    f1=0, f2=0, f3=0, f4=0, format='met', **kwargs):
 
     """
     Fold the pulse profiles from the net light curves.
@@ -25,39 +27,28 @@ def fold_lightcurve(time, cts, pepoch, f0, f1=0, f2=0, f3=0, f4=0, format='met',
     ----------
     time : array-like
         the time series of TDB data
-
-    cts : array-like
+    counts : array-like
         the counts of the light curve
-
     pepoch : float, optional
         time for input frequecy values.
         NOTE: the output frequecy is the frequency at which
         the time of middle of the time interval
-
     f0 : float, optional
         frequency
-
-    f1 : float, optional
-        fdot.
-
-    f2 : float, optional
-        the second derivative of frequency
-
-    f3 : float, optional
-        the third derivative of frequency
-
-    f4 : float, optional
-        the fourth derivative of frequency
-
     nbins : int
         the bin number of profile. default value is 16
-
     dt : float
         the bin size of the light curve, default value is 1 s
-
-    cts_err : array-like
+    counts_err : array-like
         the counts error of the light curve
-
+    f1 : float, optional
+        fdot.
+    f2 : float, optional
+        the second derivative of frequency
+    f3 : float, optional
+        the third derivative of frequency
+    f4 : float, optional
+        the fourth derivative of frequency
     format : str, optional
         the format of time and pepoch, "mjd" or "met".
         The default if "met".
@@ -80,23 +71,25 @@ def fold_lightcurve(time, cts, pepoch, f0, f1=0, f2=0, f3=0, f4=0, format='met',
     phase_ind = phase // (1. / nbins)
     mk = [phase_ind == j for j in range(nbins)]
     # ---
-    bin_time = np.array([len(cts[mk[k]]) * dt for k in range(nbins)])
+    bin_time = np.array([len(counts[mk[k]]) * dt for k in range(nbins)])
     # ---
-    if cts_err is None:
-        bin_cts = np.array([cts[mk[k]].sum() for k in range(nbins)])
-        bin_cts_err = np.sqrt(bin_cts)
+    if counts_err is None:
+        bin_counts = np.array([counts[mk[k]].sum() for k in range(nbins)])
+        bin_counts_err = np.sqrt(bin_counts)
 
-        bin_cts = bin_cts / bin_time
-        bin_cts_err = bin_cts_err / bin_time
+        bin_counts = bin_counts / bin_time
+        bin_counts_err = bin_counts_err / bin_time
     else:
-        bin_cts = np.array([cts[mk[k]].sum() for k in range(nbins)])
-        bin_cts_err = np.array([np.sqrt((cts_err[mk[k]]**2).sum()) for k in range(nbins)])
+        bin_counts = np.array([counts[mk[k]].sum() for k in range(nbins)])
+        bin_counts_err = np.array([np.sqrt((counts_err[mk[k]]**2).sum()) for k in range(nbins)])
 
-        bin_cts = bin_cts / bin_time
-        bin_cts_err = bin_cts_err / bin_time
+        bin_counts = bin_counts / bin_time
+        bin_counts_err = bin_counts_err / bin_time
 
     # ---
-    return Profile(bin_cts, error=bin_cts_err, cycles=1)
+    pro = Profile(bin_counts, error=bin_counts_err, cycles=1)
+    pro.ref_time = pepoch
+    return pro
 
 def fold(time, parfile=None,
         pepoch=None, f0=None, f1=0, f2=0, f3=0, f4=0, nbins=20,
