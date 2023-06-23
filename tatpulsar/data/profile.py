@@ -139,14 +139,23 @@ class Profile():
 
     @property
     def dof(self):
+        """
+        degree of freedom is :math:`(n-1)` where :math:`n` is the number of bins.
+        """
         return self.size - 1
 
     @property
     def chisq(self):
+        """
+        chisquare statistic value of profile 
+        """
         return np.sum( (counts - np.mean(counts))**2 / counts )
 
     @property
     def significance(self):
+        """
+        Return the significance in unit of sigma of given profile.
+        """
         p_value = 1 - chi2.cdf(self.chisq, self.dof)
         # we are dealing with one-tailed tests
         # the inverse of the survival function
@@ -263,11 +272,6 @@ class Profile():
         self.counts = norm_counts
         self.error  = norm_error
 
-    @property
-    def significance(self):
-        """
-        Return the significance of given profile
-        """
 
 def phihist(phi, nbins, **kwargs):
     '''
