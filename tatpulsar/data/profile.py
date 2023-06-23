@@ -153,6 +153,36 @@ class Profile():
         sigma = stats.norm.isf(p_value)
         return sigma
 
+    @property
+    def pulsefrac(self):
+        """
+        Calculate the pulse fraction of given profile. The algorithm of
+        calculating pulse fraction is:
+
+        .. math::
+            PF = (p_{\mathrm{max}} - p_{\mathrm{min}})/(p_{\mathrm{max}} + p_{\mathrm{min}})
+
+        where :math:`p` is the counts of profile, please note the pulse fraction has valid physical
+        meaning only if the input profile is folded by the net lightcurve or the background level can
+        be well estimated and subtracted from the observed pulse profile.
+
+        Returns
+        -------
+        pf: float
+            The pulse fraction of profile
+        pf_err: float
+            The error of pulse fraction
+        """
+        pf = (self.counts.max() - self.counts.min()) / (self.counts.max() + self.counts.min())
+
+        indx_max = np.argmax(self.counts)
+        indx_min = np.argmin(self.counts)
+
+        term1 = -2 * self.counts.max() / (self.counts.max() + self.counts.min())**2 * self.error[indx_min]
+        term2 =  2 * self.counts.min() / (self.counts.max() + self.counts.min())**2 * self.error[indx_max]
+        pf_err = np.sqrt(term1**2 + term2**2)
+        return pf, pf_err
+
     def resample(self, sample_num=1, kind='poisson'):
         '''
         resampling the profile
