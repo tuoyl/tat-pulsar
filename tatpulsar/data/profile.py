@@ -54,6 +54,7 @@ class Profile():
             the error of each phase bin, if not given the error will be the
             poisson error of counts (sqruare root of counts)
         '''
+        self._cycles = cycles
         if type(cycles) != int:
             raise TypeError("The cycles of profile should be int")
         if cycles > 2:
@@ -71,7 +72,6 @@ class Profile():
             self.error = np.tile(error, reps=2)
         else:
             self.error = error
-        self._cycles = cycles
         self._pickled = False # whether the profile has been duplicated or modified
         self.ref_time = None
 
@@ -124,21 +124,21 @@ class Profile():
             self._cycles = value
             self.counts = np.tile(self.counts, reps=2)
             self.error  = np.tile(self.error, reps=2)
-            self.phase  = np.linspace(0, value, self.size+1)[:-1]
+            self.phase  = np.linspace(0, value, self.counts.size+1)[:-1]
         elif value == 1:
             self._cycles = value
             idx = int(self.counts.size/2)
             self.counts = self.counts[:idx]
             self.error  = self.error[:idx]
-            self.phase  = np.linspace(0, value, self.size+1)[:-1]
+            self.phase  = np.linspace(0, value, self.counts.size+1)[:-1]
 
 
     @property
     def size(self):
-        if self.cycles = 2:
-            return self.counts.size/2
+        if self.cycles == 2:
+            return int(self.counts.size)/2
         else:
-            return self.counts.size
+            return int(self.counts.size)
 
     @property
     def dof(self):
@@ -152,7 +152,7 @@ class Profile():
         """
         chisquare statistic value of profile
         """
-        if self.cycles = 2:
+        if self.cycles == 2:
             idx = int(self.counts.size/2)
             counts = self.counts[:idx]
             error  = self.error[:idx]
@@ -317,7 +317,8 @@ class Profile():
         """
         rebin the profile into the given bin size
         """
-        if nbins >= self.size
+        if nbins >= self.size:
+            pass
 
 def phihist(phi, nbins, **kwargs):
     '''
