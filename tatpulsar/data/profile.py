@@ -249,9 +249,19 @@ class Profile():
             if bkg_range is None:
                 norm_counts = (self.counts-np.min(self.counts))/\
                         (np.max(self.counts)-np.min(self.counts))
-                norm_error = np.sqrt(
-                        self.error**2 + self.error[self.counts.argmin()]**2)/\
-                                (np.max(self.counts)-np.min(self.counts))
+
+                X = self.counts
+                m = self.counts.min()
+                M = self.counts.max()
+                delta_X = self.error
+                delta_m = self.error[self.counts.argmin()]
+                delta_M = self.error[self.counts.argmax()]
+                delta_num = np.sqrt(delta_X**2 + delta_m**2)
+                delta_den = np.sqrt(delta_M**2 + delta_m**2)
+
+                expression = (X - m)/(M-m)
+                norm_error = expression * np.sqrt((delta_num / (X - m))**2 + (delta_den / (M - m))**2)
+
             else:
                 bkg_mask = (self.phase>=bkg_range[0]) & (self.phase<=bkg_range[1])
                 bkg_counts = self.counts[bkg_mask]
@@ -259,15 +269,37 @@ class Profile():
                 bkg_mean_error = np.sqrt(np.sum(bkg_error**2))/bkg_error.size
                 norm_counts = (self.counts - np.mean(bkg_counts))/\
                         (np.max(self.counts) - np.mean(bkg_counts))
+
+                X = self.counts
+                m = np.mean(bkg_counts)
+                M = self.counts.max()
+                delta_X = self.error
+                delta_m = bkg_mean_error
+                delta_M = self.error[self.counts.argmax()]
+                delta_num = np.sqrt(delta_X**2 + delta_m**2)
+                delta_den = np.sqrt(delta_M**2 + delta_m**2)
                 norm_error = np.sqrt(
                         self.error**2 + bkg_mean_error**2)/\
                                 (np.max(self.counts) - np.mean(bkg_counts))
         elif method == 1:
+            mean_error = np.sqrt(np.sum(self.error**2))/self.error.size
             norm_counts = (self.counts - np.min(self.counts))/\
                     np.mean(self.counts)
-            norm_error = np.sqrt(self.error**2 + self.error[self.counts.argmin()]**2)/\
-                    np.mean(self.counts)
-#        return Profile(norm_counts, error=norm_error, cycles=self.cycles)
+
+            X = self.counts
+            m = self.counts.min()
+            a = self.counts.mean()
+            delta_X = self.error
+            delta_m = self.error[self.counts.argmin()]
+            delta_a = mean_error
+
+            # calculate the uncertainty in (X - m)
+            delta_Y = np.sqrt(delta_X**2 + delta_m**2)
+            # calculate the expression and its uncertainty
+            Y = X - m
+            Z = Y / a
+            norm_error = Z * np.sqrt((delta_Y / Y)**2 + (delta_a / a)**2)
+
         self.counts = norm_counts
         self.error  = norm_error
 
