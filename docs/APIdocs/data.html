@@ -172,7 +172,7 @@ right_edge = phase_ff[1]</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.norm">
-<span class="sig-name descname"><span class="pre">norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bkg_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.norm" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bkg_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_profile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.norm" title="Permalink to this definition"></a></dt>
 <dd><p>normalize the profile, and return a normalized Profile object</p>
 <p>bkg_range is the background phase range selected to calculated the mean level
 of background, used in method=0.</p>
@@ -190,6 +190,10 @@ method = 1 : <span class="math notranslate nohighlight">\(N = (P-P_{min})/\bar{P
 <p><strong>bkg_range: list, optional</strong></p>
 <blockquote>
 <div><p>The background phase range for background estimation</p>
+</div></blockquote>
+<p><strong>return_profile: bool, optional</strong></p>
+<blockquote>
+<div><p>whether to return the profile, if False modify the attributes</p>
 </div></blockquote>
 </dd>
 </dl>
@@ -214,6 +218,37 @@ be well estimated and subtracted from the observed pulse profile.</p>
 <p>pf_err: float</p>
 <blockquote>
 <div><p>The error of pulse fraction</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.rebin">
+<span class="sig-name descname"><span class="pre">rebin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nbins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_profile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.rebin" title="Permalink to this definition"></a></dt>
+<dd><p>Rebin the profile into the given bin size or use the factor to
+split the intervals.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>nbins: int</strong></p>
+<blockquote>
+<div><p>the number of the bins of new profile, if ‘nbins’ is used,
+then the ‘factor’ parameter would not work</p>
+</div></blockquote>
+<p><strong>factor: int</strong></p>
+<blockquote>
+<div><p>rebin profile to a new shape, new shape must be a factor of the
+original shape</p>
+</div></blockquote>
+<p><strong>return_profile: bool, optional</strong></p>
+<blockquote>
+<div><p>whether to return the profile, if False modify the attributes</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>profile: <cite>Profile</cite> object</p>
+<blockquote>
+<div><p>return a new profile in one cycle</p>
 </div></blockquote>
 </dd>
 </dl>
@@ -249,6 +284,14 @@ if sample_num &gt;1 , return a multi-dimensional array</p>
 <dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.significance">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">significance</span></span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.significance" title="Permalink to this definition"></a></dt>
 <dd><p>Return the significance in unit of sigma of given profile.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.size">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">size</span></span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.size" title="Permalink to this definition"></a></dt>
+<dd><p>return the real bin size of the profile.
+If the profile is presented in 2 cycles, the size is still the
+size of the bin size of the profile in 1 cycle.</p>
 </dd></dl>
 
 </dd></dl>
@@ -294,7 +337,7 @@ The counts of each bin are calculated by dividing [0, 1] into number of nbins.</
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Jun 23 at 10:52:32 UTC.
+      <span class="lastupdated">Last updated on 2023 Jul 04 at 01:05:39 UTC.
       </span></p>
   </div>
 
