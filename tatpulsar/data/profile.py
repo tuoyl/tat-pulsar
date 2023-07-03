@@ -135,7 +135,10 @@ class Profile():
 
     @property
     def size(self):
-        return self.counts.size
+        if self.cycles = 2:
+            return self.counts.size/2
+        else:
+            return self.counts.size
 
     @property
     def dof(self):
@@ -149,7 +152,14 @@ class Profile():
         """
         chisquare statistic value of profile
         """
-        return np.sum( (self.counts - np.mean(self.counts))**2 / self.counts )
+        if self.cycles = 2:
+            idx = int(self.counts.size/2)
+            counts = self.counts[:idx]
+            error  = self.error[:idx]
+        else:
+            counts = self.counts
+            error = self.error
+        return np.sum( (counts - np.mean(counts))**2 / counts )
 
     @property
     def significance(self):
@@ -303,6 +313,11 @@ class Profile():
         self.counts = norm_counts
         self.error  = norm_error
 
+    def rebin(self, nbins):
+        """
+        rebin the profile into the given bin size
+        """
+        if nbins >= self.size
 
 def phihist(phi, nbins, **kwargs):
     '''
