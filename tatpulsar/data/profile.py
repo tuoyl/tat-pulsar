@@ -65,7 +65,7 @@ class Profile():
         else:
             self.counts = counts
             self._pickled = False # whether the profile has been duplicated or modified
-        self.phase  = np.linspace(0, cycles, self.size+1)[:-1]
+        self.phase  = np.linspace(0, cycles, self.counts.size + 1)[:-1]
         if error is None:
             self.error = np.sqrt(self.counts)
         elif cycles == 2:
@@ -135,8 +135,13 @@ class Profile():
 
     @property
     def size(self):
+        """
+        return the real bin size of the profile.
+        If the profile is presented in 2 cycles, the size is still the
+        size of the bin size of the profile in 1 cycle.
+        """
         if self.cycles == 2:
-            return int(self.counts.size)/2
+            return int(self.counts.size/2)
         else:
             return int(self.counts.size)
 
@@ -234,7 +239,8 @@ class Profile():
 
     def norm(self,
             method=0,
-            bkg_range=None):
+            bkg_range=None,
+            return_profile=False):
         '''
         normalize the profile, and return a normalized Profile object
 
@@ -253,6 +259,8 @@ class Profile():
 
         bkg_range: list, optional
             The background phase range for background estimation
+        return_profile: bool, optional
+            whether to return the profile, if False modify the attributes
         '''
         if method == 0:
             # without background section
@@ -310,15 +318,56 @@ class Profile():
             Z = Y / a
             norm_error = Z * np.sqrt((delta_Y / Y)**2 + (delta_a / a)**2)
 
-        self.counts = norm_counts
-        self.error  = norm_error
+        if return_profile:
+            return Profile(norm_counts, error=norm_error)
+        else:
+            self.counts = norm_counts
+            self.error  = norm_error
+            self._pickled = True
 
-    def rebin(self, nbins):
+    def rebin(self, nbins=None, factor=None, return_profile=False):
         """
-        rebin the profile into the given bin size
+        Rebin the profile into the given bin size or use the factor to
+        split the intervals.
+
+        Parameters
+        ----------
+        nbins: int
+            the number of the bins of new profile, if 'nbins' is used,
+            then the 'factor' parameter would not work
+        factor: int
+            rebin profile to a new shape, new shape must be a factor of the
+            original shape
+        return_profile: bool, optional
+            whether to return the profile, if False modify the attributes
+
+        Returns
+        -------
+        profile: `Profile` object
+            return a new profile in one cycle
         """
-        if nbins >= self.size:
-            pass
+
+        if (nbins is None) & (factor is None):
+            raise IOError("Either 'nbins' or 'factor' should be given")
+        if factor is None:
+            assert nbins <= self.size, "The input 'nbins' value should be larger than the size of the profile"
+            assert self.size % nbins  == 0, "The size of the profile should be divisible by new size"
+        else:
+            if nbins is not None:
+                factor = self.size / nbins
+            else:
+                nbins = int(self.size / factor)
+            assert self.size % factor == 0, "The size of the profile should be divisible by factor"
+        new_counts = self.counts.reshape(nbins, -1).sum(axis=1)
+        new_error  = np.sqrt(
+                        (self.error.reshape(nbins, -1)**2).sum(axis=1))
+        if return_profile:
+            return Profile(new_counts, error=new_error)
+        else:
+            self.counts = new_counts
+            self.error  = new_error
+            self.phase  = np.linspace(0, self.cycles, self.counts.size + 1)[:-1]
+            self._pickled = True
 
 def phihist(phi, nbins, **kwargs):
     '''
