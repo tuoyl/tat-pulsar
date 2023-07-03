@@ -2,7 +2,7 @@
 The Class of Profile
 """
 import numpy as np
-from scipy.stats import chi2
+import scipy.stats
 
 __all__ = ['Profile',
         "phihist"]
@@ -147,19 +147,18 @@ class Profile():
     @property
     def chisq(self):
         """
-        chisquare statistic value of profile 
+        chisquare statistic value of profile
         """
-        return np.sum( (counts - np.mean(counts))**2 / counts )
+        return np.sum( (self.counts - np.mean(self.counts))**2 / self.counts )
 
     @property
     def significance(self):
         """
         Return the significance in unit of sigma of given profile.
         """
-        p_value = 1 - chi2.cdf(self.chisq, self.dof)
+        p_value = scipy.stats.chi2.sf(self.chisq, self.dof)
         # we are dealing with one-tailed tests
-        # the inverse of the survival function
-        sigma = stats.norm.isf(p_value)
+        sigma = scipy.stats.norm.isf(p_value)
         return sigma
 
     @property
