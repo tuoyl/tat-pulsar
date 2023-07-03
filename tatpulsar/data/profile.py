@@ -4,8 +4,9 @@ The Class of Profile
 import numpy as np
 import scipy.stats
 
-__all__ = ['Profile',
-        "phihist"]
+__all__ = ["Profile",
+           "phihist",
+           "draw_random_pulse"]
 
 class Profile():
     """
@@ -394,6 +395,55 @@ def phihist(phi, nbins, **kwargs):
     profile_object = Profile(counts, **kwargs)
 
     return profile_object
+
+def draw_random_pulse(nbins=100, baseline=1000, pulsefrac=0.2):
+    """
+    Generate a random pulse profile that consists of multiple Gaussian-like pulse
+
+    Parameters
+    ----------
+    nbins: int
+        The number of the new profile bins
+    baseline: int
+        The baseline (background) level of the profile in unit of counts
+    pulsefrac: float
+        pulse frac
+
+    Returns
+    -------
+    profile: `Profile` object
+    """
+    # Define the time array
+    phase = np.linspace(0, 1, nbins)
+
+    # Define a random number of pulses
+    num_pulses = np.random.randint(4, 10)
+
+    # Initialize the signal
+    signal = np.zeros_like(phase)
+
+    # Generate the signal by summing up the pulses
+    for _ in range(num_pulses):
+        # Randomly generate the Gaussian pulse parameters
+        amp = np.random.uniform(0.1, 1.0)  # Amplitude of pulse
+        mu = np.random.uniform(0.2, 0.8)  # Mean (peak location within 0 to 2)
+        sigma = np.random.uniform(0.01, 0.1)  # Standard deviation (controls width of pulse)
+
+        # Generate the Gaussian pulse
+        pulse = amp * np.exp(-(phase - mu)**2 / (2 * sigma**2))
+
+        # Add the pulse to the signal
+        signal += pulse
+
+    signal = signal/signal.max()
+
+    pmax = baseline*(1+pulsefrac)/(1-pulsefrac)
+    scale = pmax - baseline
+    signal = signal*scale + baseline
+
+    signal = np.random.poisson(signal) # poisson sampling
+
+    return Profile(signal)
 
 # If the code works fine, don't easily modify/delete it
 def resampling_profile(profile, sample_num=1, kind='poisson'):
