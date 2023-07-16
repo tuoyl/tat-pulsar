@@ -357,6 +357,104 @@ The format of input could be a name of parfile, a dictionary, or standard python
 <dd><p>root-mean-square function</p>
 </dd></dl>
 
+<span class="target" id="module-tatpulsar.utils.gti"></span><p>Functions for GTI manipulation</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.utils.gti.create_gti_fits">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.utils.gti.</span></span><span class="sig-name descname"><span class="pre">create_gti_fits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gti_template</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tstart</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tstop</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/utils/gti.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.utils.gti.create_gti_fits" title="Permalink to this definition"></a></dt>
+<dd><p>write tstart and tstop array to a FITS file, based on the
+GTI FITS template</p>
+<p>Parameters:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>gti_template<span class="classifier">FITS file</span></dt><dd><p>a GTI fits file as template</p>
+</dd>
+<dt>outfile<span class="classifier">filename</span></dt><dd><p>the name of the output FITS file</p>
+</dd>
+<dt>tstart<span class="classifier">array-like</span></dt><dd><p>array of GTIs start time</p>
+</dd>
+<dt>tstop<span class="classifier">array-like</span></dt><dd><p>array of GTIs stop time</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.utils.gti.create_gti_txt">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.utils.gti.</span></span><span class="sig-name descname"><span class="pre">create_gti_txt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tstart</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tstop</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/utils/gti.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.utils.gti.create_gti_txt" title="Permalink to this definition"></a></dt>
+<dd><p>create a text file storing the TSTART and TSTOP value,
+it’s normally used for hxmtscreen</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>outfile</strong> : filename</p>
+<blockquote>
+<div><blockquote>
+<div><p>the name of the output FITS file</p>
+</div></blockquote>
+<dl class="simple">
+<dt>tstart<span class="classifier">array-like</span></dt><dd><p>array of GTIs start time</p>
+</dd>
+<dt>tstop<span class="classifier">array-like</span></dt><dd><p>array of GTIs stop time</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.utils.gti.gti_intersection">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.utils.gti.</span></span><span class="sig-name descname"><span class="pre">gti_intersection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gti1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gti2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/utils/gti.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.utils.gti.gti_intersection" title="Permalink to this definition"></a></dt>
+<dd><p>find the intersection for given gti1 and gti2.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gti1: list</strong></p>
+<blockquote>
+<div><p>the list of input GTI, the format of gti list is a 2D list:
+[[start, stop], [start, stop], … ,[start, stop]]</p>
+</div></blockquote>
+<p><strong>gti2: list</strong></p>
+<blockquote>
+<div><p>the list of input GTI, the format of gti list is a 2D list:
+[[start, stop], [start, stop], … ,[start, stop]]</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>gti: list</p>
+<blockquote>
+<div><p>the list of output GTI, the format of gti list is a 2D list:
+[[start, stop], [start, stop], … ,[start, stop]]</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.utils.gti.gti_union">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.utils.gti.</span></span><span class="sig-name descname"><span class="pre">gti_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gti1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gti2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/utils/gti.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.utils.gti.gti_union" title="Permalink to this definition"></a></dt>
+<dd><p>find the intersection for given gti1 and gti2.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>gti1: list</strong></p>
+<blockquote>
+<div><p>the list of input GTI, the format of gti list is a 2D list:
+[[start, stop], [start, stop], … ,[start, stop]]</p>
+</div></blockquote>
+<p><strong>gti2: list</strong></p>
+<blockquote>
+<div><p>the list of input GTI, the format of gti list is a 2D list:
+[[start, stop], [start, stop], … ,[start, stop]]</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>gti: list</p>
+<blockquote>
+<div><p>the list of output GTI, the format of gti list is a 2D list:
+[[start, stop], [start, stop], … ,[start, stop]]</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 
@@ -371,7 +469,7 @@ The format of input could be a name of parfile, a dictionary, or standard python
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Jul 04 at 09:34:27 UTC.
+      <span class="lastupdated">Last updated on 2023 Jul 16 at 08:42:16 UTC.
       </span></p>
   </div>
 

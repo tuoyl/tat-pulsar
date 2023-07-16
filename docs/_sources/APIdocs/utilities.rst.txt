@@ -6,3 +6,5 @@ Function tools
 --------------
 .. automodule:: tatpulsar.utils.functions
    :members:
+.. automodule:: tatpulsar.utils.gti
+   :members:
