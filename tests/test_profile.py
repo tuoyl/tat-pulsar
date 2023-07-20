@@ -29,7 +29,7 @@ class TestCycles(unittest.TestCase):
         self.assertEqual(cnt.size*2, pro.counts.size)
         self.assertEqual(err.size*2, pro.error.size)
 
-        self.assertEqual(cnt.size*2, pro.size)
+        self.assertEqual(cnt.size, pro.size)
 
     def test_raises(self):
         cnt = np.random.rand(100)
