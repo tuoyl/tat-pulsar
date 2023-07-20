@@ -120,5 +120,46 @@ class TestCycles(unittest.TestCase):
         pro = phihist(phi, nbins=20)
         self.assertEqual(pro.size, 20)
 
+    def test_rebin_nbins(self):
+        cnt = np.random.rand(100)
+        pro = Profile(cnt, cycles=1)
+
+        nbins = 5
+        pro.rebin(nbins=nbins)
+        self.assertEqual(pro.counts.size, nbins, "Failed: counts size mismatch")
+        self.assertEqual(pro.error.size,  nbins, "Failed: error size mismatch")
+        self.assertEqual(pro.phase.size,  nbins, "Failed: phase size mismatch")
+
+    def test_rebin_factor(self):
+        cnt = np.random.rand(100)
+        pro = Profile(cnt, cycles=1)
+
+        factor = 2
+        pro.rebin(factor=factor)
+        self.assertEqual(pro.counts.size, cnt.size//factor, "Failed: counts size mismatch")
+        self.assertEqual(pro.error.size,  cnt.size//factor, "Failed: error size mismatch")
+        self.assertEqual(pro.phase.size,  cnt.size//factor, "Failed: phase size mismatch")
+
+        # ---
+        cnt = np.random.rand(100)
+        pro = Profile(cnt, cycles=1)
+
+        new_pro = pro.rebin(factor=factor, return_profile=True)
+        self.assertEqual(new_pro.counts.size, cnt.size//factor, "Failed: counts size mismatch")
+        self.assertEqual(new_pro.error.size,  cnt.size//factor, "Failed: error size mismatch")
+        self.assertEqual(new_pro.phase.size,  cnt.size//factor, "Failed: phase size mismatch")
+        self.assertEqual(new_pro.counts.size, pro.size//factor, "Failed: counts size mismatch")
+        self.assertEqual(new_pro.error.size,  pro.size//factor, "Failed: error size mismatch")
+        self.assertEqual(new_pro.phase.size,  pro.size//factor, "Failed: phase size mismatch")
+
+    def test_draw_random_pulse(self):
+        from tatpulsar.data.profile import draw_random_pulse
+        np.random.seed(19930727)
+        pro = draw_random_pulse(nbins=100, baseline=1000, pulsefrac=0.2)
+        self.assertTrue(isinstance(pro, Profile), "The output of pulse drawing function is not Profile object")
+        self.assertIsInstance(pro.significance, float, "Failed: significance calculated is not a float")
+        self.assertIsInstance(pro.chisq, float, "Failed: chisquare of profile calculated is not a float")
+        self.assertEqual(pro.dof, pro.size - 1, "Failed: d.o.f. of profile calculated is not (binsize - 1)")
+
 if __name__ == "__main__":
     unittest.main()
