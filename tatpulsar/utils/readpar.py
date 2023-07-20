@@ -55,15 +55,3 @@ class readpar:
                 else:
                     setattr(getattr(self, par), 'error', None)
                     setattr(getattr(self, par.lower()), 'error', None)
-
-if __name__ == "__main__":
-    eph = readpar('../../tests/test.par')
-    print("F0 = ", eph.F0.value)
-    print("F0 error = ", eph.F0.error)
-    print("PEPOCH = ", eph.PEPOCH.value)
-    print("PEPOCH error = ", eph.PEPOCH.error)
-
-    print("F0 = ", eph.f0.value)
-    print("F0 error = ", eph.f0.error)
-    print("PEPOCH = ", eph.pepoch.value)
-    print("PEPOCH error = ", eph.pepoch.error)

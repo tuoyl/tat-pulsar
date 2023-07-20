@@ -132,7 +132,10 @@ def _is_2d_list(gti):
     return isinstance(gti[0], list)
 
 def _to_2d_list(gti):
-    return [gti]
+    if isinstance(gti, np.ndarray):
+        return gti.tolist()
+    elif isinstance(gti, list):
+        return [gti]
 
 def create_gti_txt(outfile, tstart, tstop):
     """
