@@ -51,7 +51,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../tutorials.html"> Tutorials</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../autodocs.html"> TAT-pulsar API</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="data.html"> Data Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data.html"> Profile object</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#"> Pulsation Analysis</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#crab-timing">Crab Timing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pulse-analysis">Pulse Analysis</a><ul>
@@ -62,6 +62,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#module-tatpulsar.pulse.residuals">Timing Analysis</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#module-tatpulsar.simulation.profile_sim">Simulation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="utilities.html"> Utilities</a></li>
@@ -458,6 +459,25 @@ based on the Kepler function for a binary system.</p>
 </div></blockquote>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">observed_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">...</span><span class="p">])</span> <span class="c1"># Time series in MJD</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Tw</span> <span class="o">=</span> <span class="mf">54424.71</span>               <span class="c1">#Barycentric time (in MJD(TDB)) of periastron</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e</span> <span class="o">=</span> <span class="mf">0.68</span>                    <span class="c1">#orbital eccentricity</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Porb</span> <span class="o">=</span> <span class="mf">249.48</span> <span class="o">*</span> <span class="mf">86400.</span>      <span class="c1">#Orbital period (s)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">omega</span> <span class="o">=</span> <span class="o">-</span><span class="mf">26.</span> <span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">180.</span>    <span class="c1">#Longitude of periastron (radians)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">axsin</span> <span class="o">=</span> <span class="mf">530.</span>                 <span class="c1">#Projected semi-major axis (light seconds)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Porb_dot</span> <span class="o">=</span> <span class="mi">0</span>                <span class="c1">#First derivative of Orbital period</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">binary_corrected_time</span> <span class="o">=</span> <span class="n">orbit_cor_kepler</span><span class="p">(</span><span class="n">observed_time</span>
+<span class="go">                                            Tw=Tw,</span>
+<span class="go">                                            ecc=e,</span>
+<span class="go">                                            Porb=Porb,</span>
+<span class="go">                                            Porb_dot,</span>
+<span class="go">                                            omega,</span>
+<span class="go">                                            0,</span>
+<span class="go">                                            asin,</span>
+<span class="go">                                            0)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -1039,6 +1059,90 @@ ToA file and return the ToA and ToA errors</p>
 
 </div>
 </div>
+<div class="section" id="module-tatpulsar.simulation.profile_sim">
+<span id="simulation"></span><h2>Simulation<a class="headerlink" href="#module-tatpulsar.simulation.profile_sim" title="Permalink to this headline"></a></h2>
+<p>functions for the profile sampling and simulation</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.simulation.profile_sim.draw_event_from_phase">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.simulation.profile_sim.</span></span><span class="sig-name descname"><span class="pre">draw_event_from_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tstart</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tstop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f4</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pepoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/simulation/profile_sim.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.simulation.profile_sim.draw_event_from_phase" title="Permalink to this definition"></a></dt>
+<dd><p>sampling the photon arrival time given the phase of each photon</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>phase: array-like</strong></p>
+<blockquote>
+<div><p>The phase of each photon, the phase is normalized to [0, 1]</p>
+</div></blockquote>
+<p><strong>tstart: array-like</strong></p>
+<blockquote>
+<div><p>The start time to generate arrival time (MJD)</p>
+</div></blockquote>
+<p><strong>tstop: array-like</strong></p>
+<blockquote>
+<div><p>The stop  time to generate arrival time (MJD)</p>
+</div></blockquote>
+<p><strong>f0: float</strong></p>
+<blockquote>
+<div><p>The frequency of the pulsar</p>
+</div></blockquote>
+<p><strong>f1: float, optional</strong></p>
+<blockquote>
+<div><p>The frequency derivative of the pulsar</p>
+</div></blockquote>
+<p><strong>f2: float, optional</strong></p>
+<blockquote>
+<div><p>The second derivative of the frequency</p>
+</div></blockquote>
+<p><strong>f3: float, optional</strong></p>
+<blockquote>
+<div><p>The third derivative of the frequency</p>
+</div></blockquote>
+<p><strong>f4: float, optional</strong></p>
+<blockquote>
+<div><p>The fourth derivative of the frequency</p>
+</div></blockquote>
+<p><strong>pepoch: float</strong></p>
+<blockquote>
+<div><p>The reference time of the timing parameters (MJD)</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>event_list: array-like</p>
+<blockquote>
+<div><p>The sampled arrival times of photons</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.simulation.profile_sim.poisson_rejection_sampling">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.simulation.profile_sim.</span></span><span class="sig-name descname"><span class="pre">poisson_rejection_sampling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nphot</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/simulation/profile_sim.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.simulation.profile_sim.poisson_rejection_sampling" title="Permalink to this definition"></a></dt>
+<dd><p>rejection sampling the poisson like signal x-y</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x: array-like</strong></p>
+<blockquote>
+<div><p>Time or Phase array</p>
+</div></blockquote>
+<p><strong>y: array-like</strong></p>
+<blockquote>
+<div><p>counts, Poisson distributed</p>
+</div></blockquote>
+<p><strong>nphot: int</strong></p>
+<blockquote>
+<div><p>The output amount of sampled photons</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>xval: array-like</p>
+<blockquote>
+<div><p>The x sample that satisfy the rejection rule</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -1053,7 +1157,7 @@ ToA file and return the ToA and ToA errors</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Jul 04 at 09:34:27 UTC.
+      <span class="lastupdated">Last updated on 2023 Jul 25 at 11:28:08 UTC.
       </span></p>
   </div>
 

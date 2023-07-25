@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TAT-pulsar Tutorial &mdash; TAT-pulsar 0.4.5 documentation</title>
+  <title>TAT-pulsar Validations &mdash; TAT-pulsar 0.4.5 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/plot_directive.css" type="text/css" />
@@ -26,8 +26,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Pulsar Timing Analysis" href="notebooks/PulsarTimingAnalysis.html" />
-    <link rel="prev" title="TAT-pulsar documentation" href="index.html" /> 
+    <link rel="next" title="Modelling Crab pulsar profile" href="notebooks/profile_to_event_simulation.html" />
+    <link rel="prev" title="Binary System Analysis" href="notebooks/BinaryAnalysis.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,9 +47,12 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#"> Tutorials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/PulsarTimingAnalysis.html"> Crab Analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/BinaryAnalysis.html"> Binary System Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html"> Tutorials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#"> Validations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/profile_to_event_simulation.html">Modelling Crab pulsar profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/profile_to_event_simulation.html#Draw-phase-of-Photons">Draw phase of Photons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/profile_to_event_simulation.html#Compute-arrival-time-of-simulated-photons">Compute arrival time of simulated photons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/profile_to_event_simulation.html#more-tests">more tests</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="autodocs.html"> TAT-pulsar API</a></li>
@@ -69,7 +72,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>TAT-pulsar Tutorial</li>
+      <li>TAT-pulsar Validations</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -102,24 +105,17 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="tat-pulsar-tutorial">
-<h1>TAT-pulsar Tutorial<a class="headerlink" href="#tat-pulsar-tutorial" title="Permalink to this headline"></a></h1>
+<div class="section" id="tat-pulsar-validations">
+<h1>TAT-pulsar Validations<a class="headerlink" href="#tat-pulsar-validations" title="Permalink to this headline"></a></h1>
+<p>Alright, this section is the testing and validation part of our Python package - the magic behind our pulsar timing analysis tool. Here, we’re going to show you how we put our code through the wringer to make sure it’s up to snuff.</p>
+<p>We didn’t just test our algorithms (though we totally did that too), but we also ran a bunch of simulations to make sure our package is as dependable and precise as we say it is. We’re talking everything from close-up checks of each function to wider simulations that test the whole shebang in different scenarios.</p>
+<p>So strap in, and get ready to dive into the behind-the-scenes action of our Python package. We promise it’ll give you a whole new appreciation for what goes into creating a dependable and accurate tool for all you pulsar timing analysis enthusiasts out there.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/PulsarTimingAnalysis.html"> Crab Analysis</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/PulsarTimingAnalysis.html#Search-the-best-frequency">Search the best frequency</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/PulsarTimingAnalysis.html#Bayrcentric-correction">Bayrcentric correction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/PulsarTimingAnalysis.html#Play-with-the-profile">Play with the profile</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks/BinaryAnalysis.html"> Binary System Analysis</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/BinaryAnalysis.html#Download-Data">Download Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/BinaryAnalysis.html#Barycentric-Correction">Barycentric Correction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/BinaryAnalysis.html#Frequency-Search-without-Binary-correction">Frequency Search without Binary correction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/BinaryAnalysis.html#Binary-Correction">Binary Correction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="notebooks/BinaryAnalysis.html#Determining-Binary-Ephemeris">Determining Binary Ephemeris</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/profile_to_event_simulation.html">Modelling Crab pulsar profile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/profile_to_event_simulation.html#Draw-phase-of-Photons">Draw phase of Photons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/profile_to_event_simulation.html#Compute-arrival-time-of-simulated-photons">Compute arrival time of simulated photons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/profile_to_event_simulation.html#more-tests">more tests</a></li>
 </ul>
 </div>
 </div>
@@ -128,15 +124,15 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="TAT-pulsar documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="notebooks/PulsarTimingAnalysis.html" class="btn btn-neutral float-right" title="Pulsar Timing Analysis" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="notebooks/BinaryAnalysis.html" class="btn btn-neutral float-left" title="Binary System Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="notebooks/profile_to_event_simulation.html" class="btn btn-neutral float-right" title="Modelling Crab pulsar profile" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Jul 25 at 11:21:56 UTC.
+      <span class="lastupdated">Last updated on 2023 Jul 25 at 11:38:59 UTC.
       </span></p>
   </div>
 

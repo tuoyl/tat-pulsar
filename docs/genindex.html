@@ -47,6 +47,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html"> Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="validation.html"> Validations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="autodocs.html"> TAT-pulsar API</a></li>
 </ul>
 
@@ -142,9 +143,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="APIdocs/data.html#tatpulsar.data.profile.Profile.dof">dof (tatpulsar.data.profile.Profile property)</a>
 </li>
+      <li><a href="APIdocs/pulse.html#tatpulsar.pulse.binary.doppler_cor">doppler_cor() (in module tatpulsar.pulse.binary)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="APIdocs/pulse.html#tatpulsar.pulse.binary.doppler_cor">doppler_cor() (in module tatpulsar.pulse.binary)</a>
+      <li><a href="APIdocs/pulse.html#tatpulsar.simulation.profile_sim.draw_event_from_phase">draw_event_from_phase() (in module tatpulsar.simulation.profile_sim)</a>
 </li>
       <li><a href="APIdocs/data.html#tatpulsar.data.profile.draw_random_pulse">draw_random_pulse() (in module tatpulsar.data.profile)</a>
 </li>
@@ -220,9 +223,13 @@
 </li>
         <li><a href="APIdocs/pulse.html#module-tatpulsar.pulse.search">tatpulsar.pulse.search</a>
 </li>
+        <li><a href="APIdocs/pulse.html#module-tatpulsar.simulation.profile_sim">tatpulsar.simulation.profile_sim</a>
+</li>
         <li><a href="APIdocs/utilities.html#module-tatpulsar.utils.functions">tatpulsar.utils.functions</a>
 </li>
         <li><a href="APIdocs/utilities.html#module-tatpulsar.utils.gti">tatpulsar.utils.gti</a>
+</li>
+        <li><a href="APIdocs/utilities.html#module-tatpulsar.utils.readpar">tatpulsar.utils.readpar</a>
 </li>
       </ul></li>
   </ul></td>
@@ -257,6 +264,8 @@
 </li>
       <li><a href="APIdocs/data.html#tatpulsar.data.profile.phihist">phihist() (in module tatpulsar.data.profile)</a>
 </li>
+      <li><a href="APIdocs/pulse.html#tatpulsar.simulation.profile_sim.poisson_rejection_sampling">poisson_rejection_sampling() (in module tatpulsar.simulation.profile_sim)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="APIdocs/utilities.html#tatpulsar.utils.functions.print_loop_percentage">print_loop_percentage() (in module tatpulsar.utils.functions)</a>
@@ -272,6 +281,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="APIdocs/pulse.html#tatpulsar.pulse.residuals.read_toa">read_toa() (in module tatpulsar.pulse.residuals)</a>
+</li>
+      <li><a href="APIdocs/utilities.html#tatpulsar.utils.readpar.readpar">readpar (class in tatpulsar.utils.readpar)</a>
 </li>
       <li><a href="APIdocs/data.html#tatpulsar.data.profile.Profile.rebin">rebin() (tatpulsar.data.profile.Profile method)</a>
 </li>
@@ -289,10 +300,14 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="APIdocs/pulse.html#tatpulsar.pulse.search.search">search() (in module tatpulsar.pulse.search)</a>
+      <li><a href="APIdocs/data.html#tatpulsar.data.profile.Profile.sampling_event">sampling_event() (tatpulsar.data.profile.Profile method)</a>
+</li>
+      <li><a href="APIdocs/data.html#tatpulsar.data.profile.Profile.sampling_phase">sampling_phase() (tatpulsar.data.profile.Profile method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="APIdocs/pulse.html#tatpulsar.pulse.search.search">search() (in module tatpulsar.pulse.search)</a>
+</li>
       <li><a href="APIdocs/data.html#tatpulsar.data.profile.Profile.significance">significance (tatpulsar.data.profile.Profile property)</a>
 </li>
       <li><a href="APIdocs/data.html#tatpulsar.data.profile.Profile.size">size (tatpulsar.data.profile.Profile property)</a>
@@ -338,8 +353,6 @@
         <li><a href="APIdocs/pulse.html#module-tatpulsar.pulse.fold">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     tatpulsar.pulse.residuals
 
@@ -347,11 +360,20 @@
         <li><a href="APIdocs/pulse.html#module-tatpulsar.pulse.residuals">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     tatpulsar.pulse.search
 
       <ul>
         <li><a href="APIdocs/pulse.html#module-tatpulsar.pulse.search">module</a>
+</li>
+      </ul></li>
+      <li>
+    tatpulsar.simulation.profile_sim
+
+      <ul>
+        <li><a href="APIdocs/pulse.html#module-tatpulsar.simulation.profile_sim">module</a>
 </li>
       </ul></li>
       <li>
@@ -368,6 +390,13 @@
         <li><a href="APIdocs/utilities.html#module-tatpulsar.utils.gti">module</a>
 </li>
       </ul></li>
+      <li>
+    tatpulsar.utils.readpar
+
+      <ul>
+        <li><a href="APIdocs/utilities.html#module-tatpulsar.utils.readpar">module</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -381,7 +410,7 @@
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Jul 16 at 08:42:16 UTC.
+      <span class="lastupdated">Last updated on 2023 Jul 25 at 11:38:59 UTC.
       </span></p>
   </div>
 

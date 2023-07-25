@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modelling Crab pulsar profile &mdash; TAT-pulsar 0.4.5 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "tags": "ams", "useLabelIds": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script src="../_static/custom.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> TAT-pulsar
+            <img src="../_static/TATlogo3.pdf" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html"> Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../autodocs.html"> TAT-pulsar API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">TAT-pulsar</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Modelling Crab pulsar profile</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 0;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">stingray.pulse.search</span> <span class="kn">import</span> <span class="n">epoch_folding_search</span>
+<span class="kn">from</span> <span class="nn">stingray.pulse.modeling</span> <span class="kn">import</span> <span class="n">fit_gaussian</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">LineString</span>
+<span class="c1"># from tatpulsar.pulse.fold import cal_event_gti</span>
+<span class="kn">from</span> <span class="nn">tatpulsar.utils.functions</span> <span class="kn">import</span> <span class="n">cal_event_gti</span>
+<span class="kn">from</span> <span class="nn">tatpulsar.pulse</span> <span class="kn">import</span> <span class="n">search</span>
+
+<span class="kn">from</span> <span class="nn">tatpulsar.pulse</span> <span class="kn">import</span> <span class="n">fold</span><span class="p">,</span> <span class="n">search</span>
+<span class="kn">from</span> <span class="nn">tatpulsar.pulse.fold</span> <span class="kn">import</span> <span class="n">phihist</span>
+<span class="kn">from</span> <span class="nn">tatpulsar.data</span> <span class="kn">import</span> <span class="n">Profile</span>
+<span class="kn">from</span> <span class="nn">tatpulsar.utils.functions</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+<span class="c1"># sns.set_context(&#39;talk&#39;)</span>
+<span class="c1"># sns.set_style(&quot;whitegrid&quot;)</span>
+<span class="c1"># sns.set_palette(&quot;colorblind&quot;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">([</span><span class="s1">&#39;science&#39;</span><span class="p">,</span> <span class="s1">&#39;nature&#39;</span><span class="p">,</span> <span class="s1">&#39;no-latex&#39;</span><span class="p">])</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">250</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">20220901</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/tuoyouli/anaconda3/lib/python3.7/site-packages/statsmodels/tools/_testing.py:19: FutureWarning: pandas.util.testing is deprecated. Use the functions in the public API at pandas.testing instead.
+  import pandas.util.testing as tm
+/Users/tuoyouli/anaconda3/lib/python3.7/site-packages/stingray/largememory.py:26: UserWarning: Large Datasets may not be processed efficiently due to computational constraints
+  &#34;Large Datasets may not be processed efficiently due to &#34;
+/Users/tuoyouli/anaconda3/lib/python3.7/site-packages/stingray/crossspectrum.py:28: UserWarning: pyfftw not installed. Using standard scipy fft
+  warnings.warn(&#34;pyfftw not installed. Using standard scipy fft&#34;)
+/Users/tuoyouli/anaconda3/lib/python3.7/site-packages/stingray/crosscorrelation.py:8: UserWarning: pyfftw not installed. Using standard scipy fft
+  warnings.warn(&#34;pyfftw not installed. Using standard scipy fft&#34;)
+/Users/tuoyouli/anaconda3/lib/python3.7/site-packages/stingray/bispectrum.py:10: UserWarning: pyfftw not installed. Using standard scipy fft
+  warnings.warn(&#34;pyfftw not installed. Using standard scipy fft&#34;)
+<span class="ansi-yellow-intense-fg ansi-bold">WARNING </span> (pint.logging                  ): <span class="ansi-yellow-intense-fg ansi-bold">&lt;class &#39;RuntimeWarning&#39;&gt; nopython is set for njit and is ignored</span>
+/Users/tuoyouli/anaconda3/lib/python3.7/site-packages/pint/logging.py:115: RuntimeWarning: nopython is set for njit and is ignored
+  warn_(message, *args, **kwargs)
+<span class="ansi-yellow-intense-fg ansi-bold">WARNING </span> (pint.logging                  ): <span class="ansi-yellow-intense-fg ansi-bold">&lt;class &#39;RuntimeWarning&#39;&gt; nopython is set for njit and is ignored</span>
+<span class="ansi-yellow-intense-fg ansi-bold">WARNING </span> (pint.logging                  ): <span class="ansi-yellow-intense-fg ansi-bold">&lt;class &#39;RuntimeWarning&#39;&gt; nopython is set for njit and is ignored</span>
+</pre></div></div>
+</div>
+<div class="section" id="Modelling-Crab-pulsar-profile">
+<h1>Modelling Crab pulsar profile<a class="headerlink" href="#Modelling-Crab-pulsar-profile" title="Permalink to this headline"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">astropy.modeling</span> <span class="kn">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fitting</span><span class="p">,</span> <span class="n">custom_model</span>
+<span class="c1"># Define model</span>
+<span class="nd">@custom_model</span>
+<span class="k">def</span> <span class="nf">sum_of_gaussians</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">amplitude1</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">mean1</span><span class="o">=-</span><span class="mf">1.</span><span class="p">,</span> <span class="n">sigma1</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span>
+                        <span class="n">amplitude2</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">mean2</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">sigma2</span><span class="o">=</span><span class="mf">1.</span><span class="p">):</span>
+
+    <span class="n">funval0</span> <span class="o">=</span> <span class="p">(</span><span class="n">amplitude1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean1</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span>
+               <span class="n">amplitude2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean2</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">funval1</span> <span class="o">=</span> <span class="p">(</span><span class="n">amplitude1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span>
+               <span class="n">amplitude2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">funval2</span> <span class="o">=</span> <span class="p">(</span><span class="n">amplitude1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span>
+               <span class="n">amplitude2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">sigma2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">baseline</span> <span class="o">+</span> <span class="n">funval0</span> <span class="o">+</span> <span class="n">funval1</span> <span class="o">+</span> <span class="n">funval2</span>
+
+<span class="k">def</span> <span class="nf">double_gauss</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">profile</span><span class="p">):</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">profile</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">profile</span><span class="p">)</span>
+    <span class="n">peak</span> <span class="o">=</span> <span class="n">phase</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">profile</span><span class="p">)]</span>
+    <span class="n">mod</span> <span class="o">=</span> <span class="n">sum_of_gaussians</span><span class="p">(</span><span class="n">baseline</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">profile</span><span class="p">),</span>
+                           <span class="n">mean1</span><span class="o">=</span><span class="n">peak</span><span class="p">,</span> <span class="n">mean2</span><span class="o">=</span><span class="n">peak</span> <span class="o">+</span> <span class="mf">0.4</span><span class="p">,</span>
+                           <span class="n">amplitude1</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">amplitude2</span><span class="o">=</span><span class="n">height</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+                           <span class="n">sigma1</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">sigma2</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">x_1_p_0d4</span><span class="p">(</span><span class="n">mod</span><span class="p">):</span> <span class="k">return</span> <span class="n">mod</span><span class="o">.</span><span class="n">mean1</span> <span class="o">+</span> <span class="mf">0.4</span>
+    <span class="n">mod</span><span class="o">.</span><span class="n">mean2</span><span class="o">.</span><span class="n">tied</span> <span class="o">=</span> <span class="n">x_1_p_0d4</span>
+    <span class="n">fitter</span> <span class="o">=</span> <span class="n">fitting</span><span class="o">.</span><span class="n">LevMarLSQFitter</span><span class="p">()</span>
+
+    <span class="n">newmod</span> <span class="o">=</span> <span class="n">fitter</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">profile</span><span class="p">)</span>
+    <span class="n">fine_phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">)</span>
+    <span class="n">fine_template</span> <span class="o">=</span> <span class="n">newmod</span><span class="p">(</span><span class="n">fine_phase</span><span class="p">)</span>
+    <span class="n">additional_phase</span> <span class="o">=</span> <span class="n">fine_phase</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">fine_template</span><span class="p">)]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">profile</span><span class="p">)</span>
+    <span class="n">allph</span> <span class="o">=</span> <span class="n">fine_phase</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">allph</span><span class="p">,</span> <span class="n">mod</span><span class="p">(</span><span class="n">allph</span><span class="p">),</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">allph</span><span class="p">,</span> <span class="n">newmod</span><span class="p">(</span><span class="n">allph</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">newmod</span><span class="p">,</span> <span class="n">additional_phase</span>
+
+<span class="k">def</span> <span class="nf">skewed_moffat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">alpham</span><span class="p">,</span> <span class="n">alphap</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
+    <span class="n">lt0</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">mean</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span>
+<span class="c1">#     gt0 = np.logical_not(lt0)</span>
+    <span class="n">ratio</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">mean</span><span class="p">)</span><span class="o">/</span><span class="n">alphap</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">ratio</span><span class="p">[</span><span class="n">lt0</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="n">lt0</span><span class="p">]</span><span class="o">-</span><span class="n">mean</span><span class="p">)</span><span class="o">/</span><span class="n">alpham</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">return</span> <span class="n">amplitude</span> <span class="o">*</span> <span class="p">(</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">ratio</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span><span class="p">)</span>
+
+<span class="c1"># Define model</span>
+<span class="nd">@custom_model</span>
+<span class="k">def</span> <span class="nf">sum_of_moffats</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                   <span class="n">amplitude1</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">mean1</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">alpham1</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">alphap1</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                   <span class="n">amplitude2</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">mean2</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">alpham2</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">alphap2</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+
+    <span class="n">funval0</span> <span class="o">=</span> <span class="p">(</span><span class="n">skewed_moffat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mean1</span><span class="p">,</span> <span class="n">amplitude1</span><span class="p">,</span> <span class="n">alpham1</span><span class="p">,</span> <span class="n">alphap1</span><span class="p">,</span> <span class="n">beta1</span><span class="p">)</span> <span class="o">+</span>
+               <span class="n">skewed_moffat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mean2</span><span class="p">,</span> <span class="n">amplitude2</span><span class="p">,</span> <span class="n">alpham2</span><span class="p">,</span> <span class="n">alphap2</span><span class="p">,</span> <span class="n">beta2</span><span class="p">))</span>
+    <span class="n">funval1</span> <span class="o">=</span> <span class="p">(</span><span class="n">skewed_moffat</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mean1</span><span class="p">,</span> <span class="n">amplitude1</span><span class="p">,</span> <span class="n">alpham1</span><span class="p">,</span> <span class="n">alphap1</span><span class="p">,</span> <span class="n">beta1</span><span class="p">)</span> <span class="o">+</span>
+               <span class="n">skewed_moffat</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mean2</span><span class="p">,</span> <span class="n">amplitude2</span><span class="p">,</span> <span class="n">alpham2</span><span class="p">,</span> <span class="n">alphap2</span><span class="p">,</span> <span class="n">beta2</span><span class="p">))</span>
+    <span class="n">funval2</span> <span class="o">=</span> <span class="p">(</span><span class="n">skewed_moffat</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mean1</span><span class="p">,</span> <span class="n">amplitude1</span><span class="p">,</span> <span class="n">alpham1</span><span class="p">,</span> <span class="n">alphap1</span><span class="p">,</span> <span class="n">beta1</span><span class="p">)</span> <span class="o">+</span>
+               <span class="n">skewed_moffat</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mean2</span><span class="p">,</span> <span class="n">amplitude2</span><span class="p">,</span> <span class="n">alpham2</span><span class="p">,</span> <span class="n">alphap2</span><span class="p">,</span> <span class="n">beta2</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">baseline</span> <span class="o">+</span> <span class="n">funval0</span> <span class="o">+</span> <span class="n">funval1</span> <span class="o">+</span> <span class="n">funval2</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create light curve</span>
+
+<span class="n">mod</span> <span class="o">=</span> <span class="n">sum_of_moffats</span><span class="p">(</span><span class="n">baseline</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+                     <span class="n">mean1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mean2</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+                     <span class="n">amplitude1</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="mi">33</span><span class="p">,</span> <span class="n">amplitude2</span><span class="o">=</span><span class="mi">8</span><span class="o">*</span><span class="mi">33</span><span class="p">,</span>
+                     <span class="n">alpham1</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">alpham2</span><span class="o">=</span><span class="mf">0.06</span><span class="p">,</span> <span class="n">alphap1</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">alphap2</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+
+<span class="n">phases</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">1024</span><span class="p">)</span>
+<span class="n">template</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">tatpulsar.data</span> <span class="kn">import</span> <span class="n">Profile</span>
+<span class="n">template</span> <span class="o">=</span> <span class="n">Profile</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">cycles</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Phase&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Count&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span> <span class="n">template</span><span class="o">.</span><span class="n">counts</span><span class="p">,</span> <span class="n">ds</span><span class="o">=</span><span class="s1">&#39;steps-mid&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;ErrorbarContainer object of 3 artists&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_profile_to_event_simulation_3_1.png" src="../_images/notebooks_profile_to_event_simulation_3_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Draw-phase-of-Photons">
+<h1>Draw phase of Photons<a class="headerlink" href="#Draw-phase-of-Photons" title="Permalink to this headline"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">interp1d</span>
+<span class="c1"># pro_interp = inter1d(template.phase, template.counts, kind=&#39;cubic&#39;)</span>
+
+<span class="k">def</span> <span class="nf">rejection_sampling</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">nphot</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    rejection sampling the poisson like signal x-y</span>
+
+<span class="sd">    x: array-like</span>
+<span class="sd">        Time or Phase array</span>
+
+<span class="sd">    y: array-like</span>
+<span class="sd">        counts, Poisson distributed</span>
+
+<span class="sd">    nphot: int</span>
+<span class="sd">        The output amount of sampled photons</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">binsize</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">interp_fun</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="n">binsize</span><span class="p">),</span>
+                          <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                          <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;cubic&#39;</span><span class="p">)</span>
+    <span class="c1"># interp_fun = interp1d(x,</span>
+    <span class="c1">#                   y,</span>
+    <span class="c1">#                   kind=&#39;cubic&#39;)</span>
+
+
+
+    <span class="n">x_sample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="n">binsize</span><span class="p">,</span> <span class="n">nphot</span><span class="p">)</span>
+    <span class="c1"># x_sample = np.random.uniform(x.min(), x.max(), nphot)</span>
+    <span class="n">yval_x_sample</span> <span class="o">=</span> <span class="n">interp_fun</span><span class="p">(</span><span class="n">x_sample</span><span class="p">)</span> <span class="c1"># The corresponding y value of sampled X, according to interplation function</span>
+
+    <span class="n">y_sample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">nphot</span><span class="p">)</span> <span class="c1"># Sampled y value for each x sampled value</span>
+    <span class="c1">## Reject the value that over the true y value</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_sample</span> <span class="o">&lt;=</span> <span class="n">yval_x_sample</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x_sample</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">20230723</span><span class="p">)</span>
+<span class="n">photon_num</span> <span class="o">=</span> <span class="mi">2000000</span>
+<span class="n">sample_phase</span> <span class="o">=</span> <span class="n">rejection_sampling</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span> <span class="n">template</span><span class="o">.</span><span class="n">counts</span><span class="p">,</span> <span class="n">photon_num</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">phihist</span><span class="p">(</span><span class="n">sample_phase</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">cycles</span><span class="o">=</span><span class="mi">2</span>
+<span class="n">template</span><span class="o">.</span><span class="n">cycles</span><span class="o">=</span><span class="mi">2</span>
+<span class="c1"># p.norm()</span>
+<span class="c1"># template.norm()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">counts</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;sampled&#39;</span><span class="p">,</span> <span class="n">ds</span><span class="o">=</span><span class="s1">&#39;steps-mid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span> <span class="n">template</span><span class="o">.</span><span class="n">counts</span><span class="p">,</span> <span class="n">ds</span><span class="o">=</span><span class="s1">&#39;steps-mid&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="c1"># plt.figure(figsize=(3,1))</span>
+<span class="c1"># plt.errorbar(p.phase, template.counts-p.counts)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;ErrorbarContainer object of 3 artists&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_profile_to_event_simulation_7_1.png" src="../_images/notebooks_profile_to_event_simulation_7_1.png" />
+</div>
+</div>
+<p>NOTE: The rejection sample of the given model profile is valid! Now let’s take a look at the photon arrival time sampling based on the profile.</p>
+</div>
+<div class="section" id="Compute-arrival-time-of-simulated-photons">
+<h1>Compute arrival time of simulated photons<a class="headerlink" href="#Compute-arrival-time-of-simulated-photons" title="Permalink to this headline"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">brentq</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">draw_time_from_phase</span><span class="p">(</span><span class="n">phase</span><span class="p">,</span> <span class="n">tstart</span><span class="p">,</span> <span class="n">tstop</span><span class="p">,</span> <span class="n">f0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">f1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">f2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">f3</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pepoch</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    sampling the photon arrival time given the phase of each photon</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    phase: array-like</span>
+<span class="sd">        The phase of each photon, the phase is normalized to [0, 1]</span>
+<span class="sd">    tstart: array-like</span>
+<span class="sd">        The start time to generate arrival time (MJD)</span>
+<span class="sd">    tstop: array-like</span>
+<span class="sd">        The stop  time to generate arrival time (MJD)</span>
+
+<span class="sd">    par: float</span>
+<span class="sd">        The following parameters are pulsar periodic parameters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dt</span> <span class="o">=</span> <span class="p">(</span><span class="n">tstart</span> <span class="o">-</span> <span class="n">pepoch</span><span class="p">)</span> <span class="o">*</span> <span class="mi">86400</span>
+    <span class="n">tstart_phase</span> <span class="o">=</span> <span class="n">f0</span><span class="o">*</span><span class="n">dt</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">f1</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mf">6.</span><span class="p">)</span><span class="o">*</span><span class="n">f2</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">3</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="p">(</span><span class="n">tstop</span>  <span class="o">-</span> <span class="n">pepoch</span><span class="p">)</span> <span class="o">*</span> <span class="mi">86400</span>
+    <span class="n">tstop_phase</span>  <span class="o">=</span> <span class="n">f0</span><span class="o">*</span><span class="n">dt</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">f1</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mf">6.</span><span class="p">)</span><span class="o">*</span><span class="n">f2</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">3</span>
+
+    <span class="n">Npulse_sample</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">tstart_phase</span><span class="p">,</span> <span class="n">tstop_phase</span><span class="p">,</span> <span class="n">phase</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+    <span class="n">absphase_sample</span> <span class="o">=</span> <span class="n">Npulse_sample</span> <span class="o">+</span> <span class="n">phase</span>
+
+    <span class="k">def</span> <span class="nf">delta_phi</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">phi0</span><span class="p">):</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">pepoch</span><span class="p">)</span> <span class="o">*</span> <span class="mi">86400</span>
+        <span class="k">return</span> <span class="n">f0</span><span class="o">*</span><span class="n">dt</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">f1</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mf">6.</span><span class="p">)</span><span class="o">*</span><span class="n">f2</span><span class="o">*</span><span class="n">dt</span><span class="o">**</span><span class="mi">3</span> <span class="o">-</span> <span class="n">phi0</span>
+
+    <span class="k">def</span> <span class="nf">obj_fun</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">delta_phi</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">phi</span><span class="p">)</span>
+
+    <span class="n">new_event</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">phi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tqdm</span><span class="p">(</span><span class="n">absphase_sample</span><span class="p">)):</span>
+        <span class="n">new_event</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">brentq</span><span class="p">(</span><span class="n">obj_fun</span><span class="p">,</span> <span class="n">tstart</span><span class="p">,</span> <span class="n">tstop</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">new_event</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tatpulsar.utils.functions</span> <span class="kn">import</span> <span class="n">met2mjd</span>
+
+<span class="n">mjd_tstart</span> <span class="o">=</span> <span class="mi">59000</span>
+<span class="n">mjd_tstop</span>  <span class="o">=</span> <span class="mi">60000</span>
+<span class="n">f0</span> <span class="o">=</span> <span class="mf">29.6366215666433</span>
+<span class="n">f1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">3.69981e-10</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">8.1e-18</span>
+<span class="n">pepoch</span> <span class="o">=</span> <span class="mi">58068</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">draw_time_from_phase</span><span class="p">(</span><span class="n">sample_phase</span><span class="p">,</span>
+                       <span class="n">mjd_tstart</span><span class="p">,</span>
+                       <span class="n">mjd_tstop</span><span class="p">,</span>
+                       <span class="n">f0</span><span class="o">=</span><span class="n">f0</span><span class="p">,</span>
+                       <span class="n">f1</span><span class="o">=</span><span class="n">f1</span><span class="p">,</span>
+                       <span class="n">f2</span><span class="o">=</span><span class="n">f2</span><span class="p">,</span>
+                       <span class="n">pepoch</span><span class="o">=</span><span class="n">pepoch</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1393858/1393858 [00:07&lt;00:00, 198657.71it/s]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tatpulsar.data.profile</span> <span class="kn">import</span> <span class="n">phihist</span>
+<span class="kn">from</span> <span class="nn">tatpulsar.pulse.fold</span> <span class="kn">import</span> <span class="n">cal_phase</span><span class="p">,</span> <span class="n">fold</span>
+<span class="c1"># phase = cal_phase(mjd2met(out, &#39;nicer&#39;), mjd2met(pepoch, &#39;nicer&#39;), f0, f1=0, f2=0, f3=0, f4=0, format=&#39;met&#39;, phi0=0)</span>
+<span class="c1"># real_pro = phihist(phase, nbins=1024, cycles=1)</span>
+
+<span class="n">real_pro</span> <span class="o">=</span> <span class="n">fold</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">pepoch</span><span class="o">=</span><span class="n">pepoch</span><span class="p">,</span> <span class="n">f0</span><span class="o">=</span><span class="n">f0</span><span class="p">,</span> <span class="n">f1</span><span class="o">=</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="o">=</span><span class="n">f2</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;mjd&#39;</span><span class="p">)</span>
+<span class="n">real_pro</span><span class="o">.</span><span class="n">cycles</span><span class="o">=</span><span class="mi">2</span>
+
+<span class="n">real_pro</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span>
+<span class="n">template</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">real_pro</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span> <span class="n">real_pro</span><span class="o">.</span><span class="n">counts</span><span class="p">,</span> <span class="n">real_pro</span><span class="o">.</span><span class="n">error</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ME-observed&#39;</span><span class="p">)</span>
+<span class="c1"># plt.twinx()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span> <span class="n">template</span><span class="o">.</span><span class="n">counts</span><span class="p">,</span>
+             <span class="n">c</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;simulated&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;matplotlib.legend.Legend at 0x7fae1a29cad0&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_profile_to_event_simulation_12_1.png" src="../_images/notebooks_profile_to_event_simulation_12_1.png" />
+</div>
+</div>
+<p>The event list is simulated according to the phase samples, resulting in calculated outcomes. Subsequently, a profile is generated based on this sampled event list, aligning effectively with the template profile. This suggests that the entire simulation process—from the template profile to the photon’s arrival time—is both valid and reliable.</p>
+</div>
+<div class="section" id="more-tests">
+<h1>more tests<a class="headerlink" href="#more-tests" title="Permalink to this headline"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tatpulsar.data.profile</span> <span class="kn">import</span> <span class="n">draw_random_pulse</span>
+<span class="n">profile_random</span> <span class="o">=</span> <span class="n">draw_random_pulse</span><span class="p">(</span><span class="n">nbins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">pulsefrac</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">profile_random</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span> <span class="n">profile_random</span><span class="o">.</span><span class="n">counts</span><span class="p">)</span>
+<span class="n">help</span><span class="p">(</span><span class="n">profile_random</span><span class="o">.</span><span class="n">sampling_phase</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Youli.
+      <span class="lastupdated">Last updated on 2023 Jul 25 at 11:21:56 UTC.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

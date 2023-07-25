@@ -8,3 +8,5 @@ Function tools
    :members:
 .. automodule:: tatpulsar.utils.gti
    :members:
+.. automodule:: tatpulsar.utils.readpar
+   :members:

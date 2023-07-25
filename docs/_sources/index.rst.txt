@@ -66,4 +66,5 @@ Contents
    :maxdepth: 2
 
     Tutorials <tutorials.rst>
+    Validations <validation.rst>
     TAT-pulsar API <autodocs.rst>
