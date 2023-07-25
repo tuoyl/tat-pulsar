@@ -3,6 +3,7 @@ The Class of Profile
 """
 import numpy as np
 import scipy.stats
+from tatpulsar.simulation.profile_sim import poisson_rejection_sampling, draw_event_from_phase
 
 __all__ = ["Profile",
            "phihist",
@@ -206,6 +207,66 @@ class Profile():
         term2 =  2 * self.counts.min() / (self.counts.max() + self.counts.min())**2 * self.error[indx_max]
         pf_err = np.sqrt(term1**2 + term2**2)
         return pf, pf_err
+
+    def sampling_phase(self, nphot):
+        """
+        use rejection sampling method to draw the phase list
+
+        Parameters
+        ----------
+        nphot: int
+            The output amount of sampled photons
+
+        Returns
+        -------
+        phase: array-like
+            The phase sample that satisfy the rejection rule
+        """
+        phase = poisson_rejection_sampling(
+                self.phase,
+                self.counts,
+                nphot)
+        return phase
+
+    def sampling_event(nphot, tstart, tstop,
+                       f0, f1=0, f2=0, f3=0, pepoch=0):
+        """
+        sampling the photon arrival time
+
+        Parameters
+        ----------
+        nphot: int
+            The output amount of sampled photons
+        tstart: array-like
+            The start time to generate arrival time (MJD)
+        tstop: array-like
+            The stop  time to generate arrival time (MJD)
+        f0: float
+            The frequency of the pulsar
+        f1: float, optional
+            The frequency derivative of the pulsar
+        f2: float, optional
+            The second derivative of the frequency
+        f3: float, optional
+            The third derivative of the frequency
+        f4: float, optional
+            The fourth derivative of the frequency
+        pepoch: float
+            The reference time of the timing parameters (MJD)
+
+        Returns
+        -------
+        event_list: array-like
+            The sampled arrival times of photons
+        """
+        phase = self.sampling_phase(nphot)
+        event_list = draw_event_from_phase(
+                phase,
+                tstart,
+                tstop,
+                f0=f0, f1=f1, f2=f2, f3=f3,
+                pepoch=pepoch)
+        return event_list
 
     def resample(self, sample_num=1, kind='poisson'):
         '''
@@ -445,34 +506,3 @@ def draw_random_pulse(nbins=100, baseline=1000, pulsefrac=0.2):
 
     return Profile(signal)
 
-# If the code works fine, don't easily modify/delete it
-def resampling_profile(profile, sample_num=1, kind='poisson'):
-     '''
-     resampling the profile
-     Parameters
-     ----------
-     profile : array
-         The un-normalized profile
-     sample_num : int, optional
-         number of the resamplings for the profile, the default number is 1
-     kind : str, optional
-         The distribution of the profile, default is poisson.
-         ('poisson', 'gaussian') are refering to the poisson and gauss distribution
-     Returns
-     -------
-     resampled_profile : array or ndarray
-         if sample_num == 1, return a one dimensional array
-         if sample_num >1 , return a multi-dimensional array
-     '''
-     raw_profile = np.array(profile.tolist()*sample_num)
-     if sample_num <= 0:
-         raiseError("The number of sampling must a positive integer")
-
-     if kind == "poisson":
-         resampled_profile = np.random.poisson(raw_profile)
-     elif kind == "gaussian":
-         pass #TODO
-
-     resampled_profile = resampled_profile.reshape(int(len(resampled_profile)/len(profile)),
-             int(len(profile)))
-     return resampled_profile
