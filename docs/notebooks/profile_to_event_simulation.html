@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Modelling Crab pulsar profile &mdash; TAT-pulsar 0.4.5 documentation</title>
+  <title>Validation of profile simulation &mdash; TAT-pulsar 0.4.5 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
@@ -27,7 +27,9 @@
         <script src="../_static/custom.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Validation of Binary algorithm" href="Validation_binary.html" />
+    <link rel="prev" title="TAT-pulsar Validations" href="../validation.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,8 +48,19 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../tutorials.html"> Tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../validation.html"> Validations</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Profile simulations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Modelling-Crab-pulsar-profile">Modelling Crab pulsar profile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Draw-phase-of-Photons">Draw phase of Photons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Compute-arrival-time-of-simulated-photons">Compute arrival time of simulated photons</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#more-tests">more tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Validation_binary.html"> Binary Validations</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../autodocs.html"> TAT-pulsar API</a></li>
 </ul>
 
@@ -65,7 +78,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Modelling Crab pulsar profile</li>
+          <li><a href="../validation.html">TAT-pulsar Validations</a> &raquo;</li>
+      <li>Validation of profile simulation</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -344,6 +358,8 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
+<div class="section" id="Validation-of-profile-simulation">
+<h1>Validation of profile simulation<a class="headerlink" href="#Validation-of-profile-simulation" title="Permalink to this headline"></a></h1>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -404,7 +420,7 @@ div.rendered_html tbody tr:hover {
 </pre></div></div>
 </div>
 <div class="section" id="Modelling-Crab-pulsar-profile">
-<h1>Modelling Crab pulsar profile<a class="headerlink" href="#Modelling-Crab-pulsar-profile" title="Permalink to this headline"></a></h1>
+<h2>Modelling Crab pulsar profile<a class="headerlink" href="#Modelling-Crab-pulsar-profile" title="Permalink to this headline"></a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -508,12 +524,12 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_profile_to_event_simulation_3_1.png" src="../_images/notebooks_profile_to_event_simulation_3_1.png" />
+<img alt="../_images/notebooks_profile_to_event_simulation_4_1.png" src="../_images/notebooks_profile_to_event_simulation_4_1.png" />
 </div>
 </div>
 </div>
 <div class="section" id="Draw-phase-of-Photons">
-<h1>Draw phase of Photons<a class="headerlink" href="#Draw-phase-of-Photons" title="Permalink to this headline"></a></h1>
+<h2>Draw phase of Photons<a class="headerlink" href="#Draw-phase-of-Photons" title="Permalink to this headline"></a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
@@ -596,13 +612,13 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_profile_to_event_simulation_7_1.png" src="../_images/notebooks_profile_to_event_simulation_7_1.png" />
+<img alt="../_images/notebooks_profile_to_event_simulation_8_1.png" src="../_images/notebooks_profile_to_event_simulation_8_1.png" />
 </div>
 </div>
 <p>NOTE: The rejection sample of the given model profile is valid! Now let’s take a look at the photon arrival time sampling based on the profile.</p>
 </div>
 <div class="section" id="Compute-arrival-time-of-simulated-photons">
-<h1>Compute arrival time of simulated photons<a class="headerlink" href="#Compute-arrival-time-of-simulated-photons" title="Permalink to this headline"></a></h1>
+<h2>Compute arrival time of simulated photons<a class="headerlink" href="#Compute-arrival-time-of-simulated-photons" title="Permalink to this headline"></a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
@@ -718,13 +734,13 @@ div.rendered_html tbody tr:hover {
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_profile_to_event_simulation_12_1.png" src="../_images/notebooks_profile_to_event_simulation_12_1.png" />
+<img alt="../_images/notebooks_profile_to_event_simulation_13_1.png" src="../_images/notebooks_profile_to_event_simulation_13_1.png" />
 </div>
 </div>
 <p>The event list is simulated according to the phase samples, resulting in calculated outcomes. Subsequently, a profile is generated based on this sampled event list, aligning effectively with the template profile. This suggests that the entire simulation process—from the template profile to the photon’s arrival time—is both valid and reliable.</p>
 </div>
 <div class="section" id="more-tests">
-<h1>more tests<a class="headerlink" href="#more-tests" title="Permalink to this headline"></a></h1>
+<h2>more tests<a class="headerlink" href="#more-tests" title="Permalink to this headline"></a></h2>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
@@ -737,17 +753,21 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 </div>
+</div>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../validation.html" class="btn btn-neutral float-left" title="TAT-pulsar Validations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Validation_binary.html" class="btn btn-neutral float-right" title="Validation of Binary algorithm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Jul 25 at 11:21:56 UTC.
+      <span class="lastupdated">Last updated on 2023 Jul 25 at 17:30:10 UTC.
       </span></p>
   </div>
 

@@ -1,6 +1,14 @@
 {
  "cells": [
   {
+   "cell_type": "markdown",
+   "id": "542c7c5c-9285-45ea-802f-34e32ae6c4ae",
+   "metadata": {},
+   "source": [
+    "# Validation of profile simulation"
+   ]
+  },
+  {
    "cell_type": "code",
    "execution_count": 1,
    "id": "ae1e8c67-256f-435a-9e57-9603014b08e4",

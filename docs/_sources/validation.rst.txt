@@ -7,6 +7,7 @@ We didn't just test our algorithms (though we totally did that too), but we also
 So strap in, and get ready to dive into the behind-the-scenes action of our Python package. We promise it'll give you a whole new appreciation for what goes into creating a dependable and accurate tool for all you pulsar timing analysis enthusiasts out there.
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
     Profile simulations <notebooks/profile_to_event_simulation.ipynb>
+    Binary Validations <notebooks/Validation_binary.ipynb>

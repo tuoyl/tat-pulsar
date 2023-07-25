@@ -28,7 +28,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="TAT-pulsar package API" href="../autodocs.html" />
+    <link rel="next" title="TAT-pulsar Validations" href="../validation.html" />
     <link rel="prev" title="Pulsar Timing Analysis" href="PulsarTimingAnalysis.html" /> 
 </head>
 
@@ -71,6 +71,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../validation.html"> Validations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../autodocs.html"> TAT-pulsar API</a></li>
 </ul>
 
@@ -391,7 +392,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Using matplotlib backend: &lt;object object at 0x7fe6cd4bc0a0&gt;
+Using matplotlib backend: &lt;object object at 0x7fd4b8cdb0a0&gt;
 Populating the interactive namespace from numpy and matplotlib
 </pre></div></div>
 </div>
@@ -450,7 +451,7 @@ Populating the interactive namespace from numpy and matplotlib
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2023-06-20 11:45:07--  https://heasarc.gsfc.nasa.gov/FTP/ixpe/data/obs/01/01006501/hk/ixpe01006501_all_orb_v07.fits.gz
+--2023-07-25 15:30:56--  https://heasarc.gsfc.nasa.gov/FTP/ixpe/data/obs/01/01006501/hk/ixpe01006501_all_orb_v07.fits.gz
 Resolving heasarc.gsfc.nasa.gov (heasarc.gsfc.nasa.gov)... 129.164.179.23
 Connecting to heasarc.gsfc.nasa.gov (heasarc.gsfc.nasa.gov)|129.164.179.23|:443... connected.
 HTTP request sent, awaiting response... 304 Not Modified
@@ -578,7 +579,7 @@ Accelerating barycor
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7fe6b5c66ed0&gt;
+&lt;matplotlib.legend.Legend at 0x7fd4a32cacd0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -641,7 +642,7 @@ Accelerating barycor
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7fe6b73d4fd0&gt;
+&lt;matplotlib.legend.Legend at 0x7fd4a38b6b90&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -707,8 +708,9 @@ orbit_cor_kepler(time, Tw, ecc, Porb, omega, axsini, PdotOrb=0, omegadot=0, gamm
     t_em: float
         The emitting time of photon in binary system in MJD
 
-    Example
-    -------
+    Examples
+    --------
+
     &gt;&gt;&gt; observed_time = np.array([...]) # Time series in MJD
     &gt;&gt;&gt; Tw = 54424.71               #Barycentric time (in MJD(TDB)) of periastron
     &gt;&gt;&gt; e = 0.68                    #orbital eccentricity
@@ -781,7 +783,7 @@ orbit_cor_kepler(time, Tw, ecc, Porb, omega, axsini, PdotOrb=0, omegadot=0, gamm
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;matplotlib.legend.Legend at 0x7fe6b6eb00d0&gt;
+&lt;matplotlib.legend.Legend at 0x7fd4a2c961d0&gt;
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1093,7 +1095,7 @@ Eccentricity: 0.04981853019176014 +- 0.00030180024800663245
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|█████████████████████████████████████████████████████████████████████| 5000/5000 [00:11&lt;00:00, 417.70it/s]
+100%|███████████████████████████████████████████████████████████████████████████| 5000/5000 [00:11&lt;00:00, 433.90it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1207,7 +1209,7 @@ Eccentricity: 0.04981853019176014 +- 0.00030180024800663245
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "69b64744b890441ead1f7b549301ac6d", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "6addc2c049e84a478f007e9e0b31aad6", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
@@ -1312,14 +1314,14 @@ Z=-111.1(98.93%) | Like=-59.68..-59.20 [-59.6797..-59.6784]*| it/evals=12003/149
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="PulsarTimingAnalysis.html" class="btn btn-neutral float-left" title="Pulsar Timing Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../autodocs.html" class="btn btn-neutral float-right" title="TAT-pulsar package API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../validation.html" class="btn btn-neutral float-right" title="TAT-pulsar Validations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Jul 04 at 09:34:27 UTC.
+      <span class="lastupdated">Last updated on 2023 Jul 25 at 17:27:11 UTC.
       </span></p>
   </div>
 

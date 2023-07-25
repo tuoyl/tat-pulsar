@@ -66,6 +66,7 @@
 <li class="toctree-l2"><a class="reference internal" href="BinaryAnalysis.html"> Binary System Analysis</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../validation.html"> Validations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../autodocs.html"> TAT-pulsar API</a></li>
 </ul>
 
@@ -801,12 +802,12 @@ Text(0, 0.5, &#39;Normalization&#39;)
 <p>Here we address a specific simulation scenario. Suppose we have a pulse profile, and our goal is to simulate an event list that begins at <code class="docutils literal notranslate"><span class="pre">tstart</span></code> and concludes at <code class="docutils literal notranslate"><span class="pre">tstop</span></code>.</p>
 <p>We possess knowledge of the pulsar’s timing parameters, and for the purpose of this exercise, we will employ the parameters of the Crab Pulsar as our timing model. The objective is to generate a sequence of photon arrival times that aligns with these predefined timing parameters.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">profile_init</span> <span class="o">=</span> <span class="n">draw_random_pulse</span><span class="p">(</span><span class="n">nbins</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">baseline</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span> <span class="n">pulsefrac</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
-<span class="n">nphot</span> <span class="o">=</span> <span class="mi">20000000</span> <span class="c1"># Number of photons to draw</span>
+<span class="n">nphot</span> <span class="o">=</span> <span class="mi">2000</span> <span class="c1"># Number of photons to draw</span>
 <span class="n">tstart</span> <span class="o">=</span> <span class="mi">59000</span> <span class="c1"># Start time of simulated event list</span>
 <span class="n">tstop</span>  <span class="o">=</span> <span class="mi">60000</span> <span class="c1"># Stop time of simulated event list</span>
 <span class="n">f0</span> <span class="o">=</span> <span class="n">par</span><span class="o">.</span><span class="n">f0</span>
@@ -829,11 +830,11 @@ Text(0, 0.5, &#39;Normalization&#39;)
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-100%|████████████████████████████████████████████████████████████| 9782810/9782810 [01:07&lt;00:00, 145104.17it/s]
+100%|████████████████████████████████████████████████████████████████████████| 1061/1061 [00:00&lt;00:00, 108068.59it/s]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">profile_sampled</span> <span class="o">=</span> <span class="n">fold</span><span class="p">(</span><span class="n">event_list</span><span class="p">,</span>
@@ -862,7 +863,7 @@ Text(0, 0.5, &#39;Normalization&#39;)
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -875,6 +876,99 @@ Text(0, 0.5, &#39;Normalized flux&#39;)
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_PulsarTimingAnalysis_28_2.png" src="../_images/notebooks_PulsarTimingAnalysis_28_2.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+100%|███████████████████████████████████████████████████████████████████████████| 541/541 [00:00&lt;00:00, 87526.27it/s]
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_PulsarTimingAnalysis_31_1.png" src="../_images/notebooks_PulsarTimingAnalysis_31_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">observed_times</span><span class="p">,</span> <span class="n">delta_t</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;ErrorbarContainer object of 3 artists&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_PulsarTimingAnalysis_32_1.png" src="../_images/notebooks_PulsarTimingAnalysis_32_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tatpulsar.pulse.binary</span> <span class="kn">import</span> <span class="n">orbit_cor_kepler</span>
+<span class="n">t_em</span> <span class="o">=</span> <span class="n">orbit_cor_kepler</span><span class="p">(</span><span class="n">emission_times</span><span class="p">,</span> <span class="n">Tw</span><span class="o">=</span><span class="n">fake_T_halfpi</span><span class="p">,</span>
+                        <span class="n">ecc</span><span class="o">=</span><span class="n">fake_e</span><span class="p">,</span>
+                        <span class="n">Porb</span> <span class="o">=</span> <span class="n">fake_Porb</span><span class="o">*</span><span class="mi">86400</span><span class="p">,</span>
+                        <span class="n">omega</span><span class="o">=</span><span class="n">fake_omega</span><span class="p">,</span>
+                        <span class="n">axsini</span><span class="o">=</span><span class="n">fake_axsini</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">observed_times</span><span class="p">,</span> <span class="n">t_em</span><span class="o">-</span><span class="n">observed_times</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">observed_times</span><span class="p">,</span> <span class="n">delta_t</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;ErrorbarContainer object of 3 artists&gt;
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_PulsarTimingAnalysis_34_1.png" src="../_images/notebooks_PulsarTimingAnalysis_34_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -901,7 +995,7 @@ Text(0, 0.5, &#39;Normalized flux&#39;)
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Jul 25 at 11:21:56 UTC.
+      <span class="lastupdated">Last updated on 2023 Jul 25 at 17:27:11 UTC.
       </span></p>
   </div>
 
