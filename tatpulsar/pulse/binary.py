@@ -46,8 +46,9 @@ def orbit_cor_kepler(time, Tw, ecc, Porb, omega, axsini,
     t_em: float
         The emitting time of photon in binary system in MJD
 
-    Example
-    -------
+    Examples
+    --------
+
     >>> observed_time = np.array([...]) # Time series in MJD
     >>> Tw = 54424.71               #Barycentric time (in MJD(TDB)) of periastron
     >>> e = 0.68                    #orbital eccentricity

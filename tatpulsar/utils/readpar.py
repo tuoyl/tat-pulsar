@@ -14,8 +14,8 @@ class readpar:
     The parameters in the '.par' file might be capitalized but those parameters
     stored in this object are case INSENSITIVE (see examples below).
 
-    Example
-    -------
+    Examples
+    --------
     >>> eph = readpar('test.par')
     >>> print("F0 = ", eph.F0.value, eph.f0.value)
     >>> F0 =  29.636679699921209437
