@@ -2,8 +2,14 @@
 functions for the profile sampling and simulation
 """
 
-__all__ ['rejection_sampling',
-         'draw_event_from_phase']
+import numpy as np
+from scipy.optimize import brentq
+from scipy.interpolate import interp1d
+from tqdm import tqdm
+
+
+__all__ = ['poisson_rejection_sampling',
+           'draw_event_from_phase']
 
 
 def poisson_rejection_sampling(x, y, nphot):
@@ -25,11 +31,12 @@ def poisson_rejection_sampling(x, y, nphot):
         The x sample that satisfy the rejection rule
     """
     binsize = np.median(np.diff(x))
-    interp_fun = interp1d(x,
-                      y,
-                      kind='cubic')
+    interp_fun = interp1d(np.append(x, x.max()+binsize),
+                          np.append(y, y[0]),
+                          kind='cubic')
 
-    x_sample = np.random.uniform(x.min(), x.max(), nphot)
+    #x_sample = np.random.uniform(x.min(), x.max(), nphot)
+    x_sample = np.random.uniform(x.min(), x.max()+binsize, nphot)
     yval_x_sample = interp_fun(x_sample) # The corresponding y value of sampled X, according to interplation function
 
     y_sample = np.random.uniform(0, y.max(), nphot) # Sampled y value for each x sampled value

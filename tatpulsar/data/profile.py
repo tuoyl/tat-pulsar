@@ -228,7 +228,7 @@ class Profile():
                 nphot)
         return phase
 
-    def sampling_event(nphot, tstart, tstop,
+    def sampling_event(self, nphot, tstart, tstop,
                        f0, f1=0, f2=0, f3=0, pepoch=0):
         """
         sampling the photon arrival time
