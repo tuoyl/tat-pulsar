@@ -491,7 +491,7 @@ def phihist(phi, nbins, **kwargs):
 
     return profile_object
 
-def draw_random_pulse(nbins=100, baseline=1000, pulsefterm1 rac=0.2):
+def draw_random_pulse(nbins=100, baseline=1000, pulsefrac=0.2):
     """
     Generate a random pulse profile that consists of multiple Gaussian-like pulse
 
