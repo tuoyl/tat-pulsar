@@ -218,7 +218,7 @@ class Profile():
         (reference: Tsygankov, Sergey S., et al. MNRAS, 457.1 (2016): 258-266.)
 
         .. math::
-            \mathrm{RMS} = \frac{(\frac{1}{N}\sum_{i=1}^{N}(P_i - \overline{P}))^{1/2}}{\overline{P}}
+            \mathrm{RMS}=\\frac{(\\frac{1}{N}\sum_{i=1}^{N}(P_i - \overline{P}))^{1/2}}{\overline{P}}
 
         where :math:`P_i` is the background-corrected count rate in a given bin of the pulse profile,
         :math:`\overline{P}` is the count rate averaged over the pulse period,
