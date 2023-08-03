@@ -288,16 +288,11 @@ if sample_num &gt;1 , return a multi-dimensional array</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.rms">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">rms</span></span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.rms" title="Permalink to this definition"></a></dt>
-<dd><blockquote>
-<div><p>calculate the Root-Mean-Square (RMS) of a given pulse profile
+<dd><p>calculate the Root-Mean-Square (RMS) of a given pulse profile
 (reference: Tsygankov, Sergey S., et al. MNRAS, 457.1 (2016): 258-266.)</p>
 <div class="math notranslate nohighlight">
-\[\mathrm{RMS} = \]</div>
-</div></blockquote>
-<p>rac{(
-rac{1}{N}sum_{i=1}^{N}(P_i - overline{P}))^{1/2}}{overline{P}}</p>
-<blockquote>
-<div><p>where <span class="math notranslate nohighlight">\(P_i\)</span> is the background-corrected count rate in a given bin of the pulse profile,
+\[\mathrm{RMS}=\frac{(\frac{1}{N}\sum_{i=1}^{N}(P_i - \overline{P}))^{1/2}}{\overline{P}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(P_i\)</span> is the background-corrected count rate in a given bin of the pulse profile,
 <span class="math notranslate nohighlight">\(\overline{P}\)</span> is the count rate averaged over the pulse period,
 and <span class="math notranslate nohighlight">\(N\)</span> is the total number of phase bins in the profile.</p>
 <div class="admonition note">
@@ -305,7 +300,6 @@ and <span class="math notranslate nohighlight">\(N\)</span> is the total number 
 <p>This definition gives significantly lower absolute value of the pulsed fraction,
 however all features described above have the same form.</p>
 </div>
-</div></blockquote>
 <dl class="field-list">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>rms: float</p>
@@ -472,7 +466,7 @@ The counts of each bin are calculated by dividing [0, 1] into number of nbins.</
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Aug 03 at 14:02:24 UTC.
+      <span class="lastupdated">Last updated on 2023 Aug 03 at 14:51:48 UTC.
       </span></p>
   </div>
 
