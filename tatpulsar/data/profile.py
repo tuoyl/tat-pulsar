@@ -187,9 +187,12 @@ class Profile():
         .. math::
             PF = (p_{\mathrm{max}} - p_{\mathrm{min}})/(p_{\mathrm{max}} + p_{\mathrm{min}})
 
-        where :math:`p` is the counts of profile, please note the pulse fraction has valid physical
-        meaning only if the input profile is folded by the net lightcurve or the background level can
-        be well estimated and subtracted from the observed pulse profile.
+        where :math:`p` is the counts of profile.
+
+        .. note::
+            please note the pulse fraction has valid physical meaning only if the input profile
+            is folded by the net lightcurve or the background level can be well estimated and
+            subtracted from the observed pulse profile.
 
         Returns
         -------
@@ -207,6 +210,37 @@ class Profile():
         term2 =  2 * self.counts.min() / (self.counts.max() + self.counts.min())**2 * self.error[indx_max]
         pf_err = np.sqrt(term1**2 + term2**2)
         return pf, pf_err
+
+    @property
+    def rms(self):
+        """
+        calculate the Root-Mean-Square (RMS) of a given pulse profile
+        (reference: Tsygankov, Sergey S., et al. MNRAS, 457.1 (2016): 258-266.)
+
+        .. math::
+            \mathrm{RMS} = \frac{(\frac{1}{N}\sum_{i=1}^{N}(P_i - \overline{P}))^{1/2}}{\overline{P}}
+
+        where :math:`P_i` is the background-corrected count rate in a given bin of the pulse profile,
+        :math:`\overline{P}` is the count rate averaged over the pulse period,
+        and :math:`N` is the total number of phase bins in the profile.
+
+        .. note::
+            This definition gives significantly lower absolute value of the pulsed fraction,
+            however all features described above have the same form.
+
+        Returns
+        -------
+        rms: float
+            The RMS value
+        """
+        mean_pro = np.mean(self.counts)
+        N = self.counts.size
+        term1 = np.sqrt(np.sum((self.counts - mean_pro)**2)/N)
+
+        mean_pro_err = np.sqrt(np.sum(self.counts**2))/N
+        #TODO: error of RMS
+        return term1/mean_pro
+
 
     def sampling_phase(self, nphot):
         """
@@ -457,7 +491,7 @@ def phihist(phi, nbins, **kwargs):
 
     return profile_object
 
-def draw_random_pulse(nbins=100, baseline=1000, pulsefrac=0.2):
+def draw_random_pulse(nbins=100, baseline=1000, pulsefterm1 rac=0.2):
     """
     Generate a random pulse profile that consists of multiple Gaussian-like pulse
 
