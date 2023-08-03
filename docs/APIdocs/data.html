@@ -50,8 +50,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../tutorials.html"> Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation.html"> Validations</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../autodocs.html"> TAT-pulsar API</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#"> Data Classes</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Profile object</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-tatpulsar.data.profile">Profile class</a></li>
 </ul>
 </li>
@@ -206,9 +207,13 @@ method = 1 : <span class="math notranslate nohighlight">\(N = (P-P_{min})/\bar{P
 calculating pulse fraction is:</p>
 <div class="math notranslate nohighlight">
 \[PF = (p_{\mathrm{max}} - p_{\mathrm{min}})/(p_{\mathrm{max}} + p_{\mathrm{min}})\]</div>
-<p>where <span class="math notranslate nohighlight">\(p\)</span> is the counts of profile, please note the pulse fraction has valid physical
-meaning only if the input profile is folded by the net lightcurve or the background level can
-be well estimated and subtracted from the observed pulse profile.</p>
+<p>where <span class="math notranslate nohighlight">\(p\)</span> is the counts of profile.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>please note the pulse fraction has valid physical meaning only if the input profile
+is folded by the net lightcurve or the background level can be well estimated and
+subtracted from the observed pulse profile.</p>
+</div>
 <dl class="field-list">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>pf: float</p>
@@ -275,6 +280,37 @@ original shape</p>
 <blockquote>
 <div><p>if sample_num == 1, return a one dimensional array
 if sample_num &gt;1 , return a multi-dimensional array</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.rms">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">rms</span></span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.rms" title="Permalink to this definition"></a></dt>
+<dd><blockquote>
+<div><p>calculate the Root-Mean-Square (RMS) of a given pulse profile
+(reference: Tsygankov, Sergey S., et al. MNRAS, 457.1 (2016): 258-266.)</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{RMS} = \]</div>
+</div></blockquote>
+<p>rac{(
+rac{1}{N}sum_{i=1}^{N}(P_i - overline{P}))^{1/2}}{overline{P}}</p>
+<blockquote>
+<div><p>where <span class="math notranslate nohighlight">\(P_i\)</span> is the background-corrected count rate in a given bin of the pulse profile,
+<span class="math notranslate nohighlight">\(\overline{P}\)</span> is the count rate averaged over the pulse period,
+and <span class="math notranslate nohighlight">\(N\)</span> is the total number of phase bins in the profile.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This definition gives significantly lower absolute value of the pulsed fraction,
+however all features described above have the same form.</p>
+</div>
+</div></blockquote>
+<dl class="field-list">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>rms: float</p>
+<blockquote>
+<div><p>The RMS value</p>
 </div></blockquote>
 </dd>
 </dl>
@@ -436,7 +472,7 @@ The counts of each bin are calculated by dividing [0, 1] into number of nbins.</
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Jul 25 at 11:21:56 UTC.
+      <span class="lastupdated">Last updated on 2023 Aug 03 at 14:02:24 UTC.
       </span></p>
   </div>
 
