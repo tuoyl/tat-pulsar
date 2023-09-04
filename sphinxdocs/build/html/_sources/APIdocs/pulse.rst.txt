@@ -41,3 +41,8 @@ Timing Analysis
 .. automodule:: tatpulsar.pulse.residuals
    :members:
 
+
+Simulation
+----------
+.. automodule:: tatpulsar.simulation.profile_sim
+    :members:

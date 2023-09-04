@@ -17,7 +17,8 @@ __all__ = ['fold', 'fold2d',
 
 def fold_lightcurve(time, counts, pepoch, f0,
                     nbins=16, dt=1, counts_err=None,
-                    f1=0, f2=0, f3=0, f4=0, format='met', **kwargs):
+                    f1=0, f2=0, f3=0, f4=0, format='met',
+                    phi0=0, **kwargs):
 
     """
     Fold the pulse profiles from the net light curves.
@@ -52,6 +53,12 @@ def fold_lightcurve(time, counts, pepoch, f0,
     format : str, optional
         the format of time and pepoch, "mjd" or "met".
         The default if "met".
+    phi0 : float, optional, default is 0
+        the reference phase of the profile, if given,
+        the phase is calculated by:
+
+        .. math::
+            \phi = \phi - \phi_{0}
 
     Returns
     -------
@@ -66,7 +73,7 @@ def fold_lightcurve(time, counts, pepoch, f0,
         pepoch = mjd2met(pepoch,
                          telescope=telescope)
 
-    phase = cal_phase(time, pepoch, f0, f1=f1, f2=f2, f3=f3, f4=f4, format='met', phi0=0,
+    phase = cal_phase(time, pepoch, f0, f1=f1, f2=f2, f3=f3, f4=f4, format='met', phi0=phi0,
               to_1=True)
     phase_ind = phase // (1. / nbins)
     mk = [phase_ind == j for j in range(nbins)]

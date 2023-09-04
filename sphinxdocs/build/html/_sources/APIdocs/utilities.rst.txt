@@ -6,3 +6,7 @@ Function tools
 --------------
 .. automodule:: tatpulsar.utils.functions
    :members:
+.. automodule:: tatpulsar.utils.gti
+   :members:
+.. automodule:: tatpulsar.utils.readpar
+   :members:

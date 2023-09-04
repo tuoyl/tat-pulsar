@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Classes &mdash; TAT-pulsar 0.1.2 documentation</title>
+  <title>Data Classes &mdash; TAT-pulsar 0.4.5 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/plot_directive.css" type="text/css" />
@@ -38,7 +38,7 @@
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
             <a href="../index.html" class="icon icon-home"> TAT-pulsar
-            <img src="../_static/pulsar-logo.jpeg" class="logo" alt="Logo"/>
+            <img src="../_static/TATlogo3.pdf" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -50,8 +50,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../tutorials.html"> Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation.html"> Validations</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../autodocs.html"> TAT-pulsar API</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#"> Data Classes</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"> Profile object</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-tatpulsar.data.profile">Profile class</a></li>
 </ul>
 </li>
@@ -158,9 +159,21 @@ right_edge = phase_ff[1]</p>
 </div></blockquote>
 </dd>
 </dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.chisq">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">chisq</span></span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.chisq" title="Permalink to this definition"></a></dt>
+<dd><p>chisquare statistic value of profile</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.dof">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">dof</span></span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.dof" title="Permalink to this definition"></a></dt>
+<dd><p>degree of freedom is <span class="math notranslate nohighlight">\((n-1)\)</span> where <span class="math notranslate nohighlight">\(n\)</span> is the number of bins.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.norm">
-<span class="sig-name descname"><span class="pre">norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bkg_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.norm" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">norm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bkg_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_profile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.norm" title="Permalink to this definition"></a></dt>
 <dd><p>normalize the profile, and return a normalized Profile object</p>
 <p>bkg_range is the background phase range selected to calculated the mean level
 of background, used in method=0.</p>
@@ -178,6 +191,69 @@ method = 1 : <span class="math notranslate nohighlight">\(N = (P-P_{min})/\bar{P
 <p><strong>bkg_range: list, optional</strong></p>
 <blockquote>
 <div><p>The background phase range for background estimation</p>
+</div></blockquote>
+<p><strong>return_profile: bool, optional</strong></p>
+<blockquote>
+<div><p>whether to return the profile, if False modify the attributes</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.pulsefrac">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">pulsefrac</span></span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.pulsefrac" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the pulse fraction of given profile. The algorithm of
+calculating pulse fraction is:</p>
+<div class="math notranslate nohighlight">
+\[PF = (p_{\mathrm{max}} - p_{\mathrm{min}})/(p_{\mathrm{max}} + p_{\mathrm{min}})\]</div>
+<p>where <span class="math notranslate nohighlight">\(p\)</span> is the counts of profile.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>please note the pulse fraction has valid physical meaning only if the input profile
+is folded by the net lightcurve or the background level can be well estimated and
+subtracted from the observed pulse profile.</p>
+</div>
+<dl class="field-list">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>pf: float</p>
+<blockquote>
+<div><p>The pulse fraction of profile</p>
+</div></blockquote>
+<p>pf_err: float</p>
+<blockquote>
+<div><p>The error of pulse fraction</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.rebin">
+<span class="sig-name descname"><span class="pre">rebin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nbins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_profile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.rebin" title="Permalink to this definition"></a></dt>
+<dd><p>Rebin the profile into the given bin size or use the factor to
+split the intervals.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>nbins: int</strong></p>
+<blockquote>
+<div><p>the number of the bins of new profile, if ‘nbins’ is used,
+then the ‘factor’ parameter would not work</p>
+</div></blockquote>
+<p><strong>factor: int</strong></p>
+<blockquote>
+<div><p>rebin profile to a new shape, new shape must be a factor of the
+original shape</p>
+</div></blockquote>
+<p><strong>return_profile: bool, optional</strong></p>
+<blockquote>
+<div><p>whether to return the profile, if False modify the attributes</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>profile: <cite>Profile</cite> object</p>
+<blockquote>
+<div><p>return a new profile in one cycle</p>
 </div></blockquote>
 </dd>
 </dl>
@@ -209,6 +285,144 @@ if sample_num &gt;1 , return a multi-dimensional array</p>
 </dl>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.rms">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">rms</span></span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.rms" title="Permalink to this definition"></a></dt>
+<dd><p>calculate the Root-Mean-Square (RMS) of a given pulse profile
+(reference: Tsygankov, Sergey S., et al. MNRAS, 457.1 (2016): 258-266.)</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{RMS}=\frac{(\frac{1}{N}\sum_{i=1}^{N}(P_i - \overline{P}))^{1/2}}{\overline{P}}\]</div>
+<p>where <span class="math notranslate nohighlight">\(P_i\)</span> is the background-corrected count rate in a given bin of the pulse profile,
+<span class="math notranslate nohighlight">\(\overline{P}\)</span> is the count rate averaged over the pulse period,
+and <span class="math notranslate nohighlight">\(N\)</span> is the total number of phase bins in the profile.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This definition gives significantly lower absolute value of the pulsed fraction,
+however all features described above have the same form.</p>
+</div>
+<dl class="field-list">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>rms: float</p>
+<blockquote>
+<div><p>The RMS value</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.sampling_event">
+<span class="sig-name descname"><span class="pre">sampling_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nphot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tstart</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tstop</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f3</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pepoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.sampling_event" title="Permalink to this definition"></a></dt>
+<dd><p>sampling the photon arrival time</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>nphot: int</strong></p>
+<blockquote>
+<div><p>The output amount of sampled photons</p>
+</div></blockquote>
+<p><strong>tstart: array-like</strong></p>
+<blockquote>
+<div><p>The start time to generate arrival time (MJD)</p>
+</div></blockquote>
+<p><strong>tstop: array-like</strong></p>
+<blockquote>
+<div><p>The stop  time to generate arrival time (MJD)</p>
+</div></blockquote>
+<p><strong>f0: float</strong></p>
+<blockquote>
+<div><p>The frequency of the pulsar</p>
+</div></blockquote>
+<p><strong>f1: float, optional</strong></p>
+<blockquote>
+<div><p>The frequency derivative of the pulsar</p>
+</div></blockquote>
+<p><strong>f2: float, optional</strong></p>
+<blockquote>
+<div><p>The second derivative of the frequency</p>
+</div></blockquote>
+<p><strong>f3: float, optional</strong></p>
+<blockquote>
+<div><p>The third derivative of the frequency</p>
+</div></blockquote>
+<p><strong>f4: float, optional</strong></p>
+<blockquote>
+<div><p>The fourth derivative of the frequency</p>
+</div></blockquote>
+<p><strong>pepoch: float</strong></p>
+<blockquote>
+<div><p>The reference time of the timing parameters (MJD)</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>event_list: array-like</p>
+<blockquote>
+<div><p>The sampled arrival times of photons</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.sampling_phase">
+<span class="sig-name descname"><span class="pre">sampling_phase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nphot</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.sampling_phase" title="Permalink to this definition"></a></dt>
+<dd><p>use rejection sampling method to draw the phase list</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>nphot: int</strong></p>
+<blockquote>
+<div><p>The output amount of sampled photons</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>phase: array-like</p>
+<blockquote>
+<div><p>The phase sample that satisfy the rejection rule</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.significance">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">significance</span></span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.significance" title="Permalink to this definition"></a></dt>
+<dd><p>Return the significance in unit of sigma of given profile.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.Profile.size">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">size</span></span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.Profile.size" title="Permalink to this definition"></a></dt>
+<dd><p>return the real bin size of the profile.
+If the profile is presented in 2 cycles, the size is still the
+size of the bin size of the profile in 1 cycle.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tatpulsar.data.profile.draw_random_pulse">
+<span class="sig-prename descclassname"><span class="pre">tatpulsar.data.profile.</span></span><span class="sig-name descname"><span class="pre">draw_random_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nbins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pulsefrac</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tuoyl/tat-pulsar/blob/master/tatpulsar/data/profile.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tatpulsar.data.profile.draw_random_pulse" title="Permalink to this definition"></a></dt>
+<dd><p>Generate a random pulse profile that consists of multiple Gaussian-like pulse</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>nbins: int</strong></p>
+<blockquote>
+<div><p>The number of the new profile bins</p>
+</div></blockquote>
+<p><strong>baseline: int</strong></p>
+<blockquote>
+<div><p>The baseline (background) level of the profile in unit of counts</p>
+</div></blockquote>
+<p><strong>pulsefrac: float</strong></p>
+<blockquote>
+<div><p>pulse frac</p>
+</div></blockquote>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>profile: <cite>Profile</cite> object</dt><dd></dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -252,7 +466,7 @@ The counts of each bin are calculated by dividing [0, 1] into number of nbins.</
 
   <div role="contentinfo">
     <p>&#169; Copyright 2022, Youli.
-      <span class="lastupdated">Last updated on 2023 Jun 06 at 12:09:33 UTC.
+      <span class="lastupdated">Last updated on 2023 Aug 03 at 14:51:48 UTC.
       </span></p>
   </div>
 
