@@ -188,7 +188,7 @@ def cal_residual(toas, toa_errs, f_set_all, PEPOCH_all, start_time, stop_time, i
     residuals_toas = np.array([])
 
     start_time = np.atleast_1d(start_time)
-    stop_time = np.atleast_1d(start_time)
+    stop_time = np.atleast_1d(stop_time)
 
     for i in range(len(start_time)):
         toas_in_eph = toas    [(toas>=start_time[i]) & (toas<stop_time[i]) ]
