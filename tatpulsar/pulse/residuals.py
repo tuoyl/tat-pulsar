@@ -93,7 +93,7 @@ def _weighted_phi_mean(phi, errs, default=0):
     return np.sum(phi/errs**2/np.sum(1/errs**2))
 
 
-def cal_phi(toas, *F_all_set, PEPOCH=0, phi0=0):
+def cal_phi(toas, F_set_array, PEPOCH=0, phi0=0):
     dt = (toas - PEPOCH)*86400
 
     phi = np.sum(
