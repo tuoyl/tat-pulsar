@@ -28,6 +28,7 @@ class readpar:
 
     """
     def __init__(self, filepath):
+        self._frequencies = None
         with open(filepath, 'r') as file:
             lines = file.readlines()
 
@@ -37,6 +38,7 @@ class readpar:
                 key = parts[0]
                 values = parts[1:]
                 setattr(self, key, values)
+                print("???????????", key, key.lower(), values)
                 setattr(self, key.lower(), values)
 
         for par in pars_we_care:
@@ -55,3 +57,25 @@ class readpar:
                 else:
                     setattr(getattr(self, par), 'error', None)
                     setattr(getattr(self, par.lower()), 'error', None)
+
+    @property
+    def reftime(self):
+        """return the reference time in the timingpar
+        """
+        return getattr(self, 'PEPOCH').value
+
+    @property
+    def frequency(self):
+        """return the list of frequency and its high order derivatives
+        """
+        freq_list = []
+        for par in freq_pars:
+            if hasattr(self, par):
+                freq_list.append(getattr(self, par).value)
+        return np.asarray(freq_list)
+
+    @property
+    def freq_order(self):
+        """return the order of polynomial function of timing model
+        """
+        return self.frequency.size
