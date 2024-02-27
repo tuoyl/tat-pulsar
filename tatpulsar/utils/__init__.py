@@ -1,1 +1,1 @@
-from .readpar import readpar
+from .timingmodel import *

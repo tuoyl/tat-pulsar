@@ -9,8 +9,8 @@ class TestAlias(unittest.TestCase):
         self.assertTrue(callable(barycor), "Failed: barycor is not a function")
 
         # Test readpar Class
-        from tatpulsar.utils import readpar
-        self.assertTrue(callable(readpar), "Failed: readpar is not a function")
+        from tatpulsar.utils import TimingModel
+        self.assertTrue(callable(TimingModel), "Failed: readpar is not a function")
 
         # Test Profile class
         from tatpulsar.data import Profile
