@@ -278,7 +278,7 @@ def cal_chisquare(data, f, pepoch, nbins, F1=0, F2=0, F3=0, F4=0, parallel=False
 
     return chi_square
 
-@njit
+@njit(parallel=True, nogil=True)
 def cal_2dchisquare(data, f, F1, pepoch, nbins, F2=0, F3=0, F4=0):
     """
     Calculate the chisquare distribution for 2-D frequency search on the pepoch time.
@@ -331,8 +331,8 @@ def cal_2dchisquare(data, f, F1, pepoch, nbins, F2=0, F3=0, F4=0):
 
     t0 = pepoch
 
-    for i in range(len(F1)):
-        for j in range(len(f)):
+    for i in prange(len(F1)):
+        for j in prange(len(f)):
             phi = (data-t0)*f[j] + (1.0/2.0)*((data-t0)**2)*F1[i] + (1.0/6.0)*((data-t0)**3)*F2 +\
                     (1.0/24.0)*((data-t0)**4)*F3 + (1.0/120.0)*((data-t0)**5)*F4
             phi = phi - np.floor(phi)
