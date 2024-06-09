@@ -4,6 +4,7 @@ Hey there! This is a Python toolbox made for folks interested in messing around 
 [![DOI:<your number>](https://zenodo.org/badge/DOI/10.5281/zenodo.6784362.svg)](<https://zenodo.org/record/6784362#.Yr5jiC8RqrM>)
 [![Upload Python Package](https://github.com/tuoyl/tat-pulsar/actions/workflows/python-publish.yml/badge.svg)](https://github.com/tuoyl/tat-pulsar/actions/workflows/python-publish.yml)
 [![codecov](https://codecov.io/github/tuoyl/tat-pulsar/branch/master/graph/badge.svg?token=LShslbL6pg)](https://codecov.io/github/tuoyl/tat-pulsar)
+<a href="https://ascl.net/2404.004"><img src="https://img.shields.io/badge/ascl-2404.004-blue.svg?colorB=262255" alt="ascl:2404.004" /></a>
 
 ## Install the Package using `pip`
 1. Open your terminal or command prompt.
