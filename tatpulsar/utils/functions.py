@@ -109,6 +109,12 @@ def met2mjd(data, telescope="fermi"):
     elif telescope.lower() == "ixpe":
         MJDREFF = 0.00080074074074 
         MJDREFI = 57754
+    elif telescope.lower() == "swift":
+        MJDREFF = 7.4287037e-4
+        MJDREFI = 51910
+    elif telescope.lower() == "rxte":
+        MJDREFF = 6.96574074-04
+        MJDREFI = 49353
     return data/86400 + MJDREFI + MJDREFF
 
 #@njit
@@ -152,6 +158,12 @@ def mjd2met(data, telescope="fermi"):
     elif telescope.lower() == "ixpe":
         MJDREFF = 0.00080074074074 
         MJDREFI = 57754
+    elif telescope.lower() == "swift":
+        MJDREFF = 7.4287037e-4
+        MJDREFI = 51910
+    elif telescope.lower() == "rxte":
+        MJDREFF = 6.96574074-04
+        MJDREFI = 49353
     return (data - MJDREFI - MJDREFF)*86400
 
 
