@@ -154,13 +154,24 @@ def barycor(date, ra, dec,
         else:
             raise IOError("The position and the velocity columns are not found")
 
-        x_s = np.interp(date, t, orbit[1].data.field(x_name)[mask]/1000.)
-        y_s = np.interp(date, t, orbit[1].data.field(y_name)[mask]/1000.)
-        z_s = np.interp(date, t, orbit[1].data.field(z_name)[mask]/1000.)
+        # Deal with the data type issue
+        if date.dtype == np.float128:
+            ## use custom interpolation function
+            x_s = _interp_float128(date, t, orbit[1].data.field(x_name)[mask]/1000.)
+            y_s = _interp_float128(date, t, orbit[1].data.field(y_name)[mask]/1000.)
+            z_s = _interp_float128(date, t, orbit[1].data.field(z_name)[mask]/1000.)
 
-        vx_s = np.interp(date, t, orbit[1].data.field(vx_name)[mask]/1000.)
-        vy_s = np.interp(date, t, orbit[1].data.field(vy_name)[mask]/1000.)
-        vz_s = np.interp(date, t, orbit[1].data.field(vz_name)[mask]/1000.)
+            vx_s = _interp_float128(date, t, orbit[1].data.field(vx_name)[mask]/1000.)
+            vy_s = _interp_float128(date, t, orbit[1].data.field(vy_name)[mask]/1000.)
+            vz_s = _interp_float128(date, t, orbit[1].data.field(vz_name)[mask]/1000.)
+        else:
+            x_s = np.interp(date, t, orbit[1].data.field(x_name)[mask]/1000.)
+            y_s = np.interp(date, t, orbit[1].data.field(y_name)[mask]/1000.)
+            z_s = np.interp(date, t, orbit[1].data.field(z_name)[mask]/1000.)
+
+            vx_s = np.interp(date, t, orbit[1].data.field(vx_name)[mask]/1000.)
+            vy_s = np.interp(date, t, orbit[1].data.field(vy_name)[mask]/1000.)
+            vz_s = np.interp(date, t, orbit[1].data.field(vz_name)[mask]/1000.)
 
 
 
@@ -217,3 +228,39 @@ def _get_jplfile(jpleph='de421'):
     file will return.
     """
     return os.path.join(barydir.__path__[0], jpleph+'.bsp')
+
+def _interp_float128(x, xp, fp):
+    """
+    Perform linear interpolation with float128 precision.
+
+    Parameters:
+      x : array-like
+          The x-coordinates at which to evaluate the interpolated values.
+      xp : array-like
+          The x-coordinates of the data points, must be increasing.
+      fp : array-like
+          The y-coordinates of the data points.
+
+    Returns:
+      Array of interpolated values at x, computed in float128.
+    """
+    # Ensure inputs are numpy arrays with float128 precision
+    x = np.asarray(x, dtype=np.float128)
+    xp = np.asarray(xp, dtype=np.float128)
+    fp = np.asarray(fp, dtype=np.float128)
+
+    # Find indices where elements of x should be inserted to maintain order in xp.
+    indices = np.searchsorted(xp, x, side='left')
+
+    # Clip indices to the valid range [1, len(xp)-1]
+    indices = np.clip(indices, 1, len(xp)-1)
+
+    # Get the lower and upper bounds for interpolation
+    x0 = xp[indices - 1]
+    x1 = xp[indices]
+    y0 = fp[indices - 1]
+    y1 = fp[indices]
+
+    # Compute the slopes and interpolated values in float128
+    slope = (y1 - y0) / (x1 - x0)
+    return y0 + slope * (x - x0)
