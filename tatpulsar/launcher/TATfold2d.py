@@ -107,7 +107,9 @@ def main():
     args = parse_args()
 
     data = np.array([])
-    for file in args.eventfile:
+    import glob
+    eventfile = glob.glob(args.eventfile[0])
+    for file in eventfile:
         print(f'File {file} is now loaded')
         hdulist = fits.open(file)
         data = np.append(data,
@@ -166,7 +168,7 @@ def main():
     heatmap = ax2.imshow([x.counts for x in profile], aspect='auto',
                          origin='lower',
                          extent=[0, 1, data.min(), data.max()],
-                         cmap='jet')
+                         cmap='gist_heat')
     ax2.set_title("Time-resolved Profiles", fontsize=6, pad=1)
     ax2.set_xlabel("Phase")
     ax2.set_ylabel("Time")

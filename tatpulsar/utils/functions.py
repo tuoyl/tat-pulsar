@@ -115,6 +115,9 @@ def met2mjd(data, telescope="fermi"):
     elif telescope.lower() == "rxte":
         MJDREFF = 6.96574074e-04
         MJDREFI = 49353
+    elif telescope.lower() == "catch":
+        MJDREFF = 4.65093544e-04
+        MJDREFI = 40587
     return data/86400 + MJDREFI + MJDREFF
 
 #@njit
@@ -164,6 +167,9 @@ def mjd2met(data, telescope="fermi"):
     elif telescope.lower() == "rxte":
         MJDREFF = 6.96574074e-04
         MJDREFI = 49353
+    elif telescope.lower() == "catch":
+        MJDREFF = 4.65093544e-04
+        MJDREFI = 40587
     return (data - MJDREFI - MJDREFF)*86400
 
 
