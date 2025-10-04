@@ -327,7 +327,11 @@ class Profile():
         if kind == "poisson":
             resampled_profile = np.random.poisson(raw_profile)
         elif kind == "gaussian":
-            pass #TODO
+            sigma = np.sqrt(raw_profile)
+            resampled_profile = np.random.normal(raw_profile, sigma)
+            resampled_profile = np.clip(resampled_profile, 0, None)
+        else:
+            raise ValueError("Unsupported resampling kind: {}".format(kind))
 
         resampled_profile = resampled_profile.reshape(int(resampled_profile.size/self.size),
                 int(self.size))
@@ -539,4 +543,3 @@ def draw_random_pulse(nbins=100, baseline=1000, pulsefrac=0.2):
     signal = np.random.poisson(signal) # poisson sampling
 
     return Profile(signal)
-
