@@ -1,4 +1,6 @@
 
+import numpy as np
+
 __all__ = ["Dataset"]
 
 class Dataset:
