@@ -1,6 +1,8 @@
-import unittest
-import numpy as np
 import os
+import unittest
+from urllib.error import URLError
+
+import numpy as np
 
 from tatpulsar.pulse.Crab.retrive_eph import retrieve_ephemeris, get_par
 from tatpulsar.utils.functions import met2mjd
@@ -12,13 +14,18 @@ class TestCrabModule(unittest.TestCase):
         err = np.sqrt(cnt)
 
         filename = 'Crab.gro'
-        eph = retrieve_ephemeris(write_to_file=True, ephfile=filename)
+        try:
+            eph = retrieve_ephemeris(write_to_file=True, ephfile=filename)
+        except URLError as error:
+            self.skipTest(f"Network unavailable for ephemeris download: {error}")
         self.assertTrue(os.path.exists(filename), "Failed: File was not created")
-        if os.path.exists(filename):
-            os.remove(filename)
+        os.remove(filename)
 
     def test_get_par(self):
-        eph = retrieve_ephemeris(write_to_file=True, ephfile='Crab.gro')
+        try:
+            eph = retrieve_ephemeris(write_to_file=True, ephfile='Crab.gro')
+        except URLError as error:
+            self.skipTest(f"Network unavailable for ephemeris download: {error}")
         par = get_par(59000, eph)
         self.assertIsInstance(par.f0, float, 'Failed: F0 is not a float')
         self.assertIsInstance(par.f1, float, 'Failed: F1 is not a float')
