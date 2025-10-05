@@ -94,3 +94,37 @@ def test_cal_toa_invalid_method():
     with pytest.raises(ValueError):
         toa_module.cal_toa(1.0, profile, method="unknown")
 
+
+def test_cal_toa_fft(monkeypatch):
+    profile = Profile(np.array([0.0, 1.0, 3.0, 1.0]))
+    profile.ref_time = 5.0
+    std_profile = Profile(np.array([0.0, 2.0, 4.0, 2.0]))
+
+    class DummyBHResult:
+        def __init__(self, shift):
+            self.x = np.array([1.0, shift])
+
+    def fake_basinhopping(func, p0, minimizer_kwargs):
+        return DummyBHResult(0.1)
+
+    class DummyRng:
+        def poisson(self, lam, size):
+            lam = np.asarray(lam)
+            return np.tile(lam, (size[0], 1))
+
+    monkeypatch.setattr(toa_module, "basinhopping", fake_basinhopping)
+
+    toa, err = toa_module.cal_toa(
+        fbest=4.0,
+        profile=profile,
+        method="fft",
+        std_pro=std_profile,
+        nsteps=3,
+        rng=DummyRng(),
+    )
+
+    expected_phase = np.mod(std_profile.phase[np.argmax(std_profile.counts)] + 0.1, 1.0)
+    expected_toa = profile.ref_time + expected_phase / 4.0
+
+    assert toa == pytest.approx(expected_toa)
+    assert err == pytest.approx(0.0)

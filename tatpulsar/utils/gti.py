@@ -31,14 +31,8 @@ def gti_intersection(gti1, gti2):
         the list of output GTI, the format of gti list is a 2D list:
         [[start, stop], [start, stop], ... ,[start, stop]]
     """
-    if not _is_2d_list(gti1):
-        gti1 = _to_2d_list(gti1)
-    if not _is_2d_list(gti2):
-        gti2 = _to_2d_list(gti2)
-
-    # Sort gti
-    git1 = sort_gti(gti1)
-    gti2 = sort_gti(gti2)
+    gti1 = sort_gti(_ensure_2d_list(gti1))
+    gti2 = sort_gti(_ensure_2d_list(gti2))
 
     # Initialize index variables for the two lists and the results list
     i = j = 0
@@ -87,17 +81,10 @@ def gti_union(gti1, gti2):
         [[start, stop], [start, stop], ... ,[start, stop]]
     """
 
-    if not _is_2d_list(gti1):
-        gti1 = _to_2d_list(gti1)
-    if not _is_2d_list(gti2):
-        gti2 = _to_2d_list(gti2)
+    gti1 = sort_gti(_ensure_2d_list(gti1))
+    gti2 = sort_gti(_ensure_2d_list(gti2))
 
-    # Sort gti
-    git1 = sort_gti(gti1)
-    gti2 = sort_gti(gti2)
-
-    # Combine the two lists and sort them
-    combined = sorted(gti1 + gti2)
+    combined = sorted(gti1 + gti2, key=lambda interval: interval[0])
 
     # Initialize the results list with the first interval
     union = [combined[0]]
@@ -129,13 +116,21 @@ def sort_gti(gti):
     return np.column_stack([start, stop]).tolist()
 
 def _is_2d_list(gti):
-    return isinstance(gti[0], list)
+    first = gti[0]
+    return isinstance(first, (list, tuple, np.ndarray)) and len(first) == 2
 
-def _to_2d_list(gti):
+
+def _ensure_2d_list(gti):
     if isinstance(gti, np.ndarray):
-        return gti.tolist()
-    elif isinstance(gti, list):
-        return [gti]
+        gti = gti.tolist()
+    if not gti:
+        return []
+    if _is_2d_list(gti):
+        return [[float(start), float(stop)] for start, stop in gti]
+    if len(gti) != 2:
+        raise ValueError("GTI entries must contain start and stop times")
+    start, stop = gti
+    return [[float(start), float(stop)]]
 
 def create_gti_txt(outfile, tstart, tstop):
     """
