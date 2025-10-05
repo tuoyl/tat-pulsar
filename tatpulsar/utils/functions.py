@@ -1,12 +1,9 @@
 #!/usr/bin/env python
 import numpy as np
-import matplotlib.pyplot as plt
-import sys
 import warnings
+import sys
 
-"""
-Several useful functions used througout packages
-"""
+"""Core utility functions shared across the package."""
 # If numba is installed, import jit. Otherwise, define an empty decorator with
 # the same name. (This method was Copied from Stingray.utils)
 HAS_NUMBA = False
@@ -18,39 +15,37 @@ try:
 except ImportError:
     warnings.warn("Numba not installed. Faking it")
 
+    def _passthrough_decorator(func):
+        def wrapped_f(*args, **kwargs):
+            return func(*args, **kwargs)
+
+        return wrapped_f
+
     class jit(object):
         def __init__(self, *args, **kwargs):
             pass
 
         def __call__(self, func):
-            def wrapped_f(*args, **kwargs):
-                return func(*args, **kwargs)
-
-            return wrapped_f
+            return _passthrough_decorator(func)
 
     class njit(object):
         def __init__(self, *args, **kwargs):
             pass
 
         def __call__(self, func):
-            def wrapped_f(*args, **kwargs):
-                return func(*args, **kwargs)
-
-            return wrapped_f
+            return _passthrough_decorator(func)
 
     class vectorize(object):
         def __init__(self, *args, **kwargs):
             pass
 
         def __call__(self, func):
-            wrapped_f = np.vectorize(func)
+            return np.vectorize(func)
 
-            return wrapped_f
-
-    def generic(x, y=None):
+    def _identity(x, y=None):
         return None
 
-    float32 = float64 = int32 = int64 = generic
+    float32 = float64 = int32 = int64 = _identity
 
     def prange(x):
         return range(x)
@@ -74,7 +69,7 @@ def met2mjd(data, telescope="fermi"):
     Convert Mission Elapse Time (MET) to Modified Julian Date (MJD).
 
     .. math::
-        T_{\mathrm{MJD}} = T_{\mathrm{MET}}/86400 + \mathrm{MJDREF},
+        T_{\\mathrm{MJD}} = T_{\\mathrm{MET}}/86400 + \\mathrm{MJDREF},
 
     where MJDREF is the reference time for each mission.
 
@@ -126,7 +121,7 @@ def mjd2met(data, telescope="fermi"):
     Convert Modified Julian Date (MJD) to Mission Elapse Time (MET)
 
     .. math::
-        T_{\mathrm{MJD}} = T_{\mathrm{MET}}/86400 + \mathrm{MJDREF},
+        T_{\\mathrm{MJD}} = T_{\\mathrm{MET}}/86400 + \\mathrm{MJDREF},
 
     where MJDREF is the reference time for each mission.
 
@@ -225,10 +220,10 @@ def cal_chisquare(data, f, pepoch, nbins, F1=0, F2=0, F3=0, F4=0, parallel=False
     Calculate the Pearson-Chisquare value for given spinning parameters at given epoch time.
 
     .. math::
-        \chi^2 = f_{0} \cdot (t-T_{\mathrm{ref}}) + \\frac{1}{2} \cdot f_{1} \cdot (t-T_{\mathrm{ref}})^2 +
-        \\frac{1}{6} \cdot f_{2} \cdot (t-T_{\mathrm{ref}})^3 + \cdots,
+        \\chi^2 = f_{0} \\cdot (t-T_{\\mathrm{ref}}) + \\\frac{1}{2} \\cdot f_{1} \\cdot (t-T_{\\mathrm{ref}})^2 +
+        \\\frac{1}{6} \\cdot f_{2} \\cdot (t-T_{\\mathrm{ref}})^3 + \\cdots,
 
-    where :math:`T_{\mathrm{ref}` is the reference time, :math:`f_{0}`, :math:`f_{1}`, :math:`f_{2}`, ...,
+    where :math:`T_{\\mathrm{ref}` is the reference time, :math:`f_{0}`, :math:`f_{1}`, :math:`f_{2}`, ...,
     are the parameters of pulsar.
 
     Parameters
@@ -263,7 +258,7 @@ def cal_chisquare(data, f, pepoch, nbins, F1=0, F2=0, F3=0, F4=0, parallel=False
     Returns
     -------
     chi_square : array-like
-        The calculated :math:`\chi^2` array
+        The calculated :math:`\\chi^2` array
     """
     chi_square = np.zeros(len(f), dtype=np.float64)
 
@@ -300,14 +295,14 @@ def cal_chisquare(data, f, pepoch, nbins, F1=0, F2=0, F3=0, F4=0, parallel=False
 def cal_2dchisquare(data, f, F1, pepoch, nbins, F2=0, F3=0, F4=0):
     """
     Calculate the chisquare distribution for 2-D frequency search on the pepoch time.
-    For example, search in a two-dimensianal parameter space (:math:`M \\times N`, as :math:`M`-length frequency
+    For example, search in a two-dimensianal parameter space (:math:`M \\\times N`, as :math:`M`-length frequency
     array, and :math:`N`-length frequency derivative array).
 
     .. math::
-        \chi^2 = f_{0} \cdot (t-T_{\mathrm{ref}}) + \\frac{1}{2} \cdot f_{1} \cdot (t-T_{\mathrm{ref}})^2 +
-        \\frac{1}{6} \cdot f_{2} \cdot (t-T_{\mathrm{ref}})^3 + \cdots,
+        \\chi^2 = f_{0} \\cdot (t-T_{\\mathrm{ref}}) + \\\frac{1}{2} \\cdot f_{1} \\cdot (t-T_{\\mathrm{ref}})^2 +
+        \\\frac{1}{6} \\cdot f_{2} \\cdot (t-T_{\\mathrm{ref}})^3 + \\cdots,
 
-    where :math:`T_{\mathrm{ref}` is the reference time, :math:`f_{0}`, :math:`f_{1}`, :math:`f_{2}`, ...,
+    where :math:`T_{\\mathrm{ref}` is the reference time, :math:`f_{0}`, :math:`f_{1}`, :math:`f_{2}`, ...,
     are the parameters of pulsar.
 
     Parameters
@@ -339,7 +334,7 @@ def cal_2dchisquare(data, f, F1, pepoch, nbins, F2=0, F3=0, F4=0):
     Returns
     -------
     chi_square : array-like
-        An :math:`M \\times N` array, as :math:`M` is the length of frequency `f`, :math:`N` is the
+        An :math:`M \\\times N` array, as :math:`M` is the length of frequency `f`, :math:`N` is the
         length of frequency derivative `F1`
     """
 
@@ -381,165 +376,113 @@ def _parameters_legal(kwargs):
 
 
 def get_parameters(kwargs):
-    """
-    get the parameters for searching
-    The format of input could be a name of parfile, a dictionary, or standard python function arguments.
-    """
+    """Parse search parameters provided either as a parfile or keyword args."""
 
-    #check whether input parameters are surpportted
     _parameters_legal(kwargs)
 
-    #read parfile and parameters
     if "parfile" in kwargs:
-        # Read parameters in parfile instead of keyboard input
-        pardata = open(kwargs['parfile'],'r')
-        stdpar = []
-        for par in pardata:
-            par = par[0:(len(par)-1)]
-            stdpar.append(par)
-        pardata.close()
-        F0 = 0; F1 = 0; F2 = 0; F3 = 0; F4 = 0; F5 = 0; F6 = 0; F7 = 0; F8 = 0; F9 = 0; F10 = F11 = F12 = 0;
-        for i in range(len(stdpar)):
-            if stdpar[i][:6]=='PEPOCH':
-                PEPOCH_lst = stdpar[i].split(' ');PEPOCH = [x for x in PEPOCH_lst if x != ''][1]
-                pepoch = mjd2met(np.float64(PEPOCH), telescope=kwargs['telescope'])
-            if stdpar[i][:2]=='F0': 
-                F0_lst = stdpar[i].split(' ');F0 = [x for x in F0_lst if x != ''][1]
-                F0 = np.float64(F0) 
-            if stdpar[i][:2]=='F1':
-                F1_lst = stdpar[i].split(' ');F1 = [x for x in F1_lst if x != ''][1]
-                F1 = np.float64(F1)
-            if stdpar[i][:2]=='F2':
-                F2_lst = stdpar[i].split(' ');F2 = [x for x in F2_lst if x != ''][1]
-                F2 = np.float64(F2)
-            if stdpar[i][:2]=='F3':
-                F3_lst = stdpar[i].split(' ');F3 = [x for x in F3_lst if x != ''][1]
-                F3 = np.float64(F3)
-            if stdpar[i][:2]=='F4':
-                F4_lst = stdpar[i].split(' ');F4 = [x for x in F4_lst if x != ''][1]
-                F4 = np.float64(F4)
-            if stdpar[i][:2]=='F5':
-                F5_lst = stdpar[i].split(' ');F5 = [x for x in F5_lst if x != ''][1]
-                F5 = np.float64(F5)
-            if stdpar[i][:2]=='F6':
-                F6_lst = stdpar[i].split(' ');F6 = [x for x in F6_lst if x != ''][1]
-                F6 = np.float64(F6)
-            if stdpar[i][:2]=='F7':
-                F7_lst = stdpar[i].split(' ');F7 = [x for x in F7_lst if x != ''][1]
-                F7 = np.float64(F7)
-            if stdpar[i][:2]=='F8':
-                F8_lst = stdpar[i].split(' ');F8 = [x for x in F8_lst if x != ''][1]
-                F8 = np.float64(F8)
-            if stdpar[i][:2]=='F9':
-                F9_lst = stdpar[i].split(' ');F9 = [x for x in F9_lst if x != ''][1]
-                F9 = np.float64(F9)
-            if stdpar[i][:2]=='F10':
-                F10_lst = stdpar[i].split(' ');F10 = [x for x in F10_lst if x != ''][1]
-                F10 = np.float64(F10)
-            if stdpar[i][:2]=='F11':
-                F11_lst = stdpar[i].split(' ');F11 = [x for x in F11_lst if x != ''][1]
-                F11 = np.float64(F11)
-            if stdpar[i][:2]=='F12':
-                F12_lst = stdpar[i].split(' ');F12 = [x for x in F12_lst if x != ''][1]
-                F12 = np.float64(F12)
-            if stdpar[i][:5]=='START':
-                START_lst = stdpar[i].split(' ');START = [x for x in START_lst if x != ''][1]
-                TSTART = np.float64(START) 
-            if stdpar[i][:6]=='FINISH':
-                FINISH_lst = stdpar[i].split(' ');FINISH = [x for x in FINISH_lst if x != ''][1]
-                TFINISH = np.float64(FINISH) 
-        f1search_flag = False
-        return pepoch, np.array([F0, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12]), f1search_flag
+        return _get_parameters_from_parfile(kwargs)
 
-    else:
-        pepoch = kwargs['pepoch']
-        F0_mid     = kwargs['f0']
-        if 'f0step' in kwargs:
-            F0_step    = kwargs['f0step']
-        else:
-            F0_step = 0
-        if 'f0range' in kwargs:
-            F0_range    = kwargs['f0range']
-        else:
-            F0_range = 0
-        if F0_range * F0_step == 0:
-            F0 = F0_mid
-        else:
-            F0 = np.arange(F0_mid-F0_range, F0_mid+F0_range, F0_step)
+    pepoch = kwargs["pepoch"]
+    f0_mid = _safe_float(kwargs["f0"])
+    f0 = _build_frequency_grid(f0_mid, kwargs)
 
-        if 'f1' in kwargs:
-            F1 = kwargs['f1']
-            if "f1step" in kwargs:
-                F1step = kwargs["f1step"]
-                F1range = kwargs["f1range"]
-                if F1step*F1range == 0:
-                    F1 = F1
-                    f1search_flag = False
-                else:
-                    F1 = np.arange(F1-F1range, F1+F1range, F1step)
-                    f1search_flag = True
-                    print("number of parameters to search is {}".format(F1.size*F0.size))
-            else:
-                f1search_flag = False
-        else:
-            F1 = 0
-            F1step = 0
-            F1range = 0
-            f1search_flag = False
+    f1, f1_flag = _build_search_grid("f1", kwargs)
 
-        if 'f2' in kwargs:
-            F2 = kwargs['f2']
-        else:
-            F2 = 0
-        if 'f3' in kwargs:
-            F3 = kwargs['f3']
-        else:
-            F3 = 0
-        if 'f4' in kwargs:
-            F4 = kwargs['f4']
-        else:
-            F4 = 0
-        if 'f5' in kwargs:
-            F5 = kwargs['f5']
-        else:
-            F5 = 0
-        if 'f6' in kwargs:
-            F6 = kwargs['f6']
-        else:
-            F6 = 0
-        if 'f7' in kwargs:
-            F7 = kwargs['f7']
-        else:
-            F7 = 0
-        if 'f8' in kwargs:
-            F8 = kwargs['f8']
-        else:
-            F8 = 0
-        if 'f9' in kwargs:
-            F9 = kwargs['f9']
-        else:
-            F9 = 0
-        if 'f10' in kwargs:
-            F10 = kwargs['f10']
-        else:
-            F10 = 0
-        if 'f11' in kwargs:
-            F11 = kwargs['f11']
-        else:
-            F11 = 0
-        if 'f12' in kwargs:
-            F12 = kwargs['f12']
-        else:
-            F12 = 0
+    higher_orders = [
+        _safe_float(kwargs.get(key, 0.0))
+        for key in ("f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12")
+    ]
 
-        if "pepochformat" in kwargs:
-            if kwargs['pepochformat'].lower() == "met":
-                pepoch = pepoch
-            elif kwargs['pepochformat'].lower() == "mjd":
-                pepoch = mjd2met(pepoch)
-            else:
-                raise IOError("pepoch format {} not supported".format(kwargs['pepochformat']))
-    return pepoch, np.array([F0, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12]), f1search_flag
+    pepoch = _normalize_pepoch(pepoch, kwargs.get("pepochformat"))
+
+    return (
+        pepoch,
+        f0,
+        f1,
+        *higher_orders,
+        f1_flag and isinstance(f1, np.ndarray) and f1.size > 1,
+    )
+
+
+def _safe_float(value):
+    if isinstance(value, np.ndarray):
+        arr = value.astype(float)
+        if arr.size == 1:
+            return float(arr)
+        return arr
+    if isinstance(value, (list, tuple)):
+        arr = np.asarray(value, dtype=float)
+        if arr.size == 1:
+            return float(arr)
+        return arr
+    return float(value)
+
+
+def _build_frequency_grid(f0_mid, kwargs):
+    step = kwargs.get("f0step") or kwargs.get("f0_step")
+    nstep = kwargs.get("f0_nstep")
+    span = kwargs.get("f0range") or kwargs.get("f0_range")
+
+    if step and nstep:
+        return np.arange(f0_mid - nstep * step, f0_mid + nstep * step, step, dtype=float)
+    if step and span:
+        return np.arange(f0_mid - span, f0_mid + span, step, dtype=float)
+    return np.asarray([f0_mid], dtype=float)
+
+
+def _build_search_grid(name, kwargs):
+    base = kwargs.get(name)
+    if base is None:
+        return 0.0, False
+
+    base_value = _safe_float(base)
+    if isinstance(base_value, np.ndarray):
+        return base_value, base_value.size > 1
+
+    step = kwargs.get(f"{name}step") or kwargs.get(f"{name}_step")
+    nstep = kwargs.get(f"{name}_nstep")
+    span = kwargs.get(f"{name}range") or kwargs.get(f"{name}_range")
+
+    if step and nstep:
+        grid = np.arange(base_value - nstep * step, base_value + nstep * step, step, dtype=float)
+        return grid, grid.size > 1
+    if step and span:
+        grid = np.arange(base_value - span, base_value + span, step, dtype=float)
+        return grid, grid.size > 1
+
+    return base_value, False
+
+
+def _normalize_pepoch(pepoch, fmt):
+    if fmt is None:
+        return pepoch
+    fmt = fmt.lower()
+    if fmt == "met":
+        return pepoch
+    if fmt == "mjd":
+        return mjd2met(pepoch)
+    raise IOError(f"pepoch format {fmt} not supported")
+
+
+def _get_parameters_from_parfile(kwargs):
+    from tatpulsar.utils.timingmodel import TimingModel
+
+    model = TimingModel(kwargs["parfile"])
+    freq_names = ["F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"]
+    freq_values = []
+    for name in freq_names:
+        attr = getattr(model, name, None)
+        if attr is None:
+            freq_values.append(0.0)
+        else:
+            value = getattr(attr, "value", attr)
+            freq_values.append(float(value))
+
+    pepoch = getattr(model, "reftime", None)
+    pepoch = _normalize_pepoch(pepoch, kwargs.get("pepochformat"))
+
+    return (pepoch, *freq_values, False)
 
 @njit(parallel=True, nogil=True)
 def ccf(f1,f2):
@@ -579,7 +522,7 @@ def print_loop_percentage(iterator_i, total, printstr=''):
     """
     percent = iterator_i*100/total
     sys.stdout.write("{} complete: {:.2f}".format(printstr, percent))
-    sys.stdout.write("%\r")
+    sys.stdout.write("%\\r")
     sys.stdout.flush()
 
 def gauss(x,a,x0,sigma):
@@ -634,8 +577,3 @@ def cal_event_gti(data, tgap=1):
     left_edges  = np.append(data[0], left_edges)
 
     return np.dstack((left_edges, right_edges))[0]
-
-
-
-
-

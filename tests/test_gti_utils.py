@@ -20,7 +20,7 @@ def test_sort_and_conversion_helpers():
     assert sorted_g == [[1.0, 2.0], [5.0, 8.0]]
 
     arr = np.array([[0.0, 1.0], [2.0, 3.0]])
-    assert gti_utils._to_2d_list(arr) == [[0.0, 1.0], [2.0, 3.0]]
+    assert gti_utils._ensure_2d_list(arr) == [[0.0, 1.0], [2.0, 3.0]]
 
     assert gti_utils._is_2d_list([[0.0, 1.0]]) is True
     assert gti_utils._is_2d_list([0.0, 1.0]) is False
