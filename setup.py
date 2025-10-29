@@ -41,6 +41,7 @@ REQUIRED = [
     'pint-pulsar',
     'SciencePlots',
     'Cython',
+    'PyQt5',
     'tk',
     'tqdm'
 ]
@@ -145,8 +146,10 @@ setup(
 
     entry_points={
         'console_scripts': [
-            "TATResiduals = tatpulsar.launcher.TATResiduals:main",
-            "TATfold2d = tatpulsar.launcher.TATfold2d:main",
+            "tatpulsar-residuals = tatpulsar.launcher.TATResiduals:main",
+            "tatpulsar-fold2d = tatpulsar.launcher.TATfold2d:main",
+            "tatpulsar-gti-generator = tatpulsar.launcher.gti_generator:main",
+            "tatpulsar-tempo-gui = tatpulsar.gui.tempo_gui:main",
             ],
     },
     install_requires=REQUIRED,
