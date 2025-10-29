@@ -8,5 +8,6 @@ scipy
 pint-pulsar
 SciencePlots
 Cython>=0.14
+PyQt5
 tk
 tqdm

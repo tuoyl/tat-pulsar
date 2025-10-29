@@ -56,3 +56,27 @@ if you want to uninstall the package for generating the product.
 ```
 python3 -m pip uninstall tat-pulsar
 ```
+
+## Command line tools
+
+Installing the project exposes a set of convenience entry points that wrap the utilities in `tatpulsar/launcher`:
+
+- `tatpulsar-fold2d` folds event lists into phase-resolved histograms.
+- `tatpulsar-residuals` calculates and plots timing residuals from par/tim pairs.
+- `tatpulsar-gti-generator` launches the interactive GTI selection helper.
+- `tatpulsar-tempo-gui` opens the PyQt timing analysis interface described below.
+
+## Timing analysis GUI
+
+The package now bundles a PyQt-based application that wraps the TEMPO2-style timing workflow. After installing the package (either via `pip` or from source) you can launch the interface with:
+
+```
+tatpulsar-tempo-gui
+```
+
+From the main window you can:
+
+- Load `*.par` and `*.tim` files, inspect individual TOAs, and toggle them in or out of the fit.
+- Choose which pulsar parameters are free, then run a weighted least-squares fit using PINT.
+- Review interactive residual plots and the weighted RMS of the solution.
+- Export the curated TOA list and the fitted timing model to new files.
